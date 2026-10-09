@@ -1,0 +1,8 @@
+FROM node:18
+
+WORKDIR /usr/src/app
+
+# RUN apt-get update || : && apt-get install python2 -y
+# RUN npm i -g npm@8.19.1
+# if not module not installed
+CMD [ "sh", "-c", "npm install  --legacy-peer-deps && npm run build" ]

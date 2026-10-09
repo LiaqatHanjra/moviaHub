@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/wp-content/themes/hello-elementor/react/build/static/css/main.d76bd63e.css",
+    "main.js": "/wp-content/themes/hello-elementor/react/build/static/js/main.83e30317.js",
+    "static/media/logo.png": "/wp-content/themes/hello-elementor/react/build/static/media/logo.2f0b04a796bda50ad8c6.png",
+    "static/media/icon-gallery.svg": "/wp-content/themes/hello-elementor/react/build/static/media/icon-gallery.21de07fada00d8f3233b41158f8a0498.svg",
+    "static/media/icon-seated.svg": "/wp-content/themes/hello-elementor/react/build/static/media/icon-seated.62fe6ccc3244c660faaf7f42dc799145.svg",
+    "static/media/icon-location.svg": "/wp-content/themes/hello-elementor/react/build/static/media/icon-location.4418da1944f66dfb8d8010e018bb6537.svg",
+    "static/media/icon-guests.svg": "/wp-content/themes/hello-elementor/react/build/static/media/icon-guests.02a742c71816c9707799ab5d166f6bf7.svg",
+    "index.html": "/wp-content/themes/hello-elementor/react/build/index.html",
+    "static/media/close-side.svg": "/wp-content/themes/hello-elementor/react/build/static/media/close-side.1ea17b61826c4ad69b4decbd6cd82130.svg",
+    "static/media/check.svg": "/wp-content/themes/hello-elementor/react/build/static/media/check.c4c76f5c1bd7716cb05554dad941346e.svg",
+    "static/media/delete-tent.svg": "/wp-content/themes/hello-elementor/react/build/static/media/delete-tent.33559843899205ee165223f40332926e.svg",
+    "static/media/arrow-right.svg": "/wp-content/themes/hello-elementor/react/build/static/media/arrow-right.27ef1b43b03f3a91fdc7e9083711e377.svg",
+    "static/media/icon-plus.svg": "/wp-content/themes/hello-elementor/react/build/static/media/icon-plus.c0468b8941a293fb042f5b735634f731.svg",
+    "static/media/white-arrow-right.svg": "/wp-content/themes/hello-elementor/react/build/static/media/white-arrow-right.52cc30a9032bff1ab11f341abed9c86d.svg",
+    "main.d76bd63e.css.map": "/wp-content/themes/hello-elementor/react/build/static/css/main.d76bd63e.css.map",
+    "main.83e30317.js.map": "/wp-content/themes/hello-elementor/react/build/static/js/main.83e30317.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d76bd63e.css",
+    "static/js/main.83e30317.js"
+  ]
+}

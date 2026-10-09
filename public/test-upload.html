@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Presigned Upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="file"] { width: 100%; padding: 8px; }
+        .progress { height: 20px; background-color: #f5f5f5; border-radius: 4px; margin-top: 8px; display: none; }
+        .progress-bar { background-color: #17a2b8; color: #fff; text-align: center; line-height: 20px; border-radius: 4px; transition: width 0.3s ease-in-out; }
+        .progress-bar.bg-success { background-color: #28a745 !important; }
+        .progress-bar.bg-danger { background-color: #dc3545 !important; }
+        .result { margin-top: 10px; padding: 10px; border-radius: 4px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Presigned Upload</h1>
+
+        <form id="test-form">
+            <div class="form-group">
+                <label for="itemType">Item Type:</label>
+                <select id="itemType" required>
+                    <option value="">Select Type</option>
+                    <option value="episodes">Episodes</option>
+                    <option value="movies">Movies</option>
+                    <option value="podcasts">Podcasts</option>
+                    <option value="seasons">Seasons</option>
+                    <option value="tvshows">TV Shows</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="itemId">Item ID:</label>
+                <input type="number" id="itemId" required placeholder="Enter item ID">
+            </div>
+
+            <div class="form-group">
+                <label for="fileType">File Type:</label>
+                <select id="fileType" required>
+                    <option value="">Select File Type</option>
+                    <option value="trailer">Trailer</option>
+                    <option value="video">Video</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="testFile">Select File:</label>
+                <input type="file" id="testFile" accept="video/*" required>
+            </div>
+
+            <button type="button" id="testUpload">Test Upload</button>
+        </form>
+
+        <div id="progress" class="progress" style="display: none;">
+            <div id="progressBar" class="progress-bar" style="width: 0%;">0%</div>
+        </div>
+
+        <div id="result"></div>
+
+        <div id="debug" style="margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+            <h3>Debug Info:</h3>
+            <div id="debugContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function log(message) {
+            console.log(message);
+            const debugContent = document.getElementById('debugContent');
+            debugContent.innerHTML += '<div>' + new Date().toISOString() + ': ' + message + '</div>';
+        }
+
+        async function testUpload() {
+            const itemType = document.getElementById('itemType').value;
+            const itemId = document.getElementById('itemId').value;
+            const fileType = document.getElementById('fileType').value;
+            const fileInput = document.getElementById('testFile');
+            const file = fileInput.files[0];
+
+            if (!itemType || !itemId || !fileType || !file) {
+                alert('Please fill all fields and select a file');
+                return;
+            }
+
+            log(`Starting test upload: ${fileType} for ${itemType}/${itemId}`);
+            log(`File: ${file.name} (${file.size} bytes)`);
+
+            const progress = document.getElementById('progress');
+            const progressBar = document.getElementById('progressBar');
+            const result = document.getElementById('result');
+
+            progress.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressBar.innerText = '0%';
+            progressBar.className = 'progress-bar';
+            result.innerHTML = '';
+
+            try {
+                // Step 1: Get presigned URL
+                log('Step 1: Getting presigned URL...');
+                progressBar.style.width = '20%';
+                progressBar.innerText = '20%';
+
+                const presignedResponse = await fetch(`/admin/${itemType}/${itemId}/presigned-url`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 'test-token'
+                    },
+                    body: JSON.stringify({
+                        file_name: file.name,
+                        file_type: fileType,
+                        content_type: file.type
+                    })
+                });
+
+                log(`Presigned URL response status: ${presignedResponse.status}`);
+
+                if (!presignedResponse.ok) {
+                    const errorText = await presignedResponse.text();
+                    throw new Error(`Failed to get presigned URL: ${errorText}`);
+                }
+
+                const presignedData = await presignedResponse.json();
+                log(`Presigned URL data: ${JSON.stringify(presignedData)}`);
+
+                if (!presignedData.success) {
+                    throw new Error(presignedData.message);
+                }
+
+                // Step 2: Upload file
+                log('Step 2: Uploading file to DigitalOcean Spaces...');
+                progressBar.style.width = '30%';
+                progressBar.innerText = '30%';
+
+                const uploadResponse = await fetch(presignedData.presigned_url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': file.type
+                    },
+                    body: file
+                });
+
+                log(`Upload response status: ${uploadResponse.status}`);
+
+                if (!uploadResponse.ok) {
+                    throw new Error(`Upload failed with status: ${uploadResponse.status}`);
+                }
+
+                // Step 3: Notify completion
+                log('Step 3: Notifying completion...');
+                progressBar.style.width = '90%';
+                progressBar.innerText = '90%';
+
+                const completeResponse = await fetch(`/admin/${itemType}/${itemId}/upload-complete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 'test-token'
+                    },
+                    body: JSON.stringify({
+                        file_type: fileType,
+                        file_path: presignedData.file_path,
+                        file_url: presignedData.final_url,
+                        file_name: file.name
+                    })
+                });
+
+                log(`Complete response status: ${completeResponse.status}`);
+
+                if (!completeResponse.ok) {
+                    throw new Error(`Completion failed with status: ${completeResponse.status}`);
+                }
+
+                const completeData = await completeResponse.json();
+                log(`Complete data: ${JSON.stringify(completeData)}`);
+
+                progressBar.style.width = '100%';
+                progressBar.innerText = '100%';
+                progressBar.className = 'progress-bar bg-success';
+                result.innerHTML = `<div class="result success">Upload successful! File URL: ${presignedData.final_url}</div>`;
+
+            } catch (error) {
+                log(`Error: ${error.message}`);
+                progressBar.className = 'progress-bar bg-danger';
+                result.innerHTML = `<div class="result error">Upload failed: ${error.message}</div>`;
+            }
+        }
+
+        document.getElementById('testUpload').addEventListener('click', testUpload);
+
+        log('Test page loaded');
+    </script>
+</body>
+</html>

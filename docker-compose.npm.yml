@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  laravel-vue-boilerplate2:
+    build:
+      context: .
+      dockerfile: Docker.npm
+    volumes:
+      - ./:/usr/src/app
+    # stdin_open: true
+    networks:
+      - ats_common_network
+networks:
+  ats_common_network:
+    external: true
+  
+# docker-compose -f docker-compose.npm.yml up 

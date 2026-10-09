@@ -1,0 +1,16 @@
+version: '3.8'
+  
+services:
+  laravel-vue-boilerplate1:
+    build: ./
+    volumes:
+      - ./:/var/www
+    stdin_open: true
+    restart: unless-stopped
+    ports:
+      - "${PORT}:8000"
+    networks:
+      - ats_common_network
+networks:
+  ats_common_network:
+    external: true

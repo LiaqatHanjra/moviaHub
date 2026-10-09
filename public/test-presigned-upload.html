@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Pre-signed URL Upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="file"] { width: 100%; padding: 8px; }
+        select { width: 100%; padding: 8px; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        .progress { height: 20px; background-color: #f5f5f5; border-radius: 4px; margin-top: 8px; display: none; border: 1px solid #ddd; }
+        .progress-bar { background-color: #17a2b8; color: #fff; text-align: center; line-height: 20px; border-radius: 4px; transition: width 0.3s ease-in-out; font-weight: bold; font-size: 12px; min-width: 2em; }
+        .progress-bar.bg-success { background-color: #28a745 !important; }
+        .progress-bar.bg-danger { background-color: #dc3545 !important; }
+        .result { margin-top: 10px; padding: 10px; border-radius: 4px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .debug { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; margin: 10px 0; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Pre-signed URL Upload</h1>
+
+        <!-- CSRF Token (simulated) -->
+        <input type="hidden" name="_token" value="test-csrf-token">
+
+        <div class="debug">
+            <h3>Debug Information:</h3>
+            <p>Current URL: <span id="current-url"></span></p>
+            <p>PresignedUpload Status: <span id="upload-status">Not initialized</span></p>
+            <p>Item ID: <input type="number" id="item-id" value="1" placeholder="Enter item ID"></p>
+            <p>Item Type: <select id="item-type">
+                <option value="episodes">Episodes</option>
+                <option value="movies">Movies</option>
+                <option value="podcasts">Podcasts</option>
+                <option value="seasons">Seasons</option>
+                <option value="tvshows">TV Shows</option>
+            </select></p>
+            <button onclick="initializeTest()">Initialize Test</button>
+        </div>
+
+        <form id="test-form">
+            <div class="form-group">
+                <label for="trailer_url_type">Trailer URL Type:</label>
+                <select id="trailer_url_type">
+                    <option value="">Select Type</option>
+                    <option value="URL">URL</option>
+                    <option value="Local">Local</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden" id="trailer_url_container">
+                <label for="trailer_url">Trailer URL:</label>
+                <input type="url" id="trailer_url" placeholder="Enter trailer URL">
+            </div>
+
+            <div class="form-group hidden" id="trailer_file_container">
+                <label for="trailer_file">Trailer File:</label>
+                <input type="file" id="trailer_file" accept="video/*">
+                <div class="progress" id="trailer_upload_progress_wrap">
+                    <div class="progress-bar" id="trailer_upload_progress" style="width: 0%;">0%</div>
+                </div>
+                <div id="trailer_upload_result"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="video_upload_type">Video URL Type:</label>
+                <select id="video_upload_type">
+                    <option value="">Select Type</option>
+                    <option value="URL">URL</option>
+                    <option value="Local">Local</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden" id="video_url_container">
+                <label for="video_url">Video URL:</label>
+                <input type="url" id="video_url" placeholder="Enter video URL">
+            </div>
+
+            <div class="form-group hidden" id="video_file_container">
+                <label for="video_file">Video File:</label>
+                <input type="file" id="video_file" accept="video/*">
+                <div class="progress" id="video_upload_progress_wrap">
+                    <div class="progress-bar" id="video_upload_progress" style="width: 0%;">0%</div>
+                </div>
+                <div id="video_upload_result"></div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" onclick="testProgressBar('trailer')">Test Trailer Progress</button>
+                <button type="button" onclick="testProgressBar('video')">Test Video Progress</button>
+                <button type="button" onclick="checkStatus()">Check Status</button>
+            </div>
+        </form>
+
+        <div class="debug">
+            <h3>Console Logs:</h3>
+            <div id="console-logs" style="background: #000; color: #0f0; padding: 10px; height: 200px; overflow-y: auto; font-family: monospace;"></div>
+        </div>
+    </div>
+
+    <script src="js/presigned-upload.js"></script>
+    <script>
+        // Update debug info
+        document.getElementById('current-url').textContent = window.location.pathname;
+
+        // Override console.log to display in the page
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+
+        function addToConsoleLog(message, type = 'log') {
+            const logsDiv = document.getElementById('console-logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#f00' : type === 'warn' ? '#ff0' : '#0f0';
+            logsDiv.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsoleLog(args.join(' '), 'log');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsoleLog(args.join(' '), 'error');
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsoleLog(args.join(' '), 'warn');
+        };
+
+        function initializeTest() {
+            const itemId = document.getElementById('item-id').value;
+            const itemType = document.getElementById('item-type').value;
+
+            console.log('Initializing test with itemId:', itemId, 'itemType:', itemType);
+
+            // Destroy existing instance
+            if (window.presignedUpload) {
+                delete window.presignedUpload;
+            }
+
+            // Create new instance
+            window.presignedUpload = new PresignedUpload({
+                itemId: itemId,
+                itemType: itemType
+            });
+
+            checkStatus();
+        }
+
+        function checkStatus() {
+            const status = window.presignedUpload ? 'Initialized' : 'Not initialized';
+            document.getElementById('upload-status').textContent = status;
+
+            if (window.presignedUpload) {
+                console.log('PresignedUpload object:', window.presignedUpload);
+                console.log('Item ID:', window.presignedUpload.itemId);
+                console.log('Item Type:', window.presignedUpload.itemType);
+                console.log('CSRF Token:', window.presignedUpload.csrfToken ? 'Found' : 'Missing');
+            }
+        }
+
+        // URL type toggles
+        document.getElementById('trailer_url_type').addEventListener('change', function() {
+            const urlContainer = document.getElementById('trailer_url_container');
+            const fileContainer = document.getElementById('trailer_file_container');
+
+            urlContainer.classList.add('hidden');
+            fileContainer.classList.add('hidden');
+
+            if (this.value === 'URL') {
+                urlContainer.classList.remove('hidden');
+            } else if (this.value === 'Local') {
+                fileContainer.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('video_upload_type').addEventListener('change', function() {
+            const urlContainer = document.getElementById('video_url_container');
+            const fileContainer = document.getElementById('video_file_container');
+
+            urlContainer.classList.add('hidden');
+            fileContainer.classList.add('hidden');
+
+            if (this.value === 'URL') {
+                urlContainer.classList.remove('hidden');
+            } else if (this.value === 'Local') {
+                fileContainer.classList.remove('hidden');
+            }
+        });
+
+        // Check status on load
+        setTimeout(checkStatus, 2000);
+
+        // Add file input change listeners for debugging
+        document.getElementById('trailer_file').addEventListener('change', function(e) {
+            console.log('Trailer file changed:', e.target.files[0]);
+        });
+
+        document.getElementById('video_file').addEventListener('change', function(e) {
+            console.log('Video file changed:', e.target.files[0]);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Progress Bar</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="file"] { width: 100%; padding: 8px; }
+        .progress { height: 20px; background-color: #f5f5f5; border-radius: 4px; margin-top: 8px; display: none; border: 1px solid #ddd; }
+        .progress-bar { background-color: #17a2b8; color: #fff; text-align: center; line-height: 20px; border-radius: 4px; transition: width 0.3s ease-in-out; font-weight: bold; font-size: 12px; min-width: 2em; }
+        .progress-bar.bg-success { background-color: #28a745 !important; }
+        .progress-bar.bg-danger { background-color: #dc3545 !important; }
+        .result { margin-top: 10px; padding: 10px; border-radius: 4px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Progress Bar Test</h1>
+
+        <form id="test-form">
+            <div class="form-group">
+                <label for="testFile">Select File:</label>
+                <input type="file" id="testFile" accept="video/*">
+            </div>
+
+            <button type="button" id="testProgress">Test Progress Bar</button>
+        </form>
+
+        <div id="progress" class="progress">
+            <div id="progressBar" class="progress-bar" style="width: 0%;">0%</div>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function simulateProgress() {
+            const progress = document.getElementById('progress');
+            const progressBar = document.getElementById('progressBar');
+            const result = document.getElementById('result');
+
+            // Show progress bar
+            progress.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressBar.innerText = '0%';
+            progressBar.className = 'progress-bar';
+            result.innerHTML = '';
+
+            let percent = 0;
+            const interval = setInterval(() => {
+                percent += 5;
+                progressBar.style.width = percent + '%';
+                progressBar.innerText = percent + '%';
+
+                if (percent >= 100) {
+                    clearInterval(interval);
+                    progressBar.className = 'progress-bar bg-success';
+                    result.innerHTML = '<div class="result success">Upload completed successfully!</div>';
+
+                    // Hide progress bar after 3 seconds
+                    setTimeout(() => {
+                        progress.style.display = 'none';
+                    }, 3000);
+                }
+            }, 200);
+        }
+
+        document.getElementById('testProgress').addEventListener('click', simulateProgress);
+    </script>
+</body>
+</html>
