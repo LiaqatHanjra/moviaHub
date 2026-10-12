@@ -5,10 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\WatchList;
-use App\Models\Plan;
 use App\Models\Like;
-use App\Http\Resources\PlanResource;
-use App\Http\Resources\GenresResource;
 
 class MovieResource extends JsonResource
 {
@@ -36,10 +33,6 @@ class MovieResource extends JsonResource
         }
 
         $plans = [];
-        $plan = $this->plan;
-        if($plan){
-            $plans = Plan::where('level', '<=', $plan->level)->get();
-        }
         $user = getApiUser();
         $is_like = 0;
         if($user) {
@@ -77,7 +70,7 @@ class MovieResource extends JsonResource
             'trailer_url' => $this->trailer_url,
             'movie_access' => $this->movie_access,
             'plan_id' => $this->plan_id,
-            'plan_level' => $this->plan->level ?? 0,
+            'plan_level' => 0,
             'language' => $this->language,
             'imdb_rating' => $this->IMDb_rating,
             'content_rating' => $this->content_rating,
@@ -95,7 +88,7 @@ class MovieResource extends JsonResource
             'thumbnail_image' => $this->thumbnail_url ?? null,
             'is_watch_list' => $isInWatchList ? true : false,
             'genres' => $genre_data,
-            'plans' => PlanResource::collection($plans),
+            'plans' => $plans,
             'status' => $this->status,
 
         ];

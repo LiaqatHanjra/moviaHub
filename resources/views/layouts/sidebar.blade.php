@@ -69,7 +69,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('frontend.home') }}" aria-label="Storefront">
+                        <a href="{{ route('frontend.root') }}" aria-label="Storefront">
                             <i class="bi bi-shop"></i>
                             <span class="mx-2">Storefront</span>
                         </a>

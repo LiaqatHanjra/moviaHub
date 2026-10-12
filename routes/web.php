@@ -33,10 +33,8 @@ use Illuminate\Support\Facades\Artisan;
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
-// Home route - redirect to login
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+// Public storefront. The Vue app opens the browse page here.
+Route::view('/', 'frontend')->name('frontend.root');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');

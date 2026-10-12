@@ -1,66 +1,5 @@
 <template>
-<header class="mv-fixed top-0 start-0 end-0 mv-z-50 mv-bg-surface_90 mv-backdrop-blur-xl mv-border-b mv-border-surface-container-high">
-    <div class="mv-h-16 mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin d-flex align-items-center justify-content-between mv-gap-space-sm mv-sm-gap-space-md">
-      <div class="d-flex align-items-center mv-gap-space-md mv-xl-gap-space-xl"><a class="d-flex align-items-center mv-gap-space-sm mv-group" data-path="home"
-          href="/home">
-          <div
-            class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
-            <span class="material-symbols-outlined mv-text-c28550">play_arrow</span></div><span
-            class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-tracking-tight mv-text-on-surface">Movie<span
-              class="mv-text-primary">Hub</span></span>
-        </a>
-        <nav class="d-none d-xl-flex align-items-center mv-gap-space-xs"
-          data-active-classes="bg-surface-container-high text-on-surface rounded-full"><a aria-current="page"
-            class="mv-px-space-md mv-py-1p5 mv-font-label-lg mv-transition-colors mv-bg-surface-container-high mv-text-on-surface mv-rounded-full"
-            data-path="home" href="/home">Home</a><a
-            class="mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-            data-path="movies" href="/movies">Movies</a><a
-            class="mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-            data-path="categories" href="/categories">Categories</a><a
-            class="mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-            data-path="my-movies" href="/my-movies">My Movies</a><a
-            class="mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-            data-path="wallet" href="/wallet">Wallet</a></nav>
-      </div>
-      <div class="mv-flex-1 mv-max-w-md d-none d-xxl-block">
-        <div class="mv-relative d-flex align-items-center"><span
-            class="material-symbols-outlined mv-absolute mv-left-space-md mv-text-outline pe-none mv-text-27bd7e">search</span><input
-            class="mv-w-full mv-h-10 mv-pl-10 mv-pr-space-md mv-bg-surface-container-low mv-border mv-border-surface-container-high mv-rounded-full mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline mv-focus-outline-none mv-focus-border-primary mv-focus-bg-surface-container mv-transition-all"
-            placeholder="Search movies, genres..." type="text" /></div>
-      </div>
-      <div class="d-flex align-items-center mv-gap-1 mv-sm-gap-space-md"><a
-          class="d-flex align-items-center mv-gap-space-xs mv-px-space-md mv-py-1p5 mv-bg-surface-container-low mv-border mv-border-surface-container-high mv-rounded-full mv-hover-border-tertiary_40 mv-transition-colors"
-          data-path="wallet" href="/wallet"><span
-            class="material-symbols-outlined mv-text-tertiary mv-text-c79a76">account_balance_wallet</span><span
-            class="d-none d-sm-inline-block mv-font-label-md mv-text-label-md mv-font-semibold mv-text-on-surface">Rs. 300</span></a><button
-          aria-label="Notifications"
-          class="mv-w-9 mv-h-9 mv-rounded-full d-flex align-items-center justify-content-center mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-relative"
-          type="button"><span class="material-symbols-outlined mv-text-27bd7e">notifications</span><span
-            class="mv-absolute mv-top-2 mv-right-2 mv-w-2 mv-h-2 mv-rounded-full mv-bg-primary mv-ring-2 mv-ring-surface"></span></button>
-        <div class="d-flex align-items-center mv-gap-space-xs mv-sm-gap-space-sm mv-pl-space-xs">
-          <div class="mv-w-8 mv-h-8 mv-rounded-full mv-bg-primary d-flex align-items-center justify-content-center"><span
-              class="material-symbols-outlined mv-text-white mv-text-c79a76">person</span></div>
-          <div class="d-none d-lg-flex flex-column text-start"><span
-              class="mv-font-label-md mv-text-label-md mv-font-semibold mv-text-on-surface mv-leading-tight">Ali Khan</span><span
-              class="mv-font-label-sm mv-text-label-sm mv-text-tertiary mv-leading-tight">Premium TVOD</span></div><span
-            class="material-symbols-outlined mv-text-outline mv-text-c79a76 d-none d-lg-inline-block">keyboard_arrow_down</span>
-        </div>
-      </div>
-    </div>
-    <nav aria-label="Main navigation" class="d-flex d-xl-none align-items-center mv-gap-space-xs overflow-x-auto mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin mv-pb-space-sm">
-      <a aria-current="page"
-        class="flex-shrink-0 mv-px-space-md mv-py-1p5 mv-font-label-lg mv-bg-surface-container-high mv-text-on-surface mv-rounded-full"
-        data-path="home" href="/home">Home</a>
-      <a class="flex-shrink-0 mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-        data-path="movies" href="/movies">Movies</a>
-      <a class="flex-shrink-0 mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-        data-path="categories" href="/categories">Categories</a>
-      <a class="flex-shrink-0 mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-        data-path="my-movies" href="/my-movies">My Movies</a>
-      <a class="flex-shrink-0 mv-px-space-md mv-py-1p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
-        data-path="wallet" href="/wallet">Wallet</a>
-    </nav>
-  </header>
+
   <main class="mv-w-full mv-pt-10 mv-bg-surface-container-lowest min-vh-100">
     <div class="d-flex flex-column mv-w-full">
       <!-- Immersive Cinematic Hero Showcase (Bleeds under shell header) -->
@@ -656,59 +595,7 @@
       
     </div>
   </main>
-  <footer class="mv-w-full mv-bg-surface-container-lowest mv-border-t mv-border-surface-container-high_60 mv-py-space-xl">
-    <div class="mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin">
-      <div class="d-grid mv-grid-cols-1 mv-sm-grid-cols-2 mv-lg-grid-cols-4 mv-gap-gutter-mobile mv-sm-gap-gutter mv-mb-space-xl">
-        <div class="d-flex flex-column mv-gap-space-sm">
-          <div class="d-flex align-items-center mv-gap-space-sm">
-            <div class="mv-w-8 mv-h-8 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center"><span
-                class="material-symbols-outlined mv-text-c79a76">play_arrow</span></div><span
-              class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Movie<span
-                class="mv-text-primary">Hub</span></span>
-          </div>
-          <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant mv-max-w-xs mt-1">Next-generation cinematic
-            streaming and pay-per-view rentals in 4K HDR. Stream instantly or download offline.</p>
-        </div>
-        <div>
-          <h4 class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface mb-3 text-uppercase mv-tracking-wider">
-            Discover</h4>
-          <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/movies">New Releases</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/movies">Top 10 Rentals</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/categories">Action &amp; Thriller</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/categories">Sci-Fi Blockbusters</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface mb-3 text-uppercase mv-tracking-wider">My
-            Account</h4>
-          <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/my-movies">Active Rentals</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/wallet">Wallet Top-up</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/my-movies">Watchlist</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/payment/success">Purchase Receipts</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface mb-3 text-uppercase mv-tracking-wider">
-            Platform</h4>
-          <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/watch/1">Supported Devices</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/watch/1">4K Streaming Guide</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/browse#legal">Terms of Service</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/browse#legal">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div
-        class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between mv-gap-space-sm mv-pt-space-lg mv-border-t mv-border-surface-container-high_40 mv-text-on-surface-variant mv-font-body-sm mv-text-body-sm">
-        <p>© 2025 MovieHub Entertainment Inc. All rights reserved.</p>
-        <div class="d-flex flex-wrap align-items-center mv-gap-space-md mt-2 mt-sm-0"><span class="d-flex align-items-center mv-gap-1"><span
-              class="mv-w-2 mv-h-2 mv-rounded-full mv-bg-tertiary"></span> High-speed CDN Online</span><span>4K UltraHD TVOD</span>
-        </div>
-      </div>
-    </div>
-  </footer>
+  
 </template>
 
 <script>

@@ -274,7 +274,35 @@ loginForm?.addEventListener('submit', async function (event) {
         if (user.name) localStorage.setItem('userName', user.name);
         const isAdmin = Number(user.admin) === 1;
         localStorage.setItem('admin', isAdmin ? 'true' : 'false');
-        window.location.href = isAdmin ? '/admin' : '/home';
+
+        if (isAdmin) {
+            const webLogin = document.createElement('form');
+            webLogin.method = 'POST';
+            webLogin.action = @json(route('login.post'));
+            const fields = {
+                _token: document.querySelector('meta[name="csrf-token"]')?.content || '',
+                email: document.getElementById('emailInput').value,
+                password: document.getElementById('passwordInput').value,
+            };
+            if (document.getElementById('rememberMe')?.checked) {
+                fields.remember = '1';
+            }
+            Object.entries(fields).forEach(([name, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                webLogin.appendChild(input);
+            });
+            document.body.appendChild(webLogin);
+            webLogin.submit();
+            return;
+        }
+
+        const next = new URLSearchParams(window.location.search).get('next');
+        const safeNext = next && next.startsWith('/') && !next.startsWith('//') ? next : '';
+        const landing = @json(route('frontend.home'));
+        window.location.href = (!safeNext || safeNext === '/' || safeNext === '/browse') ? landing : safeNext;
     } catch (error) {
         showMessage('Unable to reach the login service.', false);
     } finally {

@@ -59,6 +59,11 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard.index')->with('success', 'Welcome back, ' . $user->name . '!');
         }
 
+        $next = $request->query('next', $request->input('next'));
+        if (is_string($next) && str_starts_with($next, '/') && !str_starts_with($next, '//') && !in_array($next, ['/', '/browse'], true)) {
+            return redirect($next);
+        }
+
         return redirect()->route('frontend.home');
 
     }
