@@ -19,11 +19,10 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ],);
+            'password' => 'required|string|min:8|confirmed',
+        ]);
 
         if ($validator->fails()) {
             return back()
@@ -35,7 +34,7 @@ class RegisterController extends Controller
         try {
             // Create the user
             $user = User::create([
-                'name' => $request->first_name . ' ' . $request->last_name,
+                'name' => trim($request->name),
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'email_verified_at' => now(), // Auto-verify for now, you can change this later

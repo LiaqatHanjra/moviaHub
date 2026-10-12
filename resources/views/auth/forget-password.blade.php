@@ -1,78 +1,49 @@
-@extends('guest.app')
+@extends('guest.moviehub')
 
-@section('title', 'Login')
+@section('title', 'Forgot Password')
 
 @section('content')
-
-
-    <!-- start: page menu link -->
-    <aside class="px-xl-5 px-4 auth-aside" data-bs-theme="none">
-        <img class="login-img" src="{{ asset('backend/assets/images/login-img.png') }}" alt="">
-    </aside>
-
-    <!-- start: page body area -->
-    <div class="px-xl-5 px-4 auth-body">
-        <form action="{{ route('password.email') }}" method="POST">
-            @csrf
-            <div class="px-xl-5 px-4 auth-header text-center" data-bs-theme="none">
-                <a href="/" class="brand-icon text-decoration-none w-100" title="Kwetu Admin Template">
-                    <img src="{{ asset('backend/assets/images/site_logo.png') }}" alt="TVKing"
-                        class="img-fluid ms-auto me-auto" width="120">
+<main class="min-vh-100 d-flex align-items-center justify-content-center mv-p-space-md">
+    <div class="mv-w-full mv-max-w-fc97af">
+        <div class="mv-rounded-2xl mv-bg-surface-container-low mv-p-6 mv-sm-p-9 mv-shadow-2xl">
+            <div class="d-flex flex-column align-items-center text-center mv-mb-7">
+                <a href="{{ route('login') }}" class="d-flex align-items-center mv-gap-2 mb-3 text-decoration-none">
+                    <span class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center">
+                        <span class="material-symbols-outlined">play_arrow</span>
+                    </span>
+                    <span class="mv-font-headline-md mv-text-on-surface">Movie<span class="mv-text-primary">Hub</span></span>
                 </a>
+                <h1 class="mv-font-headline-lg mv-text-on-surface mv-mb-1p5">Reset Password</h1>
+                <p class="mv-font-body-md mv-text-on-surface-variant">Enter your email and we will send a reset link.</p>
             </div>
-            <ul class="row g-3 list-unstyled li_animate">
-                <li class="col-12 text-center">
-                    <h1 class="h2 title-font">Welcome to Destinaytion</h1>
-                </li>
-                <li class="col-12">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-control form-control-lg" placeholder="Enter email"
-                        name="email">
-                    @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </li>
-                <p>An email will be sent to the above address with a link to set your new passwaord.</p>
-                <li class="col-12 my-lg-4">
-                    <button class="btn btn-lg w-100 btn-primary text-uppercase mb-2" type="submit" title="sign in">Submit</button>
 
-                </li>
-                <li class="col-12">
-                    <span class="text-muted d-flex d-sm-inline-flex"><a class="ms-2"
-                            href="{{ route('login') }}" title="">Back to Sign in</a></span>
-                </li>
-            </ul><!--[ ul.row end ]-->
-        </form>
+            <form method="POST" action="{{ route('password.email') }}" class="d-flex flex-column mv-gap-4">
+                @csrf
+                @if (session('status'))
+                    <div class="mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm" style="background:#0a3d2e;color:#b7f7dc;">{{ session('status') }}</div>
+                @endif
+                @if ($errors->any())
+                    <div class="mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm" style="background:#5c1a1a;color:#ffd6d6;">{{ $errors->first() }}</div>
+                @endif
+
+                <div class="d-flex flex-column mv-gap-1p5 text-start">
+                    <label class="mv-font-label-md mv-text-on-surface-variant" for="email">Email</label>
+                    <input id="email" name="email" type="email" value="{{ old('email') }}" required
+                        class="mv-w-full mv-h-11 mv-px-4 mv-rounded-xl mv-bg-surface-container mv-text-on-surface"
+                        placeholder="Enter your email">
+                </div>
+
+                <button type="submit"
+                    class="mv-w-full mv-h-12 mv-rounded-xl mv-bg-primary-container mv-text-white mv-font-headline-sm">
+                    Send reset link
+                </button>
+            </form>
+
+            <p class="text-center mv-mt-7 mv-font-body-sm mv-text-on-surface-variant">
+                Remembered it?
+                <a class="mv-text-primary mv-font-semibold" href="{{ route('login') }}">Login</a>
+            </p>
+        </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Form validation
-            const form = document.querySelector('.needs-validation');
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-
-                // Show loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
-                submitBtn.innerHTML =
-                    '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging in...';
-                submitBtn.disabled = true;
-            });
-
-            // Auto-dismiss alerts after 5 seconds
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(function(alert) {
-                setTimeout(function() {
-                    const bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
-                }, 5000);
-            });
-        });
-    </script>
+</main>
 @endsection

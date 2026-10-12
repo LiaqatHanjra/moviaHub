@@ -13,8 +13,9 @@
                     <path d="M4 18l16 0"></path>
                 </svg>
             </button>
-            <a href="{{ route('admin.dashboard.index') }}" class="brand-icon text-decoration-none d-flex align-items-center site_logo">
-                <img src="{{ asset('backend/assets/images/site_logo.png') }}" alt="">
+            <a href="{{ route('admin.dashboard.index') }}" class="brand-icon text-decoration-none d-flex align-items-center mh-brand">
+                <span class="mh-mark"><span class="material-symbols-outlined">shield</span></span>
+                <span class="mh-word">Movie<span>Hub</span></span>
             </a>
         </div>
     </div>

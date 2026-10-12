@@ -1,0 +1,227 @@
+/* Admin shell matched to the MovieHub frontend palette. */
+body.moviehub-admin {
+    --body-color: #10141a;
+    --reverse-color: #dfe2eb;
+    --primary-color: #3198dc;
+    --primary-rgb: 49, 152, 220;
+    --accent-color: #4edea3;
+    --accent-rgb: 78, 222, 163;
+    --theme-color1: #93ccff;
+    --bs-primary: #3198dc;
+    --bs-primary-rgb: 49, 152, 220;
+    --bs-body-bg: #10141a;
+    --bs-body-color: #dfe2eb;
+    --bs-secondary-color: #bfc7d2;
+    --bs-border-color: #3f4850;
+    --bs-emphasis-color: #dfe2eb;
+    --bs-heading-color: #dfe2eb;
+    --bs-link-color: #93ccff;
+    --bs-link-hover-color: #c4e7ff;
+    background: #10141a !important;
+    color: #dfe2eb !important;
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif !important;
+}
+
+body.moviehub-admin main,
+body.moviehub-admin main .brand,
+body.moviehub-admin main header,
+body.moviehub-admin main .sidebar,
+body.moviehub-admin .page-body {
+    background: #10141a !important;
+    color: #dfe2eb !important;
+}
+
+body.moviehub-admin .sidebar {
+    border-right: 1px solid #262a31;
+}
+
+body.moviehub-admin main header,
+body.moviehub-admin .border {
+    border-color: #262a31 !important;
+}
+
+body.moviehub-admin .mh-brand {
+    gap: 0.55rem;
+}
+
+body.moviehub-admin .mh-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #3198dc;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgb(49 152 220 / 35%);
+}
+
+body.moviehub-admin .mh-mark .material-symbols-outlined {
+    font-size: 22px;
+}
+
+body.moviehub-admin .mh-brand {
+    min-width: 0;
+    overflow: hidden;
+}
+
+body.moviehub-admin .mh-word {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #dfe2eb;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+body.moviehub-admin .mh-word span {
+    color: #93ccff;
+}
+
+body.moviehub-admin .mh-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #3198dc;
+    background: #1c2026;
+    border-radius: 999px;
+    padding: 0.15rem 0.45rem;
+    font-weight: 700;
+}
+
+body.moviehub-admin .sidebar .fl-title {
+    color: #89929b !important;
+    letter-spacing: 0.08em;
+}
+
+body.moviehub-admin .sidebar .menu-list a {
+    color: #bfc7d2 !important;
+    border-radius: 12px;
+    padding: 0.7rem 0.9rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.15rem;
+}
+
+body.moviehub-admin .sidebar .menu-list li.active > a,
+body.moviehub-admin .sidebar .menu-list a:hover {
+    background: #262a31 !important;
+    color: #93ccff !important;
+}
+
+body.moviehub-admin .card,
+body.moviehub-admin .dropdown-menu,
+body.moviehub-admin .modal-content,
+body.moviehub-admin .offcanvas,
+body.moviehub-admin .list-group-item,
+body.moviehub-admin .bg-white,
+body.moviehub-admin .bg-body,
+body.moviehub-admin .search-results-dropdown {
+    background-color: #1c2026 !important;
+    color: #dfe2eb !important;
+    border-color: #3f4850 !important;
+}
+
+body.moviehub-admin .card {
+    border-radius: 16px !important;
+    box-shadow: none !important;
+}
+
+body.moviehub-admin .text-muted,
+body.moviehub-admin .text-dark,
+body.moviehub-admin .gray-6,
+body.moviehub-admin small {
+    color: #bfc7d2 !important;
+}
+
+body.moviehub-admin .form-control,
+body.moviehub-admin .form-select,
+body.moviehub-admin .select2-container--default .select2-selection--single,
+body.moviehub-admin .select2-container--default .select2-selection--multiple,
+body.moviehub-admin .select2-dropdown,
+body.moviehub-admin .select2-search__field {
+    background-color: #1c2026 !important;
+    color: #dfe2eb !important;
+    border-color: #3f4850 !important;
+}
+
+body.moviehub-admin .form-control::placeholder {
+    color: #89929b;
+}
+
+body.moviehub-admin .select2-container--default .select2-selection--single .select2-selection__rendered,
+body.moviehub-admin .select2-results__option {
+    color: #dfe2eb !important;
+}
+
+body.moviehub-admin .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background: #3198dc !important;
+}
+
+body.moviehub-admin .btn-primary,
+body.moviehub-admin .search-button {
+    background-color: #3198dc !important;
+    border-color: #3198dc !important;
+    color: #fff !important;
+}
+
+body.moviehub-admin .btn-primary:hover {
+    background-color: #4aa6e4 !important;
+    border-color: #4aa6e4 !important;
+}
+
+body.moviehub-admin .btn-outline-primary {
+    color: #93ccff !important;
+    border-color: #3198dc !important;
+}
+
+body.moviehub-admin table.dataTable,
+body.moviehub-admin table.dataTable thead th,
+body.moviehub-admin table.dataTable tbody td,
+body.moviehub-admin .table {
+    background-color: #1c2026 !important;
+    color: #dfe2eb !important;
+    border-color: #3f4850 !important;
+}
+
+body.moviehub-admin table.dataTable tbody tr:hover td,
+body.moviehub-admin .table-hover tbody tr:hover {
+    background-color: #262a31 !important;
+}
+
+body.moviehub-admin .dataTables_wrapper .dataTables_length,
+body.moviehub-admin .dataTables_wrapper .dataTables_filter,
+body.moviehub-admin .dataTables_wrapper .dataTables_info,
+body.moviehub-admin .dataTables_wrapper .dataTables_paginate,
+body.moviehub-admin .page-link {
+    color: #dfe2eb !important;
+}
+
+body.moviehub-admin .page-link {
+    background: #1c2026 !important;
+    border-color: #3f4850 !important;
+}
+
+body.moviehub-admin .page-item.active .page-link {
+    background: #3198dc !important;
+    border-color: #3198dc !important;
+    color: #fff !important;
+}
+
+body.moviehub-admin .dropdown-item {
+    color: #dfe2eb !important;
+}
+
+body.moviehub-admin .dropdown-item:hover,
+body.moviehub-admin .dropdown-item:focus {
+    background: #262a31 !important;
+    color: #93ccff !important;
+}
+
+body.moviehub-admin a {
+    color: inherit;
+}
+
+body.moviehub-admin .text-primary,
+body.moviehub-admin .text-gradient {
+    color: #93ccff !important;
+}

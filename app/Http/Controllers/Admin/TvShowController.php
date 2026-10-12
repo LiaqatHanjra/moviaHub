@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\EntertainmentCast;
 use App\Models\EntertainmentGenres;
-use App\Models\Plan;
 use App\Models\Genre;
 use App\Models\Country;
 use App\Models\CastCrew;
@@ -29,7 +28,7 @@ class TvShowController extends Controller
         if ($request->ajax()) {
             $tvshows = Entertainment::where('type', 'tvshow')
                 ->select(['id', 'thumbnail_url', 'name', 'language', 'status', 'IMDb_rating', 'release_date'])
-                ->with(['entertainmentGenerMappings.genre', 'entertainmentLike', 'entertainmentView', 'plan']);
+                ->with(['entertainmentGenerMappings.genre', 'entertainmentLike', 'entertainmentView']);
 
             return DataTables::of($tvshows)
                 ->filter(function ($query) use ($request) {
@@ -115,11 +114,6 @@ class TvShowController extends Controller
                     <a href="' . $uploadUrl . '" class="btn btn-sm btn-info me-1" title="Upload Files"><i class="bi bi-upload"></i></a>
                     <a href="' . $editUrl . '" class="btn btn-sm btn-primary me-1" title="Edit"><i class="bi bi-pencil"></i></a>
                     <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="' . $row->id . '" data-url="' . $deleteUrl . '" title="Delete" onclick="return false;"><i class="bi bi-trash"></i></button>';
-                })
-                ->filterColumn('plan', function($query, $keyword) {
-                    $query->whereHas('plan', function($q) use ($keyword) {
-                        $q->where('name', 'like', "%$keyword%");
-                    });
                 })
                 ->filterColumn('language', function($query, $keyword) {
                     $query->where('language', 'like', "%$keyword%");

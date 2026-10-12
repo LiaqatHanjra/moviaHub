@@ -30,9 +30,11 @@
     <link href="{{ asset('backend/assets/css/select2.min.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('moviehub-bootstrap/assets/mv-fonts.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/moviehub-admin.css') }}">
 </head>
 
-<body data-bvite="theme-CeruleanBlue" class="layout-border svgstroke-a layout-default">
+<body data-bvite="theme-CeruleanBlue" data-bs-theme="dark" class="layout-border svgstroke-a layout-default moviehub-admin">
     <main class="container-fluid px-0" style="min-height: 100vh">
         @include('layouts.sidebar')
         @include('layouts.header')

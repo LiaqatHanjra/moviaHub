@@ -55,14 +55,11 @@ class LoginController extends Controller
             'login_at' => Carbon::now(),
         ]);
 
-        if($user->admin === 1){
+        if ((int) $user->admin === 1) {
             return redirect()->route('admin.dashboard.index')->with('success', 'Welcome back, ' . $user->name . '!');
-        }else{
-            Auth::logout();
-            return back()
-                ->withErrors(['Sorry, Only Admin can access this application.'])
-                ->withInput($request->only('email'));
         }
+
+        return redirect()->route('frontend.home');
 
     }
 
