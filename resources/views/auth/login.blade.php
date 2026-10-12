@@ -110,7 +110,7 @@
             </p>
           </div>
           <!-- Login Form Formwork -->
-          <form class="d-flex flex-column mv-gap-4" id="loginForm" method="POST" action="{{ route('login.post') }}">
+          <form class="d-flex flex-column mv-gap-4" id="loginForm">
 @csrf
 @if (session('success'))
 <div class="mv-w-full mv-rounded-xl mv-px-4 mv-py-3 mv-mb-3 mv-font-body-sm" style="background:#0a3d2e;color:#b7f7dc;">{{ session('success') }}</div>
@@ -229,6 +229,57 @@ document.getElementById('togglePasswordBtn')?.addEventListener('click', function
     const show = pwd.type === 'password';
     pwd.type = show ? 'text' : 'password';
     icon.textContent = show ? 'visibility_off' : 'visibility';
+});
+
+const loginForm = document.getElementById('loginForm');
+loginForm?.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const button = document.getElementById('loginSubmitBtn');
+    const alertBox = document.getElementById('formAlert');
+    if (alertBox) alertBox.remove();
+
+    const showMessage = (message, ok) => {
+        const box = document.createElement('div');
+        box.id = 'formAlert';
+        box.className = 'mv-w-full mv-rounded-xl mv-px-4 mv-py-3 mv-mb-3 mv-font-body-sm';
+        box.style.background = ok ? '#0a3d2e' : '#5c1a1a';
+        box.style.color = ok ? '#b7f7dc' : '#ffd6d6';
+        box.textContent = message;
+        loginForm.prepend(box);
+    };
+
+    if (button) button.disabled = true;
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                email: document.getElementById('emailInput').value,
+                password: document.getElementById('passwordInput').value,
+                remember: document.getElementById('rememberMe')?.checked ? 1 : 0,
+            }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            const firstError = data.errors ? Object.values(data.errors)[0][0] : null;
+            showMessage(firstError || data.message || 'Login failed.', false);
+            return;
+        }
+
+        const user = data.data && (data.data.api_token || data.data.email) ? data.data : data;
+        if (user.api_token) {
+            localStorage.setItem('token', 'Bearer ' + user.api_token);
+        }
+        if (user.name) localStorage.setItem('userName', user.name);
+        const isAdmin = Number(user.admin) === 1;
+        localStorage.setItem('admin', isAdmin ? 'true' : 'false');
+        window.location.href = isAdmin ? '/admin' : '/home';
+    } catch (error) {
+        showMessage('Unable to reach the login service.', false);
+    } finally {
+        if (button) button.disabled = false;
+    }
 });
 </script>
 

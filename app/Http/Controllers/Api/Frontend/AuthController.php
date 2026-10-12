@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RegisterResource;
 use App\Models\UserMultiProfile;
 use App\Models\Profile;
@@ -24,18 +25,25 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required_without:name|nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'name' => 'required_without:first_name|nullable|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
+        $fullName = trim($validated['name'] ?? '');
+        if ($fullName === '') {
+            $fullName = trim(($validated['first_name'] ?? '') . ' ' . ($validated['last_name'] ?? ''));
+        }
+
         try {
             $user = User::create([
-                'name' => $validated['first_name'] . ' ' . $validated['last_name'],
+                'name' => $fullName,
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
                 'status'  => 1,
+                'email_verified_at' => now(),
             ]);
 
             Profile::create([
@@ -67,37 +75,43 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        if ($user->status == 0) {
+        if ($user->status !== null && (int) $user->status === 0) {
             return response()->json(['message' => 'Your account is not active. Please connect with the administration.'], 401);
         }
 
-        if ($user->is_subscribe == 0) {
-            $plan = Plan::where('id', 1)->with('planLimitation')->first();
-            $limitation_data = PlanlimitationMappingResource::collection($plan->planLimitation);
+        if ((int) $user->admin !== 1 && (int) $user->is_subscribe === 0) {
+            try {
+                $plan = Plan::where('id', 1)->with('planLimitation')->first();
+                if ($plan) {
+                    $limitation_data = PlanlimitationMappingResource::collection($plan->planLimitation);
 
-            $subscribed_plan_data = [
-                'plan_id' => $plan->id,
-                'user_id' => $user->id,
-                'device_id' => $request->device_id,
-                'start_date' => Carbon::now(),
-                'end_date' => Carbon::now()->addDays(30),
-                'status' => 1,
-                'amount' => $plan['price'],
-                'discount_percentage' => $plan['discount_percentage'],
-                'tax_amount' => 0,
-                'total_amount' => $plan['price'],
-                'name' => $plan['name'],
-                'identifier' => $plan['identifier'],
-                'type' => $plan['duration'],
-                'duration' => $plan['duration_value'],
-                'level' => $plan['level'],
-                'plan_type' => $limitation_data ? json_encode($limitation_data) : null
+                    $subscribed_plan_data = [
+                        'plan_id' => $plan->id,
+                        'user_id' => $user->id,
+                        'device_id' => $request->device_id,
+                        'start_date' => Carbon::now(),
+                        'end_date' => Carbon::now()->addDays(30),
+                        'status' => 1,
+                        'amount' => $plan['price'],
+                        'discount_percentage' => $plan['discount_percentage'],
+                        'tax_amount' => 0,
+                        'total_amount' => $plan['price'],
+                        'name' => $plan['name'],
+                        'identifier' => $plan['identifier'],
+                        'type' => $plan['duration'],
+                        'duration' => $plan['duration_value'],
+                        'level' => $plan['level'],
+                        'plan_type' => $limitation_data ? json_encode($limitation_data) : null
 
-            ];
+                    ];
 
-            $result = Subscription::create($subscribed_plan_data);
-            $user->is_subscribe = 1;
-            $user->save();
+                    Subscription::create($subscribed_plan_data);
+                    $user->is_subscribe = 1;
+                    $user->save();
+                }
+            } catch (\Throwable $e) {
+                // Subscription plans are optional for this login.
+            }
         }
 
         if ($request->device_id) {
@@ -120,7 +134,11 @@ class AuthController extends Controller
             }
         }
 
-        $user['plan_details'] = $user->subscriptionPackage;
+        try {
+            $user['plan_details'] = $user->subscriptionPackage;
+        } catch (\Throwable $e) {
+            $user['plan_details'] = null;
+        }
 
         $adminLog = new \App\Models\AdminLog();
         $adminLog->user_id = $user->id;
@@ -133,6 +151,8 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
         $user['token'] = $token;
+
+        Auth::login($user, $request->boolean('remember'));
 
         $loginResource = new LoginResource($user);
 

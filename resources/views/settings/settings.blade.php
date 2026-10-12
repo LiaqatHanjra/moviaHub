@@ -18,13 +18,6 @@
             </a>
         </li>
         <li class="bg-card">
-            <a class="flex-grow-1" href="{{ route('admin.podcast.banners') }}">
-                <div class="ms-3">
-                    <h6 class="mb-0">Podcast Banner Settings</h6>
-                </div>
-            </a>
-        </li>
-        <li class="bg-card">
             <a class="flex-grow-1" href="#" role="button">
                 <div class="ms-3">
                     <h6 class="mb-0">Top 10 Movies Settings</h6>
@@ -85,13 +78,13 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="settingName" class="form-label">Name *</label>
-                                    <input type="text" class="form-control" id="settingName" name="name" required>
+                                    <input type="text" readonly class="form-control" id="settingName" name="name" required>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="settingType" class="form-label">Slug *</label>
-                                    <input type="text" class="form-control" id="settingType" name="type" required>
+                                    <input type="text" readonly class="form-control" id="settingType" name="type" required>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -195,7 +188,7 @@
                         .then(data => {
                             data.forEach(item => {
                                 const option = document.createElement('option');
-                                option.value = item.slug || item.id;
+                                option.value = item.id;
                                 option.textContent = item.name;
                                 valueSelect.appendChild(option);
                             });
@@ -223,7 +216,7 @@
 
                             // Pre-select existing values
                             if (existingValues.length > 0) {
-                                $(valueSelect).val(existingValues).trigger('change');
+                                $(valueSelect).val(existingValues.map(String)).trigger('change');
                             }
 
                             select2Initialized = true;
@@ -236,14 +229,22 @@
                 });
             });
 
+            function showNotice(message, isError) {
+                let notice = document.getElementById('settingNotice');
+                if (!notice) {
+                    notice = document.createElement('div');
+                    notice.id = 'settingNotice';
+                    notice.setAttribute('role', 'alert');
+                    document.querySelector('.card.mb-3').insertAdjacentElement('afterend', notice);
+                }
+                notice.className = 'alert ' + (isError ? 'alert-danger' : 'alert-success');
+                notice.textContent = message;
+            }
+
             // Handle save button
             saveButton.addEventListener('click', function () {
                 const formData = new FormData(settingForm);
-
-                // Debug: Log formData entries to verify payload
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
-                }
+                saveButton.disabled = true;
 
                 fetch('/admin/site/settings/values', {
                     method: 'POST',
@@ -253,11 +254,24 @@
                         'Accept': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(async response => {
+                    const data = await response.json().catch(() => ({}));
+                    if (!response.ok) {
+                        const message = data.message || 'Could not save this setting.';
+                        throw new Error(message);
+                    }
+                    return data;
+                })
                 .then(data => {
                     bootstrap.Modal.getInstance(modal).hide();
+                    showNotice(data.message || 'Saved successfully.', false);
                 })
-                .catch(error => console.error('Error saving setting:', error));
+                .catch(error => {
+                    showNotice(error.message || 'Could not save this setting.', true);
+                })
+                .finally(() => {
+                    saveButton.disabled = false;
+                });
             });
         });
     </script>

@@ -32,7 +32,8 @@ class LoginResource extends JsonResource
             'deleted_at' => $this->deleted_at,
             'api_token' => $this->token,
             'is_user_exist' => true,
-            'profile_image' => $this->profile->image,
+            'profile_image' => optional($this->profile)->image,
+            'admin' => (int) ($this->admin ?? 0),
             'plan_details' => $planDetails ?? null,
         ];
     }

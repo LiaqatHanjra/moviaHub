@@ -18,29 +18,45 @@ class SiteSettingController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required',
-            'position' => 'nullable',
-            'value' => 'nullable|array', // Allow empty array
+            'slug' => 'required|string|max:255',
+            'position' => 'nullable|integer',
+            'value' => 'nullable|array',
+            'value.*' => 'integer',
         ]);
 
-        // Get the value array directly from the request
-        $value = $request->input('value', []);
+        $slug = $request->input('slug');
+        $value = array_values(array_map('intval', $request->input('value', [])));
+        $position = $request->input('position');
 
-        // Prepare data for saving
-        $data = [
-            'name' => $request->input('name'),
-            'slug' => $request->input('slug'),
-            'position' => $request->input('position'),
-            'value' => $value, // Store the array directly
-        ];
+        if ($position === null || $position === '') {
+            $position = $this->defaultPosition($slug);
+        }
 
-        // Update or create the setting
         $setting = SiteSetting::updateOrCreate(
-            ['slug' => $data['slug']],
-            $data
+            ['slug' => $slug],
+            [
+                'name' => $request->input('name'),
+                'slug' => $slug,
+                'position' => (int) $position,
+                'value' => $value,
+            ]
         );
 
-        return response()->json(['message' => 'Successfully added.'], 200);
+        return response()->json([
+            'message' => 'Saved successfully.',
+            'setting' => $setting,
+        ], 200);
+    }
+
+    private function defaultPosition(string $slug): int
+    {
+        return match ($slug) {
+            'top-10' => 1,
+            'latest-movies' => 2,
+            'popular-movies' => 3,
+            'popular-tv-shows' => 4,
+            default => 0,
+        };
     }
 
     public function getSettingBySlug($slug)

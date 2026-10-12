@@ -31,7 +31,7 @@
 <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant mt-1">Start streaming blockbusters in 4K HDR</p>
 </div>
 <!-- Registration Form -->
-<form class="mv-w-full d-flex flex-column mv-gap-4" id="registerForm" method="POST" action="{{ route('register.post') }}">
+<form class="mv-w-full d-flex flex-column mv-gap-4" id="registerForm">
 @csrf
 @if (session('success'))
 <div class="mv-w-full mv-rounded-xl mv-px-4 mv-py-3 mv-mb-3 mv-font-body-sm" style="background:#0a3d2e;color:#b7f7dc;">{{ session('success') }}</div>
@@ -160,4 +160,53 @@
 <!-- Interactive script to handle submission microinteraction feedback -->
 
 </div></main>
+<script>
+document.getElementById('registerForm')?.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const button = document.getElementById('submitBtn');
+    document.getElementById('formAlert')?.remove();
+
+    const showMessage = (message, ok) => {
+        const box = document.createElement('div');
+        box.id = 'formAlert';
+        box.className = 'mv-w-full mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm';
+        box.style.background = ok ? '#0a3d2e' : '#5c1a1a';
+        box.style.color = ok ? '#b7f7dc' : '#ffd6d6';
+        box.textContent = message;
+        form.prepend(box);
+    };
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const parts = fullName.split(/\s+/);
+    if (button) button.disabled = true;
+    try {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                name: fullName,
+                first_name: parts[0] || '',
+                last_name: parts.slice(1).join(' '),
+                email: document.getElementById('identifier').value,
+                password: document.getElementById('password').value,
+                password_confirmation: document.getElementById('confirmPassword').value,
+            }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            const firstError = data.errors ? Object.values(data.errors)[0][0] : null;
+            showMessage(firstError || data.message || 'Registration failed.', false);
+            return;
+        }
+        showMessage(data.message || 'Account created. You can log in now.', true);
+        setTimeout(() => { window.location.href = '/login'; }, 900);
+    } catch (error) {
+        showMessage('Unable to reach the register service.', false);
+    } finally {
+        if (button) button.disabled = false;
+    }
+});
+</script>
 @endsection

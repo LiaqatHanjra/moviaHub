@@ -17,14 +17,8 @@
                 <p class="mv-font-body-md mv-text-on-surface-variant">Enter your email and we will send a reset link.</p>
             </div>
 
-            <form method="POST" action="{{ route('password.email') }}" class="d-flex flex-column mv-gap-4">
-                @csrf
-                @if (session('status'))
-                    <div class="mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm" style="background:#0a3d2e;color:#b7f7dc;">{{ session('status') }}</div>
-                @endif
-                @if ($errors->any())
-                    <div class="mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm" style="background:#5c1a1a;color:#ffd6d6;">{{ $errors->first() }}</div>
-                @endif
+            <form id="forgotForm" class="d-flex flex-column mv-gap-4">
+                <div id="formAlert"></div>
 
                 <div class="d-flex flex-column mv-gap-1p5 text-start">
                     <label class="mv-font-label-md mv-text-on-surface-variant" for="email">Email</label>
@@ -46,4 +40,31 @@
         </div>
     </div>
 </main>
+<script>
+document.getElementById('forgotForm')?.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const box = document.getElementById('formAlert');
+    const button = event.currentTarget.querySelector('button[type="submit"]');
+    if (button) button.disabled = true;
+    try {
+        const response = await fetch('/api/forgot-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ email: document.getElementById('email').value }),
+        });
+        const data = await response.json();
+        box.textContent = data.message || (response.ok ? 'Reset link sent.' : 'Unable to send reset link.');
+        box.style.background = response.ok ? '#0a3d2e' : '#5c1a1a';
+        box.style.color = response.ok ? '#b7f7dc' : '#ffd6d6';
+        box.className = 'mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm';
+    } catch (error) {
+        box.textContent = 'Unable to reach the password service.';
+        box.style.background = '#5c1a1a';
+        box.style.color = '#ffd6d6';
+    } finally {
+        if (button) button.disabled = false;
+    }
+});
+</script>
 @endsection

@@ -190,6 +190,7 @@ class ScrapTvShowData extends Command
                         'type' => 'tvshow',
                     ],
                     [
+                        'name' => $title,
                         'type' => 'tvshow',
                         'description' => $tvShowData['overview'] ?? '',
                         'IMDb_rating' => isset($tvShowData['vote_average']) ? (float) $tvShowData['vote_average'] : null,

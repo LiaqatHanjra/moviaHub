@@ -16,12 +16,9 @@
                 <h1 class="mv-font-headline-lg mv-text-on-surface mv-mb-1p5">Choose a new password</h1>
             </div>
 
-            <form method="POST" action="{{ route('password.update') }}" class="d-flex flex-column mv-gap-4">
-                @csrf
-                <input type="hidden" name="token" value="{{ $token ?? request('token') }}">
-                @if ($errors->any())
-                    <div class="mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm" style="background:#5c1a1a;color:#ffd6d6;">{{ $errors->first() }}</div>
-                @endif
+            <form id="resetForm" class="d-flex flex-column mv-gap-4">
+                <div id="formAlert"></div>
+                <input type="hidden" id="resetToken" value="{{ $token ?? request('token') }}">
 
                 <div class="d-flex flex-column mv-gap-1p5 text-start">
                     <label class="mv-font-label-md mv-text-on-surface-variant" for="email">Email</label>
@@ -50,4 +47,40 @@
         </div>
     </div>
 </main>
+<script>
+document.getElementById('resetForm')?.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const box = document.getElementById('formAlert');
+    const button = event.currentTarget.querySelector('button[type="submit"]');
+    if (button) button.disabled = true;
+    try {
+        const response = await fetch('/api/reset-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                email: document.getElementById('email').value,
+                token: document.getElementById('resetToken').value,
+                password: document.getElementById('password').value,
+                password_confirmation: document.getElementById('password_confirmation').value,
+            }),
+        });
+        const data = await response.json();
+        const message = data.errors ? Object.values(data.errors)[0][0] : (data.message || 'Unable to reset password.');
+        box.textContent = message;
+        box.className = 'mv-rounded-xl mv-px-4 mv-py-3 mv-font-body-sm';
+        box.style.background = response.ok ? '#0a3d2e' : '#5c1a1a';
+        box.style.color = response.ok ? '#b7f7dc' : '#ffd6d6';
+        if (response.ok) {
+            setTimeout(() => { window.location.href = '/login'; }, 900);
+        }
+    } catch (error) {
+        box.textContent = 'Unable to reach the password service.';
+        box.style.background = '#5c1a1a';
+        box.style.color = '#ffd6d6';
+    } finally {
+        if (button) button.disabled = false;
+    }
+});
+</script>
 @endsection
