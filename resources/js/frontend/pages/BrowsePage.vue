@@ -8,7 +8,13 @@
         <div class="hero-slider">
 
           <!-- ==================== SLIDE 1 ==================== -->
-          <article v-for="banner in banners" :key="banner.id" class="hero-slide mv-relative mv-w-full overflow-hidden">
+          <article
+            v-for="(banner, index) in banners"
+            v-show="activeBannerIndex === index"
+            :key="banner.id"
+            class="hero-slide mv-relative mv-w-full overflow-hidden"
+            :aria-hidden="activeBannerIndex !== index"
+          >
             <div class="hero-media">
               <div class="hero-media-fill" :style="backgroundStyle(banner)"></div>
               <img class="hero-media-poster" :alt="banner.name" :src="imageOf(banner)" />
@@ -40,15 +46,26 @@
           <div class="mx-auto d-flex mv-max-w-7xl flex-wrap align-items-center justify-content-between mv-gap-space-md">
             <div class="d-flex align-items-center mv-gap-space-sm">
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline text-uppercase mv-tracking-widest">Now Trending</span>
-              <div class="hero-slider-dots"></div>
+              <div class="hero-slider-dots" role="group" aria-label="Choose featured banner">
+                <button
+                  v-for="(banner, index) in banners"
+                  :key="banner.id"
+                  type="button"
+                  class="hero-slider-dot"
+                  :class="{ 'is-active': activeBannerIndex === index }"
+                  :aria-label="`Show banner ${index + 1}`"
+                  :aria-current="activeBannerIndex === index ? 'true' : null"
+                  @click="showBanner(index)"
+                ></button>
+              </div>
             </div>
 
             <div class="d-flex align-items-center mv-gap-2">
-              <button type="button" data-hero-prev aria-label="Previous banner"
+              <button type="button" aria-label="Previous banner" @click="showPreviousBanner"
                 class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
                 <span class="material-symbols-outlined mv-text-c79a76">chevron_left</span>
               </button>
-              <button type="button" data-hero-next aria-label="Next banner"
+              <button type="button" aria-label="Next banner" @click="showNextBanner"
                 class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
                 <span class="material-symbols-outlined mv-text-c79a76">chevron_right</span>
               </button>
@@ -181,19 +198,19 @@
         </div>
         <p v-if="!featured.length" class="mv-text-on-surface-variant">Nothing to show yet.</p>
         <div v-else class="row-slider-wrap">
-          <button type="button" data-row-prev="featured" aria-label="Previous featured movies" class="row-slider-arrow row-slider-arrow-prev">
+          <button type="button" aria-label="Previous featured movies" class="row-slider-arrow row-slider-arrow-prev" @click="scrollRow($event, -1)">
             <span class="material-symbols-outlined">chevron_left</span>
           </button>
           <div class="row-slider" data-row="featured">
           <div v-for="movie in featured" :key="movie.id" class="row-slide">
-          <a :href="watchHref(movie.id)" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
+          <a href="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
             <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
               <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="movie.name" :src="imageOf(movie)" />
               <span v-if="ratingOf(movie)" class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm">
                 <span class="material-symbols-outlined mv-text-3eb376" style="font-variation-settings: 'FILL' 1;">star</span> {{ ratingOf(movie) }}
               </span>
             </div>
-            <div class="mv-p-space-sm mv-md-p-space-md d-flex flex-column mv-flex-1 justify-content-between">
+            <div class="browse-card-content d-flex flex-column mv-flex-1 justify-content-between">
               <div>
                 <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold text-truncate mv-group-hover-text-primary mv-transition-colors">{{ movie.name }}</h3>
                 <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">{{ genreLine(movie) || movie.language }}</p>
@@ -206,7 +223,7 @@
           </a>
           </div>
           </div>
-          <button type="button" data-row-next="featured" aria-label="Next featured movies" class="row-slider-arrow row-slider-arrow-next">
+          <button type="button" aria-label="Next featured movies" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
             <span class="material-symbols-outlined">chevron_right</span>
           </button>
         </div>
@@ -228,19 +245,19 @@
         </div>
         <p v-if="!latest.length" class="mv-text-on-surface-variant">Nothing to show yet.</p>
         <div v-else class="row-slider-wrap">
-          <button type="button" data-row-prev="latest" aria-label="Previous blockbusters" class="row-slider-arrow row-slider-arrow-prev">
+          <button type="button" aria-label="Previous blockbusters" class="row-slider-arrow row-slider-arrow-prev" @click="scrollRow($event, -1)">
             <span class="material-symbols-outlined">chevron_left</span>
           </button>
           <div class="row-slider" data-row="latest">
           <div v-for="movie in latest" :key="movie.id" class="row-slide">
-          <a :href="watchHref(movie.id)" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
+          <a href="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
             <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
               <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="movie.name" :src="imageOf(movie)" />
               <span v-if="ratingOf(movie)" class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm">
                 <span class="material-symbols-outlined mv-text-3eb376" style="font-variation-settings: 'FILL' 1;">star</span> {{ ratingOf(movie) }}
               </span>
             </div>
-            <div class="mv-p-space-sm mv-md-p-space-md d-flex flex-column mv-flex-1 justify-content-between">
+            <div class="browse-card-content d-flex flex-column mv-flex-1 justify-content-between">
               <div>
                 <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold text-truncate mv-group-hover-text-primary mv-transition-colors">{{ movie.name }}</h3>
                 <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">{{ genreLine(movie) || movie.language }}</p>
@@ -250,7 +267,7 @@
           </a>
           </div>
           </div>
-          <button type="button" data-row-next="latest" aria-label="Next blockbusters" class="row-slider-arrow row-slider-arrow-next">
+          <button type="button" aria-label="Next blockbusters" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
             <span class="material-symbols-outlined">chevron_right</span>
           </button>
         </div>
@@ -272,16 +289,16 @@
           </div>
           <p v-if="!shows.length" class="mv-text-on-surface-variant">No series to show yet.</p>
           <div v-else class="row-slider-wrap">
-            <button type="button" data-row-prev="shows" aria-label="Previous series" class="row-slider-arrow row-slider-arrow-prev">
+            <button type="button" aria-label="Previous series" class="row-slider-arrow row-slider-arrow-prev" @click="scrollRow($event, -1)">
               <span class="material-symbols-outlined">chevron_left</span>
             </button>
             <div class="row-slider" data-row="shows">
             <div v-for="show in shows" :key="show.id" class="row-slide">
-            <a :href="watchHref(show.id)" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
+            <a href="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
               <div class="mv-relative mv-aspect-fe4342 mv-sm-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
                 <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="show.name" :src="imageOf(show)" />
               </div>
-              <div class="mv-p-space-md d-flex flex-column mv-flex-1 justify-content-between">
+              <div class="browse-card-content d-flex flex-column mv-flex-1 justify-content-between">
                 <div>
                   <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">{{ show.name }}</h3>
                   <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">{{ genreLine(show) || show.language }}</p>
@@ -290,7 +307,7 @@
             </a>
             </div>
             </div>
-            <button type="button" data-row-next="shows" aria-label="Next series" class="row-slider-arrow row-slider-arrow-next">
+            <button type="button" aria-label="Next series" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
               <span class="material-symbols-outlined">chevron_right</span>
             </button>
           </div>
@@ -378,7 +395,7 @@
               </div>
             </div>
             <a class="d-inline-flex align-items-center justify-content-center mv-px-6 mv-py-2p5 mv-rounded-full mv-bg-primary-container mv-font-label-md mv-text-label-md mv-font-bold mv-hover-bg-secondary-container mv-transition-all mv-shadow-8f3b2a flex-shrink-0"
-              href="/movie/1">
+              href="/login">
               Claim Free Movie
             </a>
           </div>
@@ -390,15 +407,7 @@
 </template>
 
 <script>
-import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
-import { isLoggedIn } from '../auth';
-import { bootPage } from '../runPageScript';
-
-const externals = [
-    'https://code.jquery.com/jquery-3.7.1.min.js',
-    'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',
-    '/moviehub-bootstrap/assets/banner-slider.js?v=2'
-];
+import { onMounted, ref } from 'vue';
 
 function unwrapList(payload) {
     if (Array.isArray(payload)) {
@@ -443,69 +452,6 @@ function backgroundStyle(item) {
     return image ? { backgroundImage: 'url("' + image + '")' } : {};
 }
 
-function watchHref(id) {
-    const movie = '/movie/' + id;
-    if (isLoggedIn()) {
-        return movie;
-    }
-    return '/login?next=' + encodeURIComponent(movie);
-}
-
-function initRowSliders() {
-    const $ = window.jQuery;
-    if (!$ || !$.fn || !$.fn.slick) {
-        return;
-    }
-
-    $('.row-slider').each(function () {
-        const $slider = $(this);
-        const count = $slider.children().length;
-        if (!count) {
-            return;
-        }
-        if ($slider.hasClass('slick-initialized')) {
-            $slider.slick('unslick');
-        }
-        $slider.slick({
-            slidesToShow: Math.min(5, count),
-            slidesToScroll: 1,
-            infinite: count > 5,
-            arrows: false,
-            dots: false,
-            swipe: true,
-            responsive: [
-                { breakpoint: 1200, settings: { slidesToShow: Math.min(4, count) } },
-                { breakpoint: 992, settings: { slidesToShow: Math.min(3, count) } },
-                { breakpoint: 768, settings: { slidesToShow: Math.min(2, count) } },
-                { breakpoint: 576, settings: { slidesToShow: 1 } },
-            ],
-        });
-    });
-
-    $(document).off('click.rowSlider').on('click.rowSlider', '[data-row-prev], [data-row-next]', function () {
-        const previous = $(this).attr('data-row-prev');
-        const next = $(this).attr('data-row-next');
-        const row = previous || next;
-        const $slider = $(`.row-slider[data-row="${row}"]`);
-        if (!$slider.hasClass('slick-initialized')) {
-            return;
-        }
-        $slider.slick(previous ? 'slickPrev' : 'slickNext');
-    });
-}
-
-function destroyHeroSlider() {
-    const $ = window.jQuery;
-    const slider = document.querySelector('.hero-slider');
-    if ($ && slider && $(slider).hasClass('slick-initialized')) {
-        $(slider).slick('unslick');
-    }
-    if ($) {
-        $('.row-slider.slick-initialized').slick('unslick');
-        $(document).off('click.rowSlider');
-    }
-}
-
 export default {
     name: 'BrowsePage',
     setup() {
@@ -513,6 +459,26 @@ export default {
         const featured = ref([]);
         const latest = ref([]);
         const shows = ref([]);
+        const activeBannerIndex = ref(0);
+
+        function showBanner(index) {
+            activeBannerIndex.value = index;
+        }
+
+        function showPreviousBanner() {
+            activeBannerIndex.value = (activeBannerIndex.value - 1 + banners.value.length) % banners.value.length;
+        }
+
+        function showNextBanner() {
+            activeBannerIndex.value = (activeBannerIndex.value + 1) % banners.value.length;
+        }
+
+        function scrollRow(event, direction) {
+            const slider = event.currentTarget.closest('.row-slider-wrap')?.querySelector('.row-slider');
+            if (slider) {
+                slider.scrollBy({ left: direction * slider.clientWidth * 0.8, behavior: 'smooth' });
+            }
+        }
 
         onMounted(async () => {
             const [bannerRows, featuredRows, latestRows, showRows] = await Promise.all([
@@ -525,16 +491,197 @@ export default {
             featured.value = featuredRows;
             latest.value = latestRows;
             shows.value = showRows;
-            await nextTick();
-            await bootPage(externals, '');
-            if (banners.value.length && typeof window.initHeroSlider === 'function') {
-                window.initHeroSlider();
-            }
-            initRowSliders();
         });
-        onBeforeUnmount(destroyHeroSlider);
 
-        return { banners, featured, latest, shows, genreLine, yearOf, ratingOf, imageOf, backgroundStyle, watchHref };
+        return {
+            banners,
+            featured,
+            latest,
+            shows,
+            activeBannerIndex,
+            genreLine,
+            yearOf,
+            ratingOf,
+            imageOf,
+            backgroundStyle,
+            showBanner,
+            showPreviousBanner,
+            showNextBanner,
+            scrollRow,
+        };
     },
 };
 </script>
+
+<style scoped>
+.hero-slider {
+    position: relative;
+    min-height: 38rem;
+    background: #0a0e14;
+}
+
+.hero-slide {
+    min-height: 38rem;
+}
+
+.hero-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #0a0e14;
+}
+
+.hero-media-fill,
+.hero-media-poster,
+.hero-media-shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-media-fill {
+    background-position: center;
+    background-size: cover;
+    filter: blur(18px);
+    opacity: 0.45;
+    transform: scale(1.05);
+}
+
+.hero-media-poster {
+    object-fit: cover;
+    object-position: center 25%;
+}
+
+.hero-media-shade {
+    background: linear-gradient(90deg, rgba(10, 14, 20, 0.96) 0%, rgba(10, 14, 20, 0.78) 42%, rgba(10, 14, 20, 0.18) 100%),
+        linear-gradient(0deg, #0a0e14 0%, transparent 45%);
+}
+
+.hero-slider-dot {
+    width: 0.75rem;
+    height: 0.375rem;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: #89929b;
+    cursor: pointer;
+    transition: width 200ms ease, background-color 200ms ease;
+}
+
+.hero-slider-dot.is-active {
+    width: 2rem;
+    background: #93ccff;
+}
+
+.row-slider-wrap {
+    position: relative;
+}
+
+.row-slider {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem 1rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.row-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.row-slide {
+    display: flex;
+    flex: 0 0 calc((100% - 4rem) / 5);
+    min-width: 0;
+    scroll-snap-align: start;
+}
+
+.row-slide > a {
+    width: 100%;
+    min-height: 100%;
+}
+
+.browse-card-content {
+    min-height: 6rem;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.row-slider-arrow {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    display: inline-flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(223, 226, 235, 0.16);
+    border-radius: 9999px;
+    color: #dfe2eb;
+    background: rgba(24, 28, 34, 0.92);
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.row-slider-arrow:hover {
+    background: #3198dc;
+}
+
+.row-slider-arrow-prev {
+    left: -1rem;
+}
+
+.row-slider-arrow-next {
+    right: -1rem;
+}
+
+@media (max-width: 1199.98px) {
+    .row-slide {
+        flex-basis: calc((100% - 3rem) / 4);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .row-slide {
+        flex-basis: calc((100% - 2rem) / 3);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-slider,
+    .hero-slide {
+        min-height: 34rem;
+    }
+
+    .hero-media-shade {
+        background: linear-gradient(0deg, rgba(10, 14, 20, 0.98) 0%, rgba(10, 14, 20, 0.7) 58%, rgba(10, 14, 20, 0.15) 100%);
+    }
+
+    .row-slide {
+        flex-basis: calc((100% - 1rem) / 2);
+    }
+
+    .row-slider-arrow-prev {
+        left: -0.5rem;
+    }
+
+    .row-slider-arrow-next {
+        right: -0.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-slider,
+    .hero-slide {
+        min-height: 31rem;
+    }
+
+    .row-slide {
+        flex-basis: 82%;
+    }
+}
+</style>

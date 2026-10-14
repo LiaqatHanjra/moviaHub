@@ -64,7 +64,7 @@ class LoginController extends Controller
             return redirect($next);
         }
 
-        return redirect()->route('frontend.home');
+        return redirect()->route('frontend.root');
 
     }
 

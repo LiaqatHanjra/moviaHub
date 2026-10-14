@@ -301,7 +301,7 @@ loginForm?.addEventListener('submit', async function (event) {
 
         const next = new URLSearchParams(window.location.search).get('next');
         const safeNext = next && next.startsWith('/') && !next.startsWith('//') ? next : '';
-        const landing = @json(route('frontend.home'));
+        const landing = @json(route('frontend.root'));
         window.location.href = (!safeNext || safeNext === '/' || safeNext === '/browse') ? landing : safeNext;
     } catch (error) {
         showMessage('Unable to reach the login service.', false);

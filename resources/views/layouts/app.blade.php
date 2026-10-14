@@ -14,6 +14,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
+    <link rel="stylesheet" href="{{ asset('assets/mv-fonts.css') }}">
     <!--[ Favicon]-->
     <link rel="icon" type="image/x-icon" href="{{ asset('backend/assets/images/favicon.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('backend/assets/images/favicon.png') }}">
@@ -30,7 +32,6 @@
     <link href="{{ asset('backend/assets/css/select2.min.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('moviehub-bootstrap/assets/mv-fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/moviehub-admin.css') }}">
 </head>
 
