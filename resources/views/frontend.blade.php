@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
     <link rel="stylesheet" href="{{ asset('moviehub-bootstrap/assets/mv-theme.css') }}">
-    <link rel="stylesheet" href="{{ asset('moviehub-bootstrap/assets/custom-styles.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('moviehub-bootstrap/assets/custom-styles.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('moviehub-bootstrap/assets/mv-utilities.css') }}">
     @vite(['resources/js/frontend.js'])
 </head>

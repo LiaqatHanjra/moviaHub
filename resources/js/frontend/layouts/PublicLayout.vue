@@ -1,10 +1,10 @@
 <template>
-  <SiteMenu variant="public" />
+  <PublicHeader />
   <slot />
-  <SiteFooter variant="public" />
+  <PublicFooter />
 </template>
 
 <script setup>
-import SiteMenu from '../components/SiteMenu.vue';
-import SiteFooter from '../components/SiteFooter.vue';
+import PublicHeader from '../components/PublicHeader.vue';
+import PublicFooter from '../components/PublicFooter.vue';
 </script>

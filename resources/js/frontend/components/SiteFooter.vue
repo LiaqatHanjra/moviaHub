@@ -11,7 +11,7 @@
           </router-link>
           <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant mv-max-w-xs mt-1">Next-generation cinematic streaming and pay-per-view rentals in 4K HDR. Stream instantly or download offline.</p>
         </div>
-        <div v-if="variant !== 'public'">
+        <div >
           <h4 class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface mb-3 text-uppercase mv-tracking-wider">Discover</h4>
           <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant list-unstyled mb-0">
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/">Browse</router-link></li>
@@ -20,7 +20,7 @@
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/subscribe">Pricing &amp; Plans</router-link></li>
           </ul>
         </div>
-        <div v-if="variant !== 'public'">
+        <div>
           <h4 class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface mb-3 text-uppercase mv-tracking-wider">My Account</h4>
           <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant list-unstyled mb-0">
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/my-movies">My Movies</router-link></li>

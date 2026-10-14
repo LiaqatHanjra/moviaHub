@@ -9,10 +9,10 @@
 
           <!-- ==================== SLIDE 1 ==================== -->
           <article v-for="banner in banners" :key="banner.id" class="hero-slide mv-relative mv-w-full overflow-hidden">
-            <div class="mv-absolute mv-inset-0 mv-z-0">
-              <div class="mv-w-full h-100 mv-bg-cover mv-bg-center" :style="backgroundStyle(banner)"></div>
-              <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface mv-via-surface_75 mv-to-surface_40"></div>
-              <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-r mv-from-surface mv-via-surface_90 mv-to-transparent mv-max-w-4xl"></div>
+            <div class="hero-media">
+              <div class="hero-media-fill" :style="backgroundStyle(banner)"></div>
+              <img class="hero-media-poster" :alt="banner.name" :src="imageOf(banner)" />
+              <div class="hero-media-shade"></div>
             </div>
             <div class="mv-relative mv-z-10 mv-w-full mv-px-margin-mobile mv-md-px-margin-mobile mv-sm-px-margin mv-pt-24 mv-pb-16 mv-md-pt-32 mv-md-pb-24 mv-max-w-7xl mx-auto d-flex flex-column justify-content-end mv-min-h-623c22">
               <div class="d-flex flex-wrap align-items-center mv-gap-space-sm mb-3">
@@ -30,10 +30,7 @@
               </div>
               <p class="mv-font-body-lg mv-text-body-lg mv-text-on-surface-variant mv-max-w-2xl mv-mb-space-xl mv-line-clamp-3">{{ banner.description }}</p>
               <div class="d-flex flex-wrap align-items-center mv-gap-space-md">
-                <a :href="watchHref(banner.id)" class="d-inline-flex align-items-center mv-gap-space-sm mv-px-6 mv-py-3p5 mv-rounded-full mv-bg-primary-container mv-font-label-lg mv-text-label-lg mv-shadow-72bf0f mv-hover-bg-secondary-container mv-transition-all text-decoration-none">
-                  <span class="material-symbols-outlined mv-text-27bd7e" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
-                  Watch now
-                </a>
+              
               </div>
             </div>
           </article>
@@ -181,10 +178,6 @@
             </div>
             <h2 class="mv-font-headline-lg-mobile mv-sm-font-headline-lg mv-text-headline-lg-mobile mv-sm-text-headline-lg mv-text-on-surface mv-tracking-tight">FEATURED MOVIES</h2>
           </div>
-          <a class="d-inline-flex align-items-center mv-gap-1 mv-font-label-lg mv-text-label-lg mv-text-primary mv-hover-text-secondary mv-transition-colors"
-            href="/movies">
-            View All <span class="material-symbols-outlined mv-text-c79a76">arrow_forward</span>
-          </a>
         </div>
         <p v-if="!featured.length" class="mv-text-on-surface-variant">Nothing to show yet.</p>
         <div v-else class="row-slider-wrap">
@@ -207,7 +200,7 @@
               </div>
               <div class="mt-3 mv-pt-space-xs d-flex align-items-center justify-content-between mv-gap-1">
                 <span class="mv-font-label-sm mv-text-label-sm mv-text-outline">{{ yearOf(movie) }}</span>
-                <span class="mv-px-3 mv-py-1p5 mv-rounded-full mv-bg-primary-container mv-font-label-md mv-text-label-md mv-font-bold">Watch</span>
+                
               </div>
             </div>
           </a>
@@ -232,24 +225,6 @@
             </div>
             <h2 class="mv-font-headline-lg-mobile mv-sm-font-headline-lg mv-text-headline-lg-mobile mv-sm-text-headline-lg mv-text-on-surface mv-tracking-tight">POPULAR BLOCKBUSTERS</h2>
           </div>
-          <div class="d-none d-lg-flex align-items-center mv-gap-space-xs overflow-x-auto mv-pb-1">
-            <button
-              class="mv-px-space-md mv-py-1p5 mv-rounded-full mv-bg-primary-container mv-font-label-md mv-text-label-md mv-font-semibold flex-shrink-0">
-              All
-            </button>
-            <button
-              class="mv-px-space-md mv-py-1p5 mv-rounded-full mv-bg-surface-container mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container-high mv-font-label-md mv-text-label-md flex-shrink-0 mv-transition-colors">
-              Hollywood
-            </button>
-            <button
-              class="mv-px-space-md mv-py-1p5 mv-rounded-full mv-bg-surface-container mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container-high mv-font-label-md mv-text-label-md flex-shrink-0 mv-transition-colors">
-              Bollywood
-            </button>
-            <button
-              class="mv-px-space-md mv-py-1p5 mv-rounded-full mv-bg-surface-container mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container-high mv-font-label-md mv-text-label-md flex-shrink-0 mv-transition-colors">
-              Top Grossing
-            </button>
-          </div>
         </div>
         <p v-if="!latest.length" class="mv-text-on-surface-variant">Nothing to show yet.</p>
         <div v-else class="row-slider-wrap">
@@ -270,10 +245,7 @@
                 <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold text-truncate mv-group-hover-text-primary mv-transition-colors">{{ movie.name }}</h3>
                 <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">{{ genreLine(movie) || movie.language }}</p>
               </div>
-              <div class="mt-3 mv-pt-space-xs d-flex align-items-center justify-content-between mv-gap-1">
-                <span class="mv-font-label-sm mv-text-label-sm mv-text-outline">{{ yearOf(movie) }}</span>
-                <span class="mv-px-3 mv-py-1p5 mv-rounded-full mv-bg-primary-container mv-font-label-md mv-text-label-md mv-font-bold">Watch</span>
-              </div>
+            
             </div>
           </a>
           </div>
@@ -313,9 +285,6 @@
                 <div>
                   <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">{{ show.name }}</h3>
                   <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">{{ genreLine(show) || show.language }}</p>
-                </div>
-                <div class="mt-3 mv-pt-space-xs">
-                  <span class="d-block mv-w-full mv-py-2 mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-font-label-md mv-text-label-md mv-font-bold text-center">Explore Series</span>
                 </div>
               </div>
             </a>

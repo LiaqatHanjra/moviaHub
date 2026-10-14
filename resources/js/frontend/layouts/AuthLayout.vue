@@ -1,7 +1,7 @@
 <template>
-  <SiteMenu variant="auth" />
+  <SiteMenu  />
   <slot />
-  <SiteFooter variant="auth" />
+  <SiteFooter  />
 </template>
 
 <script setup>
