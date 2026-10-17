@@ -1,9 +1,9 @@
 <template>
-
+<AppLayout>
   <main class="mv-w-full mv-pt-10 mv-bg-surface-container-lowest min-vh-100">
     <div class="d-flex flex-column mv-w-full">
       <!-- Immersive Cinematic Hero Showcase (Bleeds under shell header) -->
-      <section class="mv-relative mv-w-full mv-nmt-16 overflow-hidden mv-bg-surface-container-lowest">
+      <section class="landing-hero mv-relative mv-w-full mv-nmt-16 overflow-hidden mv-bg-surface-container-lowest">
         <!-- Atmospheric Ambient Glows -->
         <div
           class="mv-absolute mv-ntop-24 mv-nleft-20 mv-w-3bc5a2 mv-h-2f12cf mv-rounded-full mv-bg-primary_10 mv-blur-a6575e pe-none">
@@ -11,99 +11,114 @@
         <div
           class="mv-absolute mv-top-1_3 mv-nright-24 mv-w-ee879d mv-h-f7c4b3 mv-rounded-full mv-bg-secondary-container_15 mv-blur-16d7a4 pe-none">
         </div>
-        <!-- Hero Backdrop Container -->
-        <div class="mv-relative mv-w-full mv-min-h-2a5f5a mv-sm-min-h-e4206d d-flex align-items-end">
-          <!-- High-Impact Hero Artwork with Scrim Gradient -->
-          <div class="mv-absolute mv-inset-0 mv-bg-cover mv-bg-center mv-lg-bg-7a1658"
-            data-alt="Cinematic close-up portrait of Keanu Reeves as John Wick in rainy nocturnal Paris city atmosphere, intense focused expression, dark tailored suit, subtle neon cyan and cool amber rim lighting, heavy rain droplets, high-contrast dark cinematic aesthetic with obsidian blacks and atmospheric depth, 8k resolution movie still."
-            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDB_5OQQAM2RgTkmURqhfoWTY42u5UZqfUEbj6Fdn1siXL0eYvSqxTuDQEd6qxXECVjYFPxb7bO295fDikkweH4EC3jLlkcg--ygO43MaR6QYxBpKqeVhCK9fQiUl3O8jt9VrTU7l8_zffBnQw0O6tZ9iS5agsomQ37wkLPrCbZ5BKQRSvWXlwKuKCIwuvY-p3kXAv3VwwL0jvp9lEfn0Xc-ZWGobtYcPVSIm5gwXRYvvqhctbQvAP5rw')">
-          </div>
-          <!-- Scrim Overlays for Pristine Legibility -->
-          <div
-            class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-lowest mv-via-surface-container-lowest_70 mv-to-surface-container-lowest_30">
-          </div>
-          <div
-            class="mv-absolute mv-inset-0 mv-bg-gradient-to-r mv-from-surface-container-lowest mv-via-surface-container-lowest_80 mv-to-transparent">
-          </div>
-          <!-- Hero Content Block -->
-          <div class="mv-relative mv-z-10 mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin mv-pt-36 mv-pb-space-xl mv-max-w-5xl d-flex flex-column mv-gap-space-md">
-            <!-- Overline Tagline & Badges -->
-            <div class="d-flex flex-wrap align-items-center mv-gap-space-sm">
-              <span
-                class="mv-px-2p5 mv-py-1 mv-rounded-sm mv-bg-primary-container_20 mv-text-primary mv-font-label-sm mv-text-label-sm mv-tracking-widest text-uppercase mv-font-bold mv-backdrop-blur-md">
-                Featured TVOD Premiere
-              </span>
-              <span
-                class="mv-px-2p5 mv-py-1 mv-rounded-sm mv-bg-surface-container-high_90 mv-text-on-surface mv-font-label-sm mv-text-label-sm text-uppercase mv-font-semibold">
-                Ultra HD 4K
-              </span>
-              <span
-                class="mv-px-2 mv-py-1 mv-rounded-sm mv-bg-surface-container-high_60 mv-text-tertiary mv-font-label-sm mv-text-label-sm text-uppercase mv-font-semibold d-flex align-items-center mv-gap-1">
-                <span class="material-symbols-outlined mv-text-0ddd99"
-                  style="font-variation-settings: 'FILL' 1;">star</span> 8.9 IMDb
-              </span>
-            </div>
-            <!-- Stylized Cinematic Title -->
-            <div class="d-flex flex-column">
-              <h1
-                class="mv-font-headline-xl-mobile mv-text-headline-xl-mobile mv-sm-font-headline-xl-mobile mv-sm-font-headline-xl mv-sm-text-headline-xl-mobile mv-sm-text-headline-xl mv-lg-text-50dd1f mv-lg-leading-1e4af5 mv-font-extrabold mv-tracking-tight mv-text-on-surface text-uppercase mv-drop-shadow-2xl mv-max-w-3xl">
-                John Wick<span class="mv-text-primary">:</span> <span class="mv-text-on-surface-variant mv-font-bold">Chapter
-                  4</span>
-              </h1>
-              <div
-                class="d-flex flex-wrap align-items-center mv-gap-space-sm mv-text-on-surface-variant mv-font-label-lg mv-text-label-lg mt-1">
-                <span class="mv-text-on-surface mv-font-medium">Action</span>
-                <span>•</span>
-                <span class="mv-text-on-surface mv-font-medium">Thriller</span>
-                <span>•</span>
-                <span class="mv-text-on-surface mv-font-medium">Crime</span>
-                <span class="mv-text-outline">|</span>
-                <span>2023</span>
-                <span class="mv-text-outline">|</span>
-                <span>2h 49m</span>
-                <span class="mv-text-outline">|</span>
-                <span
-                  class="mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-high mv-font-label-sm mv-text-label-sm mv-text-on-surface-variant">HDR10+</span>
+        <div v-if="bannerMovies.length" class="landing-hero-slides">
+          <article
+            v-for="(movie, index) in bannerMovies"
+            v-show="activeBannerIndex === index"
+            :key="movie.id"
+            class="landing-hero-slide mv-relative mv-w-full mv-min-h-2a5f5a mv-sm-min-h-e4206d d-flex align-items-end"
+            :aria-hidden="activeBannerIndex !== index"
+          >
+            <div class="mv-absolute mv-inset-0 mv-bg-cover mv-bg-center"
+              :style="bannerBackground(movie)"
+              role="img"
+              :aria-label="movie.name"></div>
+            <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-lowest mv-via-surface-container-lowest_70 mv-to-surface-container-lowest_30"></div>
+            <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-r mv-from-surface-container-lowest mv-via-surface-container-lowest_80 mv-to-transparent"></div>
+            <div class="mv-relative mv-z-10 mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin mv-pt-36 mv-pb-space-xl mv-max-w-5xl d-flex flex-column mv-gap-space-md">
+              <div class="d-flex flex-wrap align-items-center mv-gap-space-sm">
+                <span class="mv-px-2p5 mv-py-1 mv-rounded-sm mv-bg-primary-container_20 mv-text-primary mv-font-label-sm mv-text-label-sm mv-tracking-widest text-uppercase mv-font-bold mv-backdrop-blur-md">
+                  Featured TVOD Premiere
+                </span>
+                <span class="mv-px-2p5 mv-py-1 mv-rounded-sm mv-bg-surface-container-high_90 mv-text-on-surface mv-font-label-sm mv-text-label-sm text-uppercase mv-font-semibold">
+                  Ultra HD 4K
+                </span>
+                <span v-if="movie.imdb_rating" class="mv-px-2 mv-py-1 mv-rounded-sm mv-bg-surface-container-high_60 mv-text-tertiary mv-font-label-sm mv-text-label-sm text-uppercase mv-font-semibold d-flex align-items-center mv-gap-1">
+                  <span class="material-symbols-outlined mv-text-0ddd99" style="font-variation-settings: 'FILL' 1;">star</span>
+                  {{ movie.imdb_rating }} IMDb
+                </span>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="mv-font-headline-xl-mobile mv-text-headline-xl-mobile mv-sm-font-headline-xl-mobile mv-sm-font-headline-xl mv-sm-text-headline-xl-mobile mv-sm-text-headline-xl mv-lg-text-50dd1f mv-lg-leading-1e4af5 mv-font-extrabold mv-tracking-tight mv-text-on-surface text-uppercase mv-drop-shadow-2xl mv-max-w-3xl">
+                  {{ movie.name }}
+                </h1>
+                <div class="d-flex flex-wrap align-items-center mv-gap-space-sm mv-text-on-surface-variant mv-font-label-lg mv-text-label-lg mt-1">
+                  <template v-for="(genre, genreIndex) in movie.genres || []" :key="genre.id || genre.name || genreIndex">
+                    <span v-if="genreIndex" aria-hidden="true">•</span>
+                    <span class="mv-text-on-surface mv-font-medium">{{ typeof genre === 'string' ? genre : genre.name }}</span>
+                  </template>
+                  <span v-if="movieYear(movie)" class="mv-text-outline">|</span>
+                  <span v-if="movieYear(movie)">{{ movieYear(movie) }}</span>
+                  <span v-if="movie.duration" class="mv-text-outline">|</span>
+                  <span v-if="movie.duration">{{ movie.duration }}</span>
+                  <span class="mv-text-outline">|</span>
+                  <span class="mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-high mv-font-label-sm mv-text-label-sm mv-text-on-surface-variant">HDR10+</span>
+                </div>
+              </div>
+              <p class="mv-font-body-lg mv-text-body-lg mv-text-on-surface-variant mv-max-w-2xl mv-line-clamp-2 mv-leading-relaxed">
+                {{ movie.description }}
+              </p>
+              <div class="d-flex flex-wrap align-items-center mv-gap-space-lg mv-pt-space-xs">
+                <div class="d-flex align-items-baseline mv-gap-1p5 mv-px-space-md mv-py-2 mv-rounded-lg mv-bg-surface-container-high_80 mv-backdrop-blur-md mv-shadow-lg">
+                  <span class="mv-font-label-sm mv-text-label-sm mv-text-outline text-uppercase mv-tracking-wider">Rental</span>
+                  <span class="mv-font-headline-md mv-text-headline-md mv-font-extrabold mv-text-on-surface mv-tracking-tight">Rs. 50</span>
+                </div>
+                <button
+                  class="mv-group mv-px-space-xl mv-py-3p5 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold d-flex align-items-center mv-gap-space-sm mv-shadow-391fe7 mv-hover-bg-primary mv-hover-shadow-75ac0d mv-hover-scale-5637fb mv-active-scale-443bba mv-transition-all"
+                  type="button"
+                  @click="goToMovie(movie)">
+                  <span class="material-symbols-outlined mv-text-27bd7e mv-group-hover-translate-x-0p5 mv-transition-transform" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                  <span>Buy Now</span>
+                </button>
+                <button
+                  v-if="movie.trailer_url"
+                  class="mv-px-space-lg mv-py-3p5 mv-rounded-full mv-bg-surface-container-high_60 mv-hover-bg-surface-container mv-text-on-surface mv-font-label-lg mv-text-label-lg mv-font-semibold d-flex align-items-center mv-gap-space-sm mv-transition-colors"
+                  type="button"
+                  @click="playTrailer(movie)">
+                  <span class="material-symbols-outlined mv-text-27bd7e">movie</span>
+                  <span>Trailer</span>
+                </button>
+                <button aria-label="Add to Watchlist"
+                  class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-surface-container-high_60 mv-hover-bg-surface-container mv-text-on-surface d-flex align-items-center justify-content-center mv-transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined mv-text-c28550">bookmark_add</span>
+                </button>
               </div>
             </div>
-            <!-- Synopsis snippet -->
-            <p class="mv-font-body-lg mv-text-body-lg mv-text-on-surface-variant mv-max-w-2xl mv-line-clamp-2 mv-leading-relaxed">
-              With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But
-              before he can earn his freedom, Wick must face a formidable new adversary.
-            </p>
-            <!-- Pricing & Action Row -->
-            <div class="d-flex flex-wrap align-items-center mv-gap-space-lg mv-pt-space-xs">
-              <!-- Price Tag Badge with Glow -->
-              <div
-                class="d-flex align-items-baseline mv-gap-1p5 mv-px-space-md mv-py-2 mv-rounded-lg mv-bg-surface-container-high_80 mv-backdrop-blur-md mv-shadow-lg">
-                <span class="mv-font-label-sm mv-text-label-sm mv-text-outline text-uppercase mv-tracking-wider">Rental</span>
-                <span class="mv-font-headline-md mv-text-headline-md mv-font-extrabold mv-text-on-surface mv-tracking-tight">Rs.
-                  50</span>
+          </article>
+          <div v-if="bannerMovies.length > 1" class="landing-hero-controls mv-absolute mv-inset-x-0 mv-bottom-6 mv-z-20 mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin">
+            <div class="mx-auto d-flex align-items-center justify-content-between mv-max-w-5xl mv-gap-space-md">
+              <div class="d-flex align-items-center mv-gap-space-sm">
+                <span class="mv-font-label-sm mv-text-label-sm mv-text-outline text-uppercase mv-tracking-widest">Featured Movies</span>
+                <div class="d-flex align-items-center mv-gap-2" role="group" aria-label="Choose featured movie">
+                  <button
+                    v-for="(movie, index) in bannerMovies"
+                    :key="`landing-banner-${movie.id}`"
+                    type="button"
+                    class="landing-hero-dot"
+                    :class="{ 'is-active': activeBannerIndex === index }"
+                    :aria-label="`Show featured movie ${index + 1}`"
+                    :aria-current="activeBannerIndex === index ? 'true' : null"
+                    @click="showBanner(index)"
+                  ></button>
+                </div>
               </div>
-              <!-- Primary CTA Button -->
-              <button
-                class="mv-group mv-px-space-xl mv-py-3p5 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold d-flex align-items-center mv-gap-space-sm mv-shadow-391fe7 mv-hover-bg-primary mv-hover-shadow-75ac0d mv-hover-scale-5637fb mv-active-scale-443bba mv-transition-all"
-                onclick="handlePurchase('John Wick: Chapter 4', 50)" type="button">
-                <span class="material-symbols-outlined mv-text-27bd7e mv-group-hover-translate-x-0p5 mv-transition-transform"
-                  style="font-variation-settings: 'FILL' 1;">play_arrow</span>
-                <span>Buy Now</span>
-              </button>
-              <!-- Watch Trailer Secondary -->
-              <button
-                class="mv-px-space-lg mv-py-3p5 mv-rounded-full mv-bg-surface-container-high_60 mv-hover-bg-surface-container mv-text-on-surface mv-font-label-lg mv-text-label-lg mv-font-semibold d-flex align-items-center mv-gap-space-sm mv-transition-colors"
-                type="button">
-                <span class="material-symbols-outlined mv-text-27bd7e">movie</span>
-                <span>Trailer</span>
-              </button>
-              <!-- Add to Watchlist -->
-              <button aria-label="Add to Watchlist"
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-surface-container-high_60 mv-hover-bg-surface-container mv-text-on-surface d-flex align-items-center justify-content-center mv-transition-colors"
-                type="button">
-                <span class="material-symbols-outlined mv-text-c28550">bookmark_add</span>
-              </button>
+              <div class="d-flex align-items-center mv-gap-2">
+                <button type="button" aria-label="Previous featured movie" @click="showPreviousBanner"
+                  class="d-flex mv-w-9 mv-h-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button type="button" aria-label="Next featured movie" @click="showNextBanner"
+                  class="d-flex mv-w-9 mv-h-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        <p v-else-if="!isLoadingBanners" class="mv-relative mv-z-10 mv-px-margin-mobile mv-py-space-xl mv-text-on-surface-variant">
+          No featured movies available.
+        </p>
       </section>
       <!-- Content Workspace -->
       <div class="mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin d-flex flex-column mv-gap-space-lg mv-sm-gap-space-xl mv-py-space-xl">
@@ -595,21 +610,117 @@
       
     </div>
   </main>
-  
+</AppLayout>
 </template>
 
 <script>
-import { onMounted } from 'vue';
-import { bootPage } from '../runPageScript';
 
-const externals = [
-    
-];
+import axios from 'axios';
+import AppLayout from '../../layouts/AppLayout.vue';
+
+function unwrapList(payload) {
+  if (Array.isArray(payload)) {
+    return payload.length === 1 && Array.isArray(payload[0]) ? unwrapList(payload[0]) : payload;
+  }
+
+  if (payload && Array.isArray(payload.data)) {
+    return unwrapList(payload.data);
+  }
+
+  return [];
+}
 
 export default {
-    name: 'LandingPage',
-    setup() {
-        onMounted(() => bootPage(externals, 'dmFyIGN1cnJlbnRCYWxhbmNlID0gMzAwOwoKICAgICAgICBmdW5jdGlvbiBoYW5kbGVQdXJjaGFzZShtb3ZpZVRpdGxlLCBwcmljZSkgewogICAgICAgICAgd2luZG93LmxvY2F0aW9uLmhyZWYgPSAnL21vdmllLzEnOwogICAgICAgIH0KCiAgICAgICAgZnVuY3Rpb24gY2xvc2VNb2RhbCgpIHsKICAgICAgICAgIHZhciBtb2RhbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwdXJjaGFzZU1vZGFsJyk7CiAgICAgICAgICBtb2RhbC5jbGFzc0xpc3QuYWRkKCdtdi1vcGFjaXR5LTAnKTsKICAgICAgICAgIG1vZGFsLnF1ZXJ5U2VsZWN0b3IoJ2RpdicpLmNsYXNzTGlzdC5hZGQoJ212LXNjYWxlLTk1Jyk7CiAgICAgICAgICBzZXRUaW1lb3V0KCgpID0+IHsKICAgICAgICAgICAgbW9kYWwuY2xhc3NMaXN0LmFkZCgnZC1ub25lJyk7CiAgICAgICAgICB9LCAzMDApOwogICAgICAgIH0KCiAgICAgICAgZnVuY3Rpb24gdG9wdXBXYWxsZXQoYW1vdW50KSB7CiAgICAgICAgICBjdXJyZW50QmFsYW5jZSArPSBhbW91bnQ7CiAgICAgICAgICB2YXIgd2FsbGV0VGFncyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJ1tkYXRhLXBhdGg9IndhbGxldCJdIHNwYW4ubXYtZm9udC1sYWJlbC1tZCcpOwogICAgICAgICAgd2FsbGV0VGFncy5mb3JFYWNoKGVsID0+IHsKICAgICAgICAgICAgZWwuaW5uZXJUZXh0ID0gJ1JzLiAnICsgY3VycmVudEJhbGFuY2U7CiAgICAgICAgICB9KTsKICAgICAgICAgIGFsZXJ0KCdXYWxsZXQgc3VjY2Vzc2Z1bGx5IHJlbG9hZGVkIHdpdGggUnMuICcgKyBhbW91bnQgKyAnLiBOZXcgYmFsYW5jZTogUnMuICcgKyBjdXJyZW50QmFsYW5jZSk7CiAgICAgICAgfQoKICAgICAgICBmdW5jdGlvbiBzdGFydFdhdGNoaW5nKCkgewogICAgICAgICAgY2xvc2VNb2RhbCgpOwogICAgICAgICAgYWxlcnQoJ1JlZGlyZWN0aW5nIHRvIDRLIFVsdHJhIEhEIFBsYXllci4uLicpOwogICAgICAgIH0KCiAgICAgICAgZnVuY3Rpb24gZG93bmxvYWRNb3ZpZSgpIHsKICAgICAgICAgIGNsb3NlTW9kYWwoKTsKICAgICAgICAgIGFsZXJ0KCdHZW5lcmF0aW5nIGhpZ2gtc3BlZWQgZW5jcnlwdGVkIDEwODBwIGRvd25sb2FkIHBhY2thZ2UuLi4nKTsKICAgICAgICB9'));
+  name: 'HomePage',
+  components: {
+    AppLayout
+  },
+  data() {
+    return {
+      bannerMovies: [],
+      activeBannerIndex: 0,
+      isLoadingBanners: true,
+    };
+  },
+  mounted() {
+    this.fetchMovieBanners();
+  },
+  methods: {
+    fetchMovieBanners() {
+      axios.get('/api/movie-banner')
+        .then((response) => {
+          this.bannerMovies = unwrapList(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching movie banners:', error);
+        })
+        .finally(() => {
+          this.isLoadingBanners = false;
+        });
     },
+    showBanner(index) {
+      this.activeBannerIndex = index;
+    },
+    showPreviousBanner() {
+      this.activeBannerIndex = this.activeBannerIndex > 0
+        ? this.activeBannerIndex - 1
+        : this.bannerMovies.length - 1;
+    },
+    showNextBanner() {
+      this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
+    },
+    bannerBackground(movie) {
+      const image = movie.thumbnail_image || movie.poster_image;
+      return image ? { backgroundImage: `url("${image}")` } : {};
+    },
+    movieYear(movie) {
+      return movie.release_date ? new Date(movie.release_date).getFullYear() : null;
+    },
+    goToMovie(movie) {
+      this.$router.push(`/movie/${movie.id}`);
+    },
+  }
 };
+
 </script>
+
+<style scoped>
+.landing-hero {
+  min-height: 40rem;
+}
+
+.landing-hero-slides,
+.landing-hero-slide {
+  min-height: 40rem;
+}
+
+.landing-hero-slide > .mv-bg-cover {
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.03);
+}
+
+.landing-hero-controls {
+  pointer-events: none;
+}
+
+.landing-hero-controls button,
+.landing-hero-controls [role="group"] {
+  pointer-events: auto;
+}
+
+.landing-hero-dot {
+  width: 0.75rem;
+  height: 0.375rem;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: #31353c;
+  transition: width 200ms ease, background-color 200ms ease;
+}
+
+.landing-hero-dot.is-active {
+  width: 2rem;
+  background: #93ccff;
+}
+</style>

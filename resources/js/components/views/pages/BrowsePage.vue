@@ -1,6 +1,6 @@
 <template>
-
-
+ <GuestLayout>
+  <Header />
   <main class="mv-w-full mv-pt-16 mv-bg-surface mv-min-h-c05bbc">
     <div class="d-flex flex-column mv-w-full">
       <!-- 1. FEATURED HERO CAROUSEL BANNER -->
@@ -93,8 +93,8 @@
           <!-- 8-Category Pill/Card Bento -->
           <div class="d-grid mv-grid-cols-2 mv-sm-grid-cols-4 mv-lg-grid-cols-8 mv-gap-space-sm mv-md-gap-space-md">
             <!-- Bollywood -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-239a9c mv-hover-ntranslate-y-1"
-              href="/login">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-239a9c mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-pink-600_30 mv-to-rose-400_20 mv-text-rose-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">hotel_class</span>
@@ -102,10 +102,10 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Bollywood</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">340+ titles</span>
-            </a>
+            </router-link>
             <!-- Hollywood -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-f6a547 mv-hover-ntranslate-y-1"
-              href="/login">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-f6a547 mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-primary-container_30 mv-to-secondary_20 mv-text-primary d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">movie</span>
@@ -113,10 +113,10 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Hollywood</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">820+ titles</span>
-            </a>
+            </router-link>
             <!-- South Indian -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-5bc903 mv-hover-ntranslate-y-1"
-              href="/login">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-5bc903 mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-amber-600_30 mv-to-yellow-400_20 mv-text-amber-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">theaters</span>
@@ -124,10 +124,10 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">South</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">190+ titles</span>
-            </a>
+            </router-link>
             <!-- Punjabi -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-9bae99 mv-hover-ntranslate-y-1"
-              href="/login">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-9bae99 mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-orange-600_30 mv-to-amber-500_20 mv-text-orange-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">graphic_eq</span>
@@ -135,10 +135,10 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Punjabi</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">75+ titles</span>
-            </a>
+            </router-link>
             <!-- Action -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-f6a547 mv-hover-ntranslate-y-1"
-              href="#">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-f6a547 mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-primary_30 mv-to-primary-container_20 mv-text-primary d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">local_fire_department</span>
@@ -146,10 +146,10 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Action</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">510+ titles</span>
-            </a>
+            </router-link>
             <!-- Comedy -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-4c5e9c mv-hover-ntranslate-y-1"
-              href="/login">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-4c5e9c mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-tertiary_30 mv-to-tertiary-container_20 mv-text-tertiary d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">sentiment_very_satisfied</span>
@@ -157,10 +157,10 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Comedy</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">260+ titles</span>
-            </a>
+            </router-link>
             <!-- Thriller -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-0bc642 mv-hover-ntranslate-y-1"
-              href="/login">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-0bc642 mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-purple-600_30 mv-to-indigo-400_20 mv-text-purple-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">visibility</span>
@@ -168,10 +168,10 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Thriller</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">310+ titles</span>
-            </a>
+            </router-link>
             <!-- Horror -->
-            <a class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-e609d3 mv-hover-ntranslate-y-1"
-              href="/login">
+            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-e609d3 mv-hover-ntranslate-y-1"
+              to="/login">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-red-600_30 mv-to-rose-500_20 mv-text-error d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <span class="material-symbols-outlined mv-text-59700f">skull</span>
@@ -179,7 +179,7 @@
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Horror</span>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">140+ titles</span>
-            </a>
+            </router-link>
           </div>
         </div>
       </section>
@@ -203,7 +203,7 @@
           </button>
           <div class="row-slider" data-row="featured">
           <div v-for="movie in featured" :key="movie.id" class="row-slide">
-          <a href="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
+          <router-link to="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
             <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
               <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="movie.name" :src="imageOf(movie)" />
               <span v-if="ratingOf(movie)" class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm">
@@ -220,7 +220,7 @@
                 
               </div>
             </div>
-          </a>
+          </router-link>
           </div>
           </div>
           <button type="button" aria-label="Next featured movies" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
@@ -250,7 +250,7 @@
           </button>
           <div class="row-slider" data-row="latest">
           <div v-for="movie in latest" :key="movie.id" class="row-slide">
-          <a href="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
+          <router-link to="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
             <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
               <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="movie.name" :src="imageOf(movie)" />
               <span v-if="ratingOf(movie)" class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm">
@@ -264,7 +264,7 @@
               </div>
             
             </div>
-          </a>
+          </router-link>
           </div>
           </div>
           <button type="button" aria-label="Next blockbusters" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
@@ -294,7 +294,7 @@
             </button>
             <div class="row-slider" data-row="shows">
             <div v-for="show in shows" :key="show.id" class="row-slide">
-            <a href="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
+            <router-link to="/login" class="mv-group d-flex flex-column mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 text-decoration-none">
               <div class="mv-relative mv-aspect-fe4342 mv-sm-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
                 <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="show.name" :src="imageOf(show)" />
               </div>
@@ -304,7 +304,7 @@
                   <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">{{ genreLine(show) || show.language }}</p>
                 </div>
               </div>
-            </a>
+            </router-link>
             </div>
             </div>
             <button type="button" aria-label="Next series" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
@@ -394,121 +394,155 @@
                   Rs. 50 bonus wallet credit.</p>
               </div>
             </div>
-            <a class="d-inline-flex align-items-center justify-content-center mv-px-6 mv-py-2p5 mv-rounded-full mv-bg-primary-container mv-font-label-md mv-text-label-md mv-font-bold mv-hover-bg-secondary-container mv-transition-all mv-shadow-8f3b2a flex-shrink-0"
-              href="/login">
+            <router-link class="d-inline-flex align-items-center justify-content-center mv-px-6 mv-py-2p5 mv-rounded-full mv-bg-primary-container mv-font-label-md mv-text-label-md mv-font-bold mv-hover-bg-secondary-container mv-transition-all mv-shadow-8f3b2a flex-shrink-0"
+              to="/login">
               Claim Free Movie
-            </a>
+            </router-link>
           </div>
         </div>
       </section>
     </div>
   </main>
-  
+  <Footer />
+ </GuestLayout>  
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import GuestLayout from '../../layouts/GuestLayout.vue';
+import Header from '../../layouts/PublicHeader.vue';
+import Footer from '../../layouts/PublicFooter.vue';
 
 function unwrapList(payload) {
     if (Array.isArray(payload)) {
         if (payload.length === 1 && Array.isArray(payload[0])) {
-            return payload[0];
+            return unwrapList(payload[0]);
         }
+
         return payload;
     }
+
     if (payload && Array.isArray(payload.data)) {
-        return payload.data;
+        return unwrapList(payload.data);
     }
+
     return [];
-}
-
-async function loadList(url) {
-    const response = await fetch(url, { headers: { Accept: 'application/json' } });
-    if (!response.ok) {
-        return [];
-    }
-    return unwrapList(await response.json());
-}
-
-function genreLine(item) {
-    return (item.genres || []).map((genre) => genre.name).filter(Boolean).join(' • ');
-}
-
-function yearOf(item) {
-    return item.release_date ? String(item.release_date).slice(0, 4) : '';
-}
-
-function ratingOf(item) {
-    const value = Number(item.imdb_rating);
-    return Number.isFinite(value) && value > 0 ? value.toFixed(1) : '';
-}
-
-function imageOf(item) {
-    return item.poster_image || '';
-}
-
-function backgroundStyle(item) {
-    const image = imageOf(item);
-    return image ? { backgroundImage: 'url("' + image + '")' } : {};
 }
 
 export default {
     name: 'BrowsePage',
-    setup() {
-        const banners = ref([]);
-        const featured = ref([]);
-        const latest = ref([]);
-        const shows = ref([]);
-        const activeBannerIndex = ref(0);
+    components: {
+        GuestLayout,
+        Header,
+        Footer,
+    },
 
-        function showBanner(index) {
-            activeBannerIndex.value = index;
-        }
-
-        function showPreviousBanner() {
-            activeBannerIndex.value = (activeBannerIndex.value - 1 + banners.value.length) % banners.value.length;
-        }
-
-        function showNextBanner() {
-            activeBannerIndex.value = (activeBannerIndex.value + 1) % banners.value.length;
-        }
-
-        function scrollRow(event, direction) {
-            const slider = event.currentTarget.closest('.row-slider-wrap')?.querySelector('.row-slider');
-            if (slider) {
-                slider.scrollBy({ left: direction * slider.clientWidth * 0.8, behavior: 'smooth' });
-            }
-        }
-
-        onMounted(async () => {
-            const [bannerRows, featuredRows, latestRows, showRows] = await Promise.all([
-                loadList('/api/banners'),
-                loadList('/api/top-10-movies'),
-                loadList('/api/latest-movies'),
-                loadList('/api/papuler-tvshow'),
-            ]);
-            banners.value = bannerRows;
-            featured.value = featuredRows;
-            latest.value = latestRows;
-            shows.value = showRows;
-        });
-
+    data() {
         return {
-            banners,
-            featured,
-            latest,
-            shows,
-            activeBannerIndex,
-            genreLine,
-            yearOf,
-            ratingOf,
-            imageOf,
-            backgroundStyle,
-            showBanner,
-            showPreviousBanner,
-            showNextBanner,
-            scrollRow,
+            banners: [],
+            featured: [],
+            latest: [],
+            shows: [],
+            genres: [],
+            activeBannerIndex: 0,
         };
+    },
+    mounted() {
+        this.fetchBanners();
+        this.fetchFeatured();
+        this.fetchLatest();
+        this.fetchShows();
+        this.fetchGenres();
+
+    },
+    methods: {
+        fetchGenres() {
+            axios.get('/api/genres')
+                .then(response => {
+                    this.genres = unwrapList(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching genres:', error);
+                });
+        },
+        fetchBanners() {
+            axios.get('/api/banners')
+                .then(response => {
+                    this.banners = unwrapList(response.data);
+                })
+                .catch(error => {   
+                    console.error('Error fetching banners:', error);
+                });
+        },
+        fetchFeatured() {
+            axios.get('/api/top-10-movies')
+                .then(response => {
+                    this.featured = unwrapList(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching featured movies:', error);
+                });
+        },
+        fetchLatest() { 
+            axios.get('/api/latest-movies')
+                .then(response => {
+                    this.latest = unwrapList(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching latest movies:', error);
+                });
+        },
+        fetchShows() {
+            axios.get('/api/papuler-tvshow')
+                .then(response => {
+                    this.shows = unwrapList(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching shows:', error);
+                });
+        },
+        showBanner(index) {
+            this.activeBannerIndex = index;
+        },
+        showPreviousBanner() {
+            if (this.activeBannerIndex > 0) {
+                this.activeBannerIndex--;
+            } else {
+                this.activeBannerIndex = this.banners.length - 1;
+            }
+        },
+        showNextBanner() {
+            if (this.activeBannerIndex < this.banners.length - 1) {
+                this.activeBannerIndex++;
+            } else {
+                this.activeBannerIndex = 0;
+            }
+        },
+        scrollRow(event, direction) {
+            const row = event.currentTarget.parentElement.querySelector('.row-slider');
+            const scrollAmount = row.clientWidth * 0.8 * direction;
+            row.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        },
+        imageOf(item) {
+            return item.poster_image || item.thumbnail_image || '/frontend/favicon.png';
+        },
+        backgroundStyle(item) {
+            const image = this.imageOf(item);
+            return image ? { backgroundImage: `url("${image}")` } : {};
+        },
+        ratingOf(item) {
+            return item.imdb_rating || item.rating || null;
+        },
+        genreLine(item) {
+            if (item.genres && item.genres.length > 0) {
+                return item.genres.map(genre => typeof genre === 'string' ? genre : genre.name).filter(Boolean).join(', ');
+            }
+            return null;
+        },
+        yearOf(item) {
+            const releaseDate = item.release_date || item.releaseDate;
+            return item.release_year || item.releaseYear || (releaseDate ? new Date(releaseDate).getFullYear() : null);
+        },
     },
 };
 </script>

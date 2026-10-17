@@ -93,7 +93,7 @@
             <div class="d-flex align-items-center mv-gap-2 mb-3 mv-group mv-cursor-pointer">
               <div
                 class="mv-w-10 mv-h-10 mv-rounded-xl overflow-hidden mv-shadow-lg mv-shadow-primary-container_30 d-flex align-items-center justify-content-center mv-bg-surface-container">
-                <a href="/browse">
+                <a href="/">
                   <div class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
             <span class="material-symbols-outlined mv-text-c28550">play_arrow</span></div>
               </div>

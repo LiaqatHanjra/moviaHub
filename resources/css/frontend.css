@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import './frontend-assets/mv-fonts.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import url('https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css');
+@import './frontend-assets/mv-theme.css';
+@import './frontend-assets/custom-styles.css';
+@import './frontend-assets/mv-utilities.css';
+@import './auth-utilities.css';

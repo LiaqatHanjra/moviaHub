@@ -16,7 +16,7 @@
 <div class="mv-relative mv-z-10 mv-w-full mv-max-w-835d18 mv-bg-surface-container-low_95 mv-backdrop-blur-xl mv-rounded-xl mv-shadow-2xl mv-p-6 mv-sm-p-8 mv-md-p-10 d-flex flex-column align-items-center">
 <!-- MovieHub Branding Badge -->
 <div class="d-flex align-items-center mv-gap-space-sm mb-3">
-  <a href="/browse" class="d-flex align-items-center mv-gap-2p5">
+  <a href="/" class="d-flex align-items-center mv-gap-2p5">
    <div class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
             <span class="material-symbols-outlined mv-text-c28550">play_arrow</span></div>
 <span class="mv-font-headline-md mv-text-headline-md mv-tracking-tight mv-text-on-surface d-flex align-items-center mv-font-bold">

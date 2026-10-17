@@ -1,7 +1,5 @@
 <template>
-    <!-- <Header/> -->
-
-    <Sidebar/>
+    <Header/>
 
      <slot>
 
@@ -12,13 +10,11 @@
   </template>
 
   <script>
-  import Header from '../layouts/Header.vue';
-  import Sidebar from '../layouts/Sidebar.vue';
-  import Footer from '../layouts/Footer.vue';
+  import Header from '../layouts/SiteMenu.vue';
+  import Footer from '../layouts/SiteFooter.vue';
   export default {
       components:{
           Header,
-          Sidebar,
           Footer
       }
   }

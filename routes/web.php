@@ -34,14 +34,14 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
 // Public storefront. The Vue app opens the browse page here.
-Route::view('/', 'frontend')->name('frontend.root');
+Route::view('/', 'react')->name('frontend.root');
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+// Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
 // Registration routes
-Route::get('/register', [RegisterController::class, 'index'])->name('register');
-Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
+// Route::get('/register', [RegisterController::class, 'index'])->name('register');
+// Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
 
 // Password reset routes
 Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('password.request');
@@ -136,3 +136,9 @@ Route::get('run-migrations', function () {
     Artisan::call('migrate');
     return redirect()->back()->with('success', 'Migration completed successfully.');
 });
+
+// Serve the Vue storefront on direct navigation and page refreshes.
+Route::view('/{path}', 'react')->where(
+    'path',
+    '(browse|login|register|forget-password|home|movies|categories|subscribe|my-movies|wallet|payment|payment/success|movie/[^/]+|watch/[^/]+|change-password|profile|users|reset-password/[^/]+|activation/[^/]+)'
+);

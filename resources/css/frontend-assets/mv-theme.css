@@ -1,0 +1,95 @@
+/* MovieHub design tokens + Bootstrap 5.3 theme (dark). Edit tokens here. */
+:root,[data-bs-theme=dark]{
+  /* colour tokens (space-separated RGB so alpha variants work: rgb(var(--mv-c-primary) / .2)) */
+  --mv-c-secondary-fixed: 196 231 255;
+  --mv-c-surface-container-low: 24 28 34;
+  --mv-c-on-primary: 0 51 81;
+  --mv-c-on-tertiary-fixed-variant: 0 82 54;
+  --mv-c-error-container: 147 0 10;
+  --mv-c-on-primary-container: 0 44 71;
+  --mv-c-outline: 137 146 155;
+  --mv-c-on-secondary: 0 53 74;
+  --mv-c-inverse-on-surface: 45 49 55;
+  --mv-c-on-tertiary-container: 0 49 31;
+  --mv-c-surface-container-high: 38 42 49;
+  --mv-c-tertiary-fixed: 111 251 190;
+  --mv-c-error: 255 180 171;
+  --mv-c-surface: 16 20 26;
+  --mv-c-primary-fixed: 204 229 255;
+  --mv-c-on-secondary-fixed: 0 30 44;
+  --mv-c-tertiary-fixed-dim: 78 222 163;
+  --mv-c-tertiary: 78 222 163;
+  --mv-c-outline-variant: 63 72 80;
+  --mv-c-inverse-surface: 223 226 235;
+  --mv-c-on-surface: 223 226 235;
+  --mv-c-on-error-container: 255 218 214;
+  --mv-c-on-primary-fixed: 0 29 49;
+  --mv-c-on-secondary-container: 0 55 77;
+  --mv-c-on-primary-fixed-variant: 0 75 115;
+  --mv-c-background: 16 20 26;
+  --mv-c-on-error: 105 0 5;
+  --mv-c-surface-dim: 16 20 26;
+  --mv-c-on-secondary-fixed-variant: 0 76 105;
+  --mv-c-surface-tint: 147 204 255;
+  --mv-c-surface-container-lowest: 10 14 20;
+  --mv-c-primary-fixed-dim: 147 204 255;
+  --mv-c-primary-container: 49 152 220;
+  --mv-c-secondary-container: 0 166 224;
+  --mv-c-inverse-primary: 0 99 152;
+  --mv-c-surface-variant: 49 53 60;
+  --mv-c-secondary-fixed-dim: 123 208 255;
+  --mv-c-tertiary-container: 0 165 114;
+  --mv-c-surface-container-highest: 49 53 60;
+  --mv-c-on-tertiary-fixed: 0 33 19;
+  --mv-c-surface-container: 28 32 38;
+  --mv-c-primary: 147 204 255;
+  --mv-c-on-background: 223 226 235;
+  --mv-c-secondary: 123 208 255;
+  --mv-c-on-tertiary: 0 56 36;
+  --mv-c-surface-bright: 53 57 64;
+  --mv-c-on-surface-variant: 191 199 210;
+  /* spacing tokens */
+  --mv-space-xl: 2.5rem;
+  --mv-margin-mobile: 1rem;
+  --mv-gutter: 1.25rem;
+  --mv-space-xs: 0.25rem;
+  --mv-space-sm: 0.5rem;
+  --mv-gutter-mobile: 0.75rem;
+  --mv-space-md: 1rem;
+  --mv-space-lg: 1.5rem;
+  --mv-margin: 2rem;
+  --mv-font: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* map tokens onto Bootstrap variables */
+  --bs-body-font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --bs-body-font-size: 1rem; --bs-body-line-height: 1.5;
+  --bs-body-bg: rgb(var(--mv-c-surface)); --bs-body-bg-rgb: 16 20 26;
+  --bs-body-color: rgb(var(--mv-c-on-surface)); --bs-body-color-rgb: 223 226 235;
+  --bs-emphasis-color: rgb(var(--mv-c-on-surface));
+  --bs-secondary-color: rgb(var(--mv-c-on-surface-variant));
+  --bs-primary: #93ccff; --bs-primary-rgb: 147 204 255;
+  --bs-secondary: #7bd0ff; --bs-secondary-rgb: 123 208 255;
+  --bs-success: #4edea3; --bs-success-rgb: 78 222 163;
+  --bs-danger: #ffb4ab; --bs-danger-rgb: 255 180 171;
+  --bs-border-color: #e5e7eb;  /* Tailwind preflight default; pages override per element */
+  --bs-border-radius: .25rem; --bs-border-radius-sm: .125rem; --bs-border-radius-lg: .5rem;
+  --bs-border-radius-xl: .75rem; --bs-border-radius-xxl: 1rem;
+}
+
+/* Bootstrap Reboot differs from Tailwind preflight in a few places the pages relied on. */
+*,::before,::after{border-width:0;border-style:solid;border-color:var(--bs-border-color)}
+html{-webkit-text-size-adjust:100%}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;margin:0;line-height:inherit}
+p,figure,blockquote,dl,dd,pre{margin:0}
+ol,ul,menu{list-style:none;margin:0;padding:0}
+a{color:inherit;text-decoration:inherit}
+label{margin:0;display:inline}
+img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}
+img,video{max-width:100%;height:auto}
+button,[type=button],[type=submit]{background-color:transparent;background-image:none;padding:0;cursor:pointer;border-radius:0}
+button:focus:not(:focus-visible){outline:none}
+input,select,textarea,button{font-family:inherit;font-size:100%;line-height:inherit;color:inherit;margin:0;padding:0}
+input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}
+table{border-collapse:collapse;border-color:inherit}
+tbody,td,tfoot,th,thead,tr{border-color:var(--bs-border-color)}
+[hidden]{display:none!important}

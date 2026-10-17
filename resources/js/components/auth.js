@@ -5,6 +5,21 @@ export function isAuthenticated() {
     return authToken !== null && authToken !== undefined;
   }
 
+  export function isLoggedIn() {
+    return isAuthenticated();
+  }
+
+  export function currentUserName() {
+    return localStorage.getItem('userName') || 'User';
+  }
+
+  export function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('admin');
+    localStorage.removeItem('userName');
+    window.location.assign('/login');
+  }
+
   export function redirectToLoginPage(router) {
     // Redirect to the login page
     router.push('/login'); // Assuming you're using Vue Router

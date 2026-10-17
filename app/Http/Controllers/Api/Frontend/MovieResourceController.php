@@ -368,4 +368,14 @@ class MovieResourceController extends Controller
             'message' => 'Cast list.',
         ], 200);
     }
+
+    public function getGenres()
+    {
+        $genres = Genre::where('status', 1)->get();
+        return response()->json([
+            'status' => true,
+            'data' => $genres,
+            'message' => 'Genres list.',
+        ], 200);
+    }
 }
