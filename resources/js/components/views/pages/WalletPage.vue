@@ -15,68 +15,8 @@
             <span class="mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider mv-text-tertiary">Instant TVOD Balance Available</span>
             </div>
             </div>
-            <!-- 12-Column Dashboard Shell -->
-            <div class="d-grid mv-grid-cols-12 mv-gap-gutter-mobile mv-sm-gap-gutter align-items-start">
-            <!-- Left Persistent Sidebar Navigation (Cols 1-3) -->
-            <aside class="mv-col-span-12 mv-lg-col-span-3 d-flex flex-column mv-gap-space-sm mv-bg-surface-container-low mv-p-space-md mv-rounded-xl mv-shadow-md">
-            <!-- User Badge Quick View -->
-            <div class="d-flex align-items-center mv-gap-space-sm mv-p-space-sm mv-rounded-lg mv-bg-surface-container mb-1">
-            <div class="mv-w-10 mv-h-10 mv-rounded-full mv-bg-primary-container d-flex align-items-center justify-content-center mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-shadow-sm">
-                        AK
-                    </div>
-            <div class="d-flex flex-column mv-min-w-0">
-            <span class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate">Ali Khan</span>
-            <span class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">ali.khan@stream.pk</span>
-            </div>
-            </div>
-            <nav class="d-flex flex-column mv-gap-1 mv-font-label-lg mv-text-label-lg">
-            <a class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-2p5 mv-rounded-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-all" href="/wallet">
-            <span class="material-symbols-outlined mv-text-27bd7e">grid_view</span>
-            <span>Dashboard</span>
-            </a>
-            <a class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-2p5 mv-rounded-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-all" href="/my-movies">
-            <span class="material-symbols-outlined mv-text-27bd7e">movie</span>
-            <span>My Movies</span>
-            <span class="ms-auto mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-variant mv-text-on-surface mv-font-label-sm mv-text-label-sm">3</span>
-            </a>
-            <!-- Active Wallet Route -->
-            <a class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-2p5 mv-rounded-lg mv-bg-primary-container mv-font-bold mv-shadow-md mv-transition-all" href="/wallet">
-            <span class="material-symbols-outlined mv-text-27bd7e" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
-            <span>Wallet</span>
-            <span class="ms-auto mv-w-2 mv-h-2 mv-rounded-full mv-bg-primary"></span>
-            </a>
-            <a class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-2p5 mv-rounded-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-all" href="/payment/success">
-            <span class="material-symbols-outlined mv-text-27bd7e">receipt_long</span>
-            <span>Purchase History</span>
-            </a>
-            <a class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-2p5 mv-rounded-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-all" href="/wallet">
-            <span class="material-symbols-outlined mv-text-27bd7e">account_circle</span>
-            <span>Profile</span>
-            </a>
-            <a class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-2p5 mv-rounded-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-all" href="/wallet">
-            <span class="material-symbols-outlined mv-text-27bd7e">tune</span>
-            <span>Settings</span>
-            </a>
-            <div class="mv-h-px mv-bg-surface-container-high my-1"></div>
-            <a class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-2p5 mv-rounded-lg mv-text-error mv-hover-bg-surface-container mv-transition-all" href="/login">
-            <span class="material-symbols-outlined mv-text-27bd7e">logout</span>
-            <span>Logout</span>
-            </a>
-            </nav>
-            <!-- Mini TVOD Perk Banner -->
-            <div class="mt-3 mv-p-space-md mv-rounded-xl mv-bg-surface-container d-flex flex-column mv-gap-space-xs mv-relative overflow-hidden">
-            <div class="mv-absolute mv-nright-4 mv-nbottom-4 mv-w-16 mv-h-16 mv-rounded-full mv-bg-primary_10 mv-blur-xl pe-none"></div>
-            <div class="d-flex align-items-center mv-gap-1p5 mv-text-primary">
-            <span class="material-symbols-outlined mv-text-58f475">bolt</span>
-            <span class="mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider mv-font-bold">Fast TVOD Unlock</span>
-            </div>
-            <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant mv-leading-relaxed">
-                        Pre-fund your balance to stream pay-per-view blockbusters with zero 2FA wait.
-                    </p>
-            </div>
-            </aside>
-            <!-- Main Workspace (Cols 4-12) -->
-            <section class="mv-col-span-12 mv-lg-col-span-9 d-flex flex-column mv-gap-space-lg">
+            <div class="d-flex flex-column mv-gap-space-lg">
+            <section class="d-flex flex-column mv-gap-space-lg">
             <!-- Top Section: Balance Card & Stat Mosaic -->
             <div class="d-grid mv-grid-cols-1 mv-md-grid-cols-12 mv-gap-gutter-mobile mv-sm-gap-gutter">
             <!-- Primary Balance Showcase Card (Spans 7 cols) -->
@@ -383,7 +323,6 @@
 
 <script>
 import { onMounted } from 'vue';
-import { bootPage } from '../runPageScript';
 import AppLayout from '../../layouts/AppLayout.vue';
 import Header from '../../layouts/SiteMenu.vue';
 import Footer from '../../layouts/SiteFooter.vue';
@@ -395,9 +334,6 @@ export default {
         AppLayout,
         Header,
         Footer
-    },
-    setup() {
-        onMounted(() => bootPage(externals, 'KGZ1bmN0aW9uIGluaXRXYWxsZXRJbnRlcmFjdGlvbnMoKSB7CiAgICAgIHZhciBwaWxscyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5hbW91bnQtcGlsbCcpOwogICAgICB2YXIgY3VzdG9tSW5wdXQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdG9tQW1vdW50Jyk7CiAgICAgIHZhciBwYXlCdG5BbW91bnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncGF5QnRuQW1vdW50Jyk7CiAgICAgIHZhciBjbGVhckJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjbGVhckFtb3VudCcpOwogICAgICB2YXIgcHJvY2VlZEJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwcm9jZWVkUGF5QnRuJyk7CgogICAgICBmdW5jdGlvbiB1cGRhdGVBY3RpdmVTdGF0ZShzZWxlY3RlZEFtb3VudCkgewogICAgICAgIHBpbGxzLmZvckVhY2gocGlsbCA9PiB7CiAgICAgICAgICB2YXIgcGlsbFZhbCA9IHBpbGwuZ2V0QXR0cmlidXRlKCdkYXRhLWFtb3VudCcpOwogICAgICAgICAgaWYgKHBpbGxWYWwgPT09IFN0cmluZyhzZWxlY3RlZEFtb3VudCkpIHsKICAgICAgICAgICAgcGlsbC5jbGFzc0xpc3QuYWRkKCdtdi1iZy1wcmltYXJ5LWNvbnRhaW5lcicsICdtdi1mb250LWJvbGQnLCAnbXYtc2hhZG93LW1kJyk7CiAgICAgICAgICAgIHBpbGwuY2xhc3NMaXN0LnJlbW92ZSgnbXYtYmctc3VyZmFjZS1jb250YWluZXInLCAnbXYtdGV4dC1vbi1zdXJmYWNlJyk7CiAgICAgICAgICB9IGVsc2UgewogICAgICAgICAgICBwaWxsLmNsYXNzTGlzdC5yZW1vdmUoJ212LWJnLXByaW1hcnktY29udGFpbmVyJywgJ212LWZvbnQtYm9sZCcsICdtdi1zaGFkb3ctbWQnKTsKICAgICAgICAgICAgcGlsbC5jbGFzc0xpc3QuYWRkKCdtdi1iZy1zdXJmYWNlLWNvbnRhaW5lcicsICdtdi10ZXh0LW9uLXN1cmZhY2UnKTsKICAgICAgICAgIH0KICAgICAgICB9KTsKICAgICAgICBpZiAocGF5QnRuQW1vdW50KSB7CiAgICAgICAgICBwYXlCdG5BbW91bnQudGV4dENvbnRlbnQgPSAnUnMuICcgKyAoc2VsZWN0ZWRBbW91bnQgfHwgMCk7CiAgICAgICAgfQogICAgICB9CgogICAgICBwaWxscy5mb3JFYWNoKHBpbGwgPT4gewogICAgICAgIHBpbGwuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoKSA9PiB7CiAgICAgICAgICB2YXIgdmFsID0gcGlsbC5nZXRBdHRyaWJ1dGUoJ2RhdGEtYW1vdW50Jyk7CiAgICAgICAgICBpZiAoY3VzdG9tSW5wdXQpIGN1c3RvbUlucHV0LnZhbHVlID0gdmFsOwogICAgICAgICAgdXBkYXRlQWN0aXZlU3RhdGUodmFsKTsKICAgICAgICB9KTsKICAgICAgfSk7CgogICAgICBpZiAoY3VzdG9tSW5wdXQpIHsKICAgICAgICBjdXN0b21JbnB1dC5hZGRFdmVudExpc3RlbmVyKCdpbnB1dCcsIChlKSA9PiB7CiAgICAgICAgICB2YXIgbnVtZXJpY1ZhbCA9IGUudGFyZ2V0LnZhbHVlOwogICAgICAgICAgdXBkYXRlQWN0aXZlU3RhdGUobnVtZXJpY1ZhbCk7CiAgICAgICAgfSk7CiAgICAgIH0KCiAgICAgIGlmIChjbGVhckJ0biAmJiBjdXN0b21JbnB1dCkgewogICAgICAgIGNsZWFyQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4gewogICAgICAgICAgY3VzdG9tSW5wdXQudmFsdWUgPSAnJzsKICAgICAgICAgIGN1c3RvbUlucHV0LmZvY3VzKCk7CiAgICAgICAgICB1cGRhdGVBY3RpdmVTdGF0ZSgnJyk7CiAgICAgICAgfSk7CiAgICAgIH0KCiAgICAgIGlmIChwcm9jZWVkQnRuKSB7CiAgICAgICAgcHJvY2VlZEJ0bi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHsKICAgICAgICAgIHZhciBhbXQgPSBjdXN0b21JbnB1dCA/IGN1c3RvbUlucHV0LnZhbHVlIDogJzUwMCc7CiAgICAgICAgICBpZiAoIWFtdCB8fCBOdW1iZXIoYW10KSA8PSAwKSB7CiAgICAgICAgICAgIGFsZXJ0KCdQbGVhc2Ugc2VsZWN0IG9yIGVudGVyIGEgdmFsaWQgcmVjaGFyZ2UgYW1vdW50LicpOwogICAgICAgICAgICByZXR1cm47CiAgICAgICAgICB9CiAgICAgICAgICB2YXIgcHJldlRleHQgPSBwcm9jZWVkQnRuLmlubmVySFRNTDsKICAgICAgICAgIHByb2NlZWRCdG4uaW5uZXJIVE1MID0gJzxzcGFuIGNsYXNzPSJtYXRlcmlhbC1zeW1ib2xzLW91dGxpbmVkIG12LXRleHQtMjdiZDdlIG12LWFuaW1hdGUtc3BpbiI+cmVmcmVzaDwvc3Bhbj4gUHJvY2Vzc2luZyBDaGVja291dC4uLic7CiAgICAgICAgICBwcm9jZWVkQnRuLmRpc2FibGVkID0gdHJ1ZTsKICAgICAgICAgIHNldFRpbWVvdXQoKCkgPT4gewogICAgICAgICAgICBhbGVydCgnUmVjaGFyZ2Ugb3JkZXIgb2YgUnMuICcgKyBhbXQgKyAnIGluaXRpYWxpemVkIHN1Y2Nlc3NmdWxseSEgUmVkaXJlY3RpbmcgdG8gc2VjdXJlIHBheW1lbnQgY2hhbm5lbC4nKTsKICAgICAgICAgICAgcHJvY2VlZEJ0bi5pbm5lckhUTUwgPSBwcmV2VGV4dDsKICAgICAgICAgICAgcHJvY2VlZEJ0bi5kaXNhYmxlZCA9IGZhbHNlOwogICAgICAgICAgfSwgMTIwMCk7CiAgICAgICAgfSk7CiAgICAgIH0KICAgIH0pKCk7'));
     },
 };
 </script>
