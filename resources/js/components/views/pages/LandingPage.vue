@@ -271,36 +271,57 @@
                 class="mv-px-2p5 mv-py-1 mv-rounded-full mv-bg-surface-container mv-text-tertiary mv-font-label-sm mv-text-label-sm mv-font-semibold d-flex align-items-center mv-gap-1">
                 <span class="mv-w-1p5 mv-h-1p5 mv-rounded-full mv-bg-tertiary mv-animate-pulse"></span> Live 24h Rank
               </span>
+              <div v-if="latestMoviePageCount > 1" class="d-flex align-items-center mv-gap-1">
+                <span class="mv-font-label-sm mv-text-label-sm mv-text-on-surface-variant">
+                  {{ latestMoviePage + 1 }} / {{ latestMoviePageCount }}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Previous latest movies"
+                  class="d-flex mv-w-8 mv-h-8 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-hover-bg-primary-container"
+                  @click="showPreviousLatestMovies"
+                >
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next latest movies"
+                  class="d-flex mv-w-8 mv-h-8 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-hover-bg-primary-container"
+                  @click="showNextLatestMovies"
+                >
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
             </div>
             <!-- Mini list of trending rentals -->
             <div class="d-grid mv-grid-cols-1 mv-md-grid-cols-2 mv-gap-space-md mv-z-10">
-              <div
-                class="d-flex align-items-center mv-gap-space-md mv-p-space-sm mv-rounded-xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-colors">
-                <span class="mv-font-headline-md mv-text-headline-md mv-font-extrabold mv-text-outline_40 mv-w-6 text-center">01</span>
-                <div class="mv-w-12 mv-h-16 mv-rounded-md mv-bg-surface-container-highest overflow-hidden flex-shrink-0">
-                  <img class="mv-w-full h-100 mv-object-cover" data-alt="Dark moody thumbnail for John Wick 4 movie card"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB118x45sRwou-ys3HGHwl-4XW8gsDcRCVC59ngTWb-rhXnQO1gdT51W99GLW8tGivznLFUeqpRYYMB-uVS5S0-p1n_eQOqbb5e1LWH4Sd-g3nWObeAsc4pxqQ3xt0KUKpuH7DNxJREpUM7IHdQS_3w9U5AlDUSFUvVqK6uRZ1zQ3-eqWVWOIpDTx1yBM7-z-MgBFAa9YVw90vnZCrWaHZ_3PUEc8ugrnP_THunPxypI7AMPN_MfhXpKA" />
-                </div>
-                <div class="d-flex flex-column mv-flex-1 mv-min-w-0">
-                  <span class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate">John Wick 4</span>
-                  <span class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">1,420 rentals today</span>
-                </div>
-                <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-primary">Rs. 50</span>
-              </div>
-              <div
-                class="d-flex align-items-center mv-gap-space-md mv-p-space-sm mv-rounded-xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-colors">
-                <span class="mv-font-headline-md mv-text-headline-md mv-font-extrabold mv-text-outline_40 mv-w-6 text-center">02</span>
-                <div class="mv-w-12 mv-h-16 mv-rounded-md mv-bg-surface-container-highest overflow-hidden flex-shrink-0">
-                  <img class="mv-w-full h-100 mv-object-cover"
-                    data-alt="Theatrical portrait of Oppenheimer in fedora with warm nuclear flame background"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3GTLEfV9rNSxR5bFBhMQ1y3TVMc7u4wi3WKbt2pTE3NkJUUVRHsL98D_dHXWD2WbxyNu90LuPoFHIIdMkKlRAwWT1cFu6QFhyNBoD-2aJI0kuMyXNIor7hoXLMJ7U5AbIoI3LScNR8C3SIeNvEFssJaU_-qPEQxXjB98eO9XPMrKTD0bmO0SMEh_K2qne2FC7NqKFzVUY-zQ6sGJmdPcRTokSqlskZ2DZIIKHXPgW76e1wVoxfPLPw" />
-                </div>
-                <div class="d-flex flex-column mv-flex-1 mv-min-w-0">
-                  <span class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate">Oppenheimer</span>
-                  <span class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">980 rentals today</span>
-                </div>
-                <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-primary">Rs. 50</span>
-              </div>
+              <p v-if="isLoadingLatestMovies" class="mv-text-on-surface-variant">Loading latest movies...</p>
+              <p v-else-if="latestMoviesError" class="mv-text-on-surface-variant" role="alert">{{ latestMoviesError }}</p>
+              <p v-else-if="!latestMovies.length" class="mv-text-on-surface-variant">No latest movies available.</p>
+              <template v-else>
+                <router-link
+                  v-for="(movie, index) in visibleLatestMovies"
+                  :key="movie.id"
+                  :to="`/movie/${movie.id}`"
+                  class="d-flex align-items-center mv-gap-space-md mv-p-space-sm mv-rounded-xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-colors text-decoration-none"
+                >
+                  <span class="mv-font-headline-md mv-text-headline-md mv-font-extrabold mv-text-outline_40 mv-w-6 text-center">
+                    {{ String(latestMoviePage * 2 + index + 1).padStart(2, '0') }}
+                  </span>
+                  <div class="mv-w-12 mv-h-16 mv-rounded-md mv-bg-surface-container-highest overflow-hidden flex-shrink-0">
+                    <img class="mv-w-full h-100 mv-object-cover" :alt="`${movie.name} poster`" :src="imageOf(movie)" />
+                  </div>
+                  <div class="d-flex flex-column mv-flex-1 mv-min-w-0">
+                    <span class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate">{{ movie.name }}</span>
+                    <span class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">
+                      {{ genreLine(movie) || movie.language || yearOf(movie) }}
+                    </span>
+                  </div>
+                  <span v-if="ratingOf(movie)" class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-primary">
+                    {{ ratingOf(movie) }}
+                  </span>
+                </router-link>
+              </template>
             </div>
             <!-- Subtext Info -->
             <div
@@ -455,9 +476,13 @@ export default {
       bannerMovies: [],
       actionMovies: [],
       horrorMovies: [],
+      latestMovies: [],
+      latestMoviePage: 0,
       activeBannerIndex: 0,
       isLoadingBanners: true,
       isLoadingCategoryMovies: true,
+      isLoadingLatestMovies: true,
+      latestMoviesError: '',
       categoryMovieErrors: 0,
     };
   },
@@ -468,12 +493,33 @@ export default {
         ...this.horrorMovies.map((movie) => ({ ...movie, category: 'Horror' })),
       ];
     },
+    latestMoviePageCount() {
+      return Math.ceil(this.latestMovies.length / 2);
+    },
+    visibleLatestMovies() {
+      return this.latestMovies.slice(this.latestMoviePage * 2, this.latestMoviePage * 2 + 2);
+    },
   },
   mounted() {
     this.fetchMovieBanners();
     this.fetchCategoryMovies();
+    this.fetchLatestMovies();
   },
   methods: {
+    fetchLatestMovies() {
+      axios.get('/api/latest-movies')
+        .then((response) => {
+          this.latestMovies = unwrapList(response.data);
+          this.latestMoviePage = 0;
+        })
+        .catch((error) => {
+          console.error('Error fetching latest movies:', error);
+          this.latestMoviesError = 'Unable to load latest movies.';
+        })
+        .finally(() => {
+          this.isLoadingLatestMovies = false;
+        });
+    },
     fetchCategoryMovies() {
       return Promise.all([
         axios.get('/api/action-movies')
@@ -520,6 +566,16 @@ export default {
     showNextBanner() {
       if (this.bannerMovies.length > 0) {
         this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
+      }
+    },
+    showPreviousLatestMovies() {
+      if (this.latestMoviePageCount > 1) {
+        this.latestMoviePage = (this.latestMoviePage - 1 + this.latestMoviePageCount) % this.latestMoviePageCount;
+      }
+    },
+    showNextLatestMovies() {
+      if (this.latestMoviePageCount > 1) {
+        this.latestMoviePage = (this.latestMoviePage + 1) % this.latestMoviePageCount;
       }
     },
     imageOf(movie) {

@@ -1,30 +1,8 @@
 <template>
   <AppLayout>
+    <Header />
       <main class="mv-w-full mv-pt-28 mv-xl-pt-16 mv-bg-surface-container-lowest min-vh-100">
         <div class="d-flex flex-column mv-w-full">
-          <!-- Value Strip Banner: Immediate Trust & Operational Clarity -->
-          <div
-            class="mv-w-full mv-bg-surface-container-low_80 mv-backdrop-blur-md mv-px-margin-mobile mv-sm-px-margin mv-py-3">
-            <div
-              class="mv-max-w-7xl mx-auto d-flex flex-wrap align-items-center justify-content-between mv-gap-y-2 mv-text-on-surface-variant mv-font-label-md mv-text-label-md">
-              <div class="d-flex align-items-center mv-gap-space-sm">
-                <span class="material-symbols-outlined mv-text-primary mv-text-c79a76">timer</span>
-                <span>48-Hour Rental Playback Window</span>
-              </div>
-              <div class="d-flex align-items-center mv-gap-space-sm">
-                <span class="material-symbols-outlined mv-text-secondary mv-text-c79a76">devices</span>
-                <span>Simultaneous Streaming on Any Device</span>
-              </div>
-              <div class="d-flex align-items-center mv-gap-space-sm">
-                <span class="material-symbols-outlined mv-text-tertiary mv-text-c79a76">cloud_download</span>
-                <span>Offline 4K Download Included</span>
-              </div>
-              <div class="d-flex align-items-center mv-gap-space-sm">
-                <span class="material-symbols-outlined mv-text-tertiary-fixed mv-text-c79a76">bolt</span>
-                <span class="mv-text-on-surface mv-font-semibold">1-Click Instant Wallet Debit</span>
-              </div>
-            </div>
-          </div>
           <!-- Main Catalog Space -->
           <div
             class="mv-w-full mv-px-margin-mobile mv-sm-px-margin mv-py-space-lg mv-max-w-7xl mx-auto d-flex flex-column mv-gap-space-xl">
@@ -259,13 +237,15 @@
 
         </div>
       </main>
-
+    <Footer />
   </AppLayout>
 </template>
 
 <script>
 import axios from 'axios';
 import AppLayout from '../../layouts/AppLayout.vue';
+import Header from '../../layouts/SiteMenu.vue';
+import Footer from '../../layouts/SiteFooter.vue';
 
 function unwrapList(payload) {
   if (Array.isArray(payload)) {
@@ -283,6 +263,8 @@ export default {
   name: 'MoviesPage',
   components: {
     AppLayout,
+    Header,
+    Footer
   },
   data() {
     return {
