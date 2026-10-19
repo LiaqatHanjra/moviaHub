@@ -14,6 +14,7 @@ import LandingPage from '../components/views/pages/LandingPage.vue';
 import BrowsePage from '../components/views/pages/BrowsePage.vue';
 import MoviesPage from '../components/views/pages/MoviesPage.vue';
 import MovieDetailPage from '../components/views/pages/MovieDetailPage.vue';
+import MoviePlayerPage from '../components/views/pages/MoviePlayerPage.vue';
 import WatchMoviePage from '../components/views/pages/WatchMoviePage.vue';
 import CategoriesPage from '../components/views/pages/CategoriesPage.vue';
 import MyMoviesPage from '../components/views/pages/MyMoviesPage.vue';
@@ -106,6 +107,15 @@ const routes = [
         component: MovieDetailPage,
         meta: {
             title: 'Movie',
+            requiresAuth: true,
+        },
+    },
+    {
+        path:'/player/:id',
+        name: 'movie-player',
+        component: MoviePlayerPage,
+        meta: {
+            title: 'Movie Player',
             requiresAuth: true,
         },
     },

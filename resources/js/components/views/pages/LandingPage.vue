@@ -190,208 +190,65 @@
           </div>
         </section>
 
-        <!-- SECTION 1: Featured Movies Rail -->
+        <!-- Action and Horror Movies -->
         <section class="d-flex flex-column mv-gap-space-lg">
           <!-- Section Header -->
           <div class="d-flex flex-column align-items-start mv-gap-space-sm flex-sm-row align-items-sm-end justify-content-sm-between">
             <div class="d-flex flex-column mv-gap-space-xs">
               <div class="d-flex align-items-center mv-gap-2">
                 <span class="mv-w-2p5 mv-h-2p5 mv-rounded-full mv-bg-primary mv-shadow-d4d852"></span>
-                <span class="mv-font-label-sm mv-text-label-sm mv-text-primary text-uppercase mv-font-bold mv-tracking-widest">Pay-Per-View
-                  Cinema</span>
+                <span class="mv-font-label-sm mv-text-label-sm mv-text-primary text-uppercase mv-font-bold mv-tracking-widest">Action &amp; Horror</span>
               </div>
-              <h2 class="mv-font-headline-lg-mobile mv-text-headline-lg-mobile mv-sm-font-headline-lg-mobile mv-sm-font-headline-lg mv-sm-text-headline-lg-mobile mv-sm-text-headline-lg mv-font-bold mv-text-on-surface mv-tracking-tight">Featured Movies
+              <h2 class="mv-font-headline-lg-mobile mv-text-headline-lg-mobile mv-sm-font-headline-lg-mobile mv-sm-font-headline-lg mv-sm-text-headline-lg-mobile mv-sm-text-headline-lg mv-font-bold mv-text-on-surface mv-tracking-tight">Action &amp; Horror Movies
               </h2>
             </div>
-            <a class="mv-group d-flex align-items-center mv-gap-1 mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-primary mv-hover-text-on-surface mv-transition-colors"
-              href="/movies">
+            <router-link
+              class="mv-group d-flex align-items-center mv-gap-1 mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-primary mv-hover-text-on-surface mv-transition-colors"
+              to="/movies">
               <span>View All</span>
               <span
                 class="material-symbols-outlined mv-text-c79a76 mv-group-hover-translate-x-1 mv-transition-transform">arrow_forward</span>
-            </a>
+            </router-link>
           </div>
-          <!-- Responsive Grid of 6 Poster Cards matching Screen 1 -->
-          <div class="d-grid mv-grid-cols-2 mv-sm-grid-cols-3 mv-md-grid-cols-4 mv-lg-grid-cols-6 mv-gap-gutter-mobile mv-sm-gap-gutter">
-            <!-- CARD 1: John Wick 4 -->
-            <div
-              class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee">
+          <p v-if="isLoadingCategoryMovies" class="mv-text-on-surface-variant">Loading action and horror movies...</p>
+          <p v-else-if="!featuredMovies.length" class="mv-text-on-surface-variant">
+            {{ categoryMovieErrors ? 'Could not load action or horror movies.' : 'No action or horror movies available.' }}
+          </p>
+          <div v-else class="d-grid mv-grid-cols-2 mv-sm-grid-cols-3 mv-md-grid-cols-4 mv-lg-grid-cols-6 mv-gap-gutter-mobile mv-sm-gap-gutter">
+            <router-link
+              v-for="movie in featuredMovies"
+              :key="`${movie.category}-${movie.id}`"
+              :to="`/movie/${movie.id}`"
+              class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee text-decoration-none"
+            >
               <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
-                <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
-                  data-alt="Movie poster for John Wick 4 featuring close-up stylized headshot of Keanu Reeves in rain with saturated neon cyan and ruby red lighting, slick assassin look."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPxpreFgltT-meiL5RKKzr3UAUaDZjJJJUZeFYUrgq4azbFrFXrvong96-k2aMnkoO82H3XhZL04h8Qe4pfMgeGQwDhaBVUzuXARfd-BI5pApUSv7VdWfyvkwbfnfE2IqpOja-D8xPeFS6UJ-AwasWnMtM1_QxLp1sgSRvH19Wys_KzANI3SpR3VrEVNyvmXK9DHDprNf4yT9MaqI1x9_5VacdajXbKVqMMxqZ_12g-meltJ9JbA3VRQ" />
-                <span
-                  class="mv-absolute mv-top-2 mv-right-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-primary mv-font-label-sm mv-text-label-sm mv-font-bold">4K</span>
-                <div
-                  class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-low mv-via-transparent mv-to-transparent mv-opacity-80">
-                </div>
+                <img
+                  class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
+                  :alt="movie.name"
+                  :src="imageOf(movie)"
+                />
+                <span class="mv-absolute mv-top-2 mv-left-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-primary mv-font-label-sm mv-text-label-sm mv-font-bold">
+                  {{ movie.category }}
+                </span>
+                <span v-if="ratingOf(movie)" class="mv-absolute mv-top-2 mv-right-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-tertiary mv-font-label-sm mv-text-label-sm mv-font-bold">
+                  {{ ratingOf(movie) }} IMDb
+                </span>
+                <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-low mv-via-transparent mv-to-transparent mv-opacity-80"></div>
               </div>
               <div class="mv-p-space-sm d-flex flex-column mv-flex-1 justify-content-between mv-gap-space-sm">
                 <div>
-                  <h3
-                    class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate mv-group-hover-text-primary mv-transition-colors">
-                    John Wick 4</h3>
-                  <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">Action • Thriller</p>
+                  <h3 class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate mv-group-hover-text-primary mv-transition-colors">
+                    {{ movie.name }}
+                  </h3>
+                  <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">
+                    {{ genreLine(movie) || movie.category }}
+                  </p>
                 </div>
-                <div class="d-flex align-items-center justify-content-between mv-pt-space-xs">
-                  <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface">Rs. 50</span>
-                  <button
-                    class="mv-px-3 mv-py-1 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-sm mv-text-label-sm mv-font-bold mv-hover-bg-primary mv-transition-colors mv-shadow-sm"
-                    onclick="handlePurchase('John Wick 4', 50)" type="button">
-                    Buy Now
-                  </button>
-                </div>
+                <span v-if="yearOf(movie)" class="mv-font-label-sm mv-text-label-sm mv-text-outline">
+                  {{ yearOf(movie) }}
+                </span>
               </div>
-            </div>
-            <!-- CARD 2: Fast X -->
-            <div
-              class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee">
-              <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
-                <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
-                  data-alt="Dramatic theatrical poster for Fast X with muscle cars drifting against glowing twilight skyline, exploding asphalt sparks, vibrant blue and amber neon aesthetic."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuANaBZWgcRNZy-t2d3RzunAjTpuo7Ejm3GAZGfMdmuyUNwBQJnVC9WcqYngdKqZTJTC61hLJ1b8C9IVQjWJRV9RX-t6wEyPsPy1LAs_vqV3iL5Iukv1uW_1Psype4u8YZFUJNdsN5CYt57RRnZW4UgD9vfItssa6ecAwS8HbvehrnWFIZy72sT0mI-hHWv_oDJnqh1tx1uQcuKoM5N6-D_gkjEnnOewheyUUmuGmuClPdRlaYkgUBfnZw" />
-                <span
-                  class="mv-absolute mv-top-2 mv-right-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-secondary mv-font-label-sm mv-text-label-sm mv-font-bold">4K</span>
-                <div
-                  class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-low mv-via-transparent mv-to-transparent mv-opacity-80">
-                </div>
-              </div>
-              <div class="mv-p-space-sm d-flex flex-column mv-flex-1 justify-content-between mv-gap-space-sm">
-                <div>
-                  <h3
-                    class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate mv-group-hover-text-primary mv-transition-colors">
-                    Fast X</h3>
-                  <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">Action • Racing</p>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mv-pt-space-xs">
-                  <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface">Rs. 50</span>
-                  <button
-                    class="mv-px-3 mv-py-1 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-sm mv-text-label-sm mv-font-bold mv-hover-bg-primary mv-transition-colors mv-shadow-sm"
-                    onclick="handlePurchase('Fast X', 50)" type="button">
-                    Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- CARD 3: Oppenheimer -->
-            <div
-              class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee">
-              <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
-                <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
-                  data-alt="Theatrical portrait poster of Oppenheimer in fedora hat facing glowing fiery atomic particle explosion, intensely cinematic burnt-orange and deep black tones."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP3fQEVJ024FqUquUbYCEvQAvEvrP943DQU-HUDMgkZLx0LXLC28ZPBq4i75IDBCJMfQvxKeuMqzn057D3rflMFCD4D-d4HJ-F5UgaM3kTMz5DsLKRzTQvxl6DaRkDLi562s_kRTGDVOYeasZR71e9gGGDHSDnv2akNDbiG_QJe0jPPUeOeE48qNpPJBzQUeSM6fz3EKroHK_5OvAF6Arm58zco2sc9lvcguSrgA3NPLTOmCwB_Nm1pQ" />
-                <span
-                  class="mv-absolute mv-top-2 mv-right-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-primary mv-font-label-sm mv-text-label-sm mv-font-bold">IMAX</span>
-                <div
-                  class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-low mv-via-transparent mv-to-transparent mv-opacity-80">
-                </div>
-              </div>
-              <div class="mv-p-space-sm d-flex flex-column mv-flex-1 justify-content-between mv-gap-space-sm">
-                <div>
-                  <h3
-                    class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate mv-group-hover-text-primary mv-transition-colors">
-                    Oppenheimer</h3>
-                  <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">Drama • Biography</p>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mv-pt-space-xs">
-                  <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface">Rs. 50</span>
-                  <button
-                    class="mv-px-3 mv-py-1 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-sm mv-text-label-sm mv-font-bold mv-hover-bg-primary mv-transition-colors mv-shadow-sm"
-                    onclick="handlePurchase('Oppenheimer', 50)" type="button">
-                    Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- CARD 4: The Batman -->
-            <div
-              class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee">
-              <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
-                <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
-                  data-alt="Atmospheric movie poster for The Batman in rain-slicked dark Gotham alley, high contrast crimson red flare illumination and silhouette cowl."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF4bh6CIibQxcDi5SAHXYK_lGw26iWWWBEsptEfoQ1wdwymzfknaKWWBiWYMLi5RuWdODQzngmv4chxmqDIy8jFl49ls-D65ZNWJCBVbbJB84i6fRAtnMxPigqQ2csBN55tqVEgBkSyNWKahkCpiWjip_RQi5vEbDA6NKFEZ4y9gHrm8C7_vgtQOb9Tur00Tp6oZu_gKK0OOiDU05x2tcifXRIw-Mob-V9UYFSbdnXm8d2BmwffVIp1A" />
-                <span
-                  class="mv-absolute mv-top-2 mv-right-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-primary mv-font-label-sm mv-text-label-sm mv-font-bold">4K</span>
-                <div
-                  class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-low mv-via-transparent mv-to-transparent mv-opacity-80">
-                </div>
-              </div>
-              <div class="mv-p-space-sm d-flex flex-column mv-flex-1 justify-content-between mv-gap-space-sm">
-                <div>
-                  <h3
-                    class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate mv-group-hover-text-primary mv-transition-colors">
-                    The Batman</h3>
-                  <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">Action • Crime</p>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mv-pt-space-xs">
-                  <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface">Rs. 50</span>
-                  <button
-                    class="mv-px-3 mv-py-1 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-sm mv-text-label-sm mv-font-bold mv-hover-bg-primary mv-transition-colors mv-shadow-sm"
-                    onclick="handlePurchase('The Batman', 50)" type="button">
-                    Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- CARD 5: Spider-Man -->
-            <div
-              class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee">
-              <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
-                <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
-                  data-alt="Stylized animated film poster of Spider-Man falling through neon multiverse vortex portal with vibrant electric magenta and cyan comic halftone textures."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb1GZbZRXbhUobUyQRj5jqdk8RoBFeRE_SB2xc-ftjWDjCkUT2qDX3y9dHKOiUSfegNqmBeL3QBnK4Mrx9TbTY5XtDI8In5FX_25xJ9fEp6plFeYWJljIEwHjR-GYwVgFD9pJb0986dQlO9edUFxMP3uOCUH8eb8LzpaKq7IFsXVROfmGFkDhTVgOPRVqLESgUh7Szeb6Gx9b4FAWvVCRPR3SKYkFAEqcWGVzBRlIa_kRDfUQXSg6QTA" />
-                <span
-                  class="mv-absolute mv-top-2 mv-right-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-secondary mv-font-label-sm mv-text-label-sm mv-font-bold">HDR</span>
-                <div
-                  class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-low mv-via-transparent mv-to-transparent mv-opacity-80">
-                </div>
-              </div>
-              <div class="mv-p-space-sm d-flex flex-column mv-flex-1 justify-content-between mv-gap-space-sm">
-                <div>
-                  <h3
-                    class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate mv-group-hover-text-primary mv-transition-colors">
-                    Spider-Man</h3>
-                  <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">Animation • Sci-Fi</p>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mv-pt-space-xs">
-                  <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface">Rs. 50</span>
-                  <button
-                    class="mv-px-3 mv-py-1 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-sm mv-text-label-sm mv-font-bold mv-hover-bg-primary mv-transition-colors mv-shadow-sm"
-                    onclick="handlePurchase('Spider-Man: Across the Spider-Verse', 50)" type="button">
-                    Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- CARD 6: Dune Part Two -->
-            <div
-              class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee">
-              <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
-                <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
-                  data-alt="Epic sci-fi theatrical poster for Dune featuring Paul Atreides and Chani on vast desert sand dunes under blazing twin suns with warm golden cinematic glow."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGckYlVlJzgkK8LfhnPj4-Rwuyi_Hg5JQrD_QPdMjOuSiMuZG3cs1RMGFFvgvGxhbkyY7aKuixMnOgXJ5Xpk1qhxM5Io0aaZiXBVtFK5mNHZ8MhjCmwmemXM2D8Aiyq0fjpjDGu-IDNM3v2_JIVfbF3OuWu71iSqqH0auF0awRavbPxKPm0UJvMbG1IMyMM2oj6COMPDcSo44iCogljgdJokTnOYr4yrx4R4NRvrW_bidyu_VstGN2wg" />
-                <span
-                  class="mv-absolute mv-top-2 mv-right-2 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur mv-text-primary mv-font-label-sm mv-text-label-sm mv-font-bold">4K</span>
-                <div
-                  class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-low mv-via-transparent mv-to-transparent mv-opacity-80">
-                </div>
-              </div>
-              <div class="mv-p-space-sm d-flex flex-column mv-flex-1 justify-content-between mv-gap-space-sm">
-                <div>
-                  <h3
-                    class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface text-truncate mv-group-hover-text-primary mv-transition-colors">
-                    Dune: Part Two</h3>
-                  <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate">Sci-Fi • Adventure</p>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mv-pt-space-xs">
-                  <span class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface">Rs. 50</span>
-                  <button
-                    class="mv-px-3 mv-py-1 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-sm mv-text-label-sm mv-font-bold mv-hover-bg-primary mv-transition-colors mv-shadow-sm"
-                    onclick="handlePurchase('Dune: Part Two', 50)" type="button">
-                    Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
+            </router-link>
           </div>
         </section>
 
@@ -590,14 +447,49 @@ export default {
   data() {
     return {
       bannerMovies: [],
+      actionMovies: [],
+      horrorMovies: [],
       activeBannerIndex: 0,
       isLoadingBanners: true,
+      isLoadingCategoryMovies: true,
+      categoryMovieErrors: 0,
     };
+  },
+  computed: {
+    featuredMovies() {
+      return [
+        ...this.actionMovies.map((movie) => ({ ...movie, category: 'Action' })),
+        ...this.horrorMovies.map((movie) => ({ ...movie, category: 'Horror' })),
+      ];
+    },
   },
   mounted() {
     this.fetchMovieBanners();
+    this.fetchCategoryMovies();
   },
   methods: {
+    fetchCategoryMovies() {
+      return Promise.all([
+        axios.get('/api/action-movies')
+          .then((response) => {
+            this.actionMovies = unwrapList(response.data);
+          })
+          .catch((error) => {
+            this.categoryMovieErrors++;
+            console.error('Error fetching action movies:', error);
+          }),
+        axios.get('/api/horror-movies')
+          .then((response) => {
+            this.horrorMovies = unwrapList(response.data);
+          })
+          .catch((error) => {
+            this.categoryMovieErrors++;
+            console.error('Error fetching horror movies:', error);
+          }),
+      ]).finally(() => {
+        this.isLoadingCategoryMovies = false;
+      });
+    },
     fetchMovieBanners() {
       axios.get('/api/movie-banner')
         .then((response) => {

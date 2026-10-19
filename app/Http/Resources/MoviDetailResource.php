@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Plan;
 use App\Models\Genre;
 use App\Models\EntertainmentGenres;
 use App\Models\EntertainmentCast;
@@ -54,12 +53,6 @@ class MoviDetailResource extends JsonResource
                 }
             }
         }
-        $plans = [];
-        $plan = $this->plan;
-        if($plan){
-            $plans = Plan::where('level', '<=', $plan->level)->get();
-        }
-
 
         $genres = EntertainmentCast::where('entertainment_id', $this->id)->get();
         $genre_ids = $genres ? $genres->pluck('genre_id')->toArray() : [];
@@ -172,9 +165,6 @@ class MoviDetailResource extends JsonResource
             'trailer_url_type' => $this->trailer_url_type,
             'type' => $this->type,
             'trailer_url' => $this->trailer_url,
-            'movie_access' => $this->movie_access,
-            'plan_id' => $this->plan_id,
-            'plan_level' => $this->plan->level ?? 0,
             'language' => $this->language,
             'imdb_rating' => $this->IMDb_rating,
             'content_rating' => $this->content_rating,
@@ -200,7 +190,6 @@ class MoviDetailResource extends JsonResource
             'your_review' => $this->your_review ?? null,
             'total_review' => $this->total_review ?? 0,
             'genres' => GenresResource::collection($genre_data),
-            'plans' => PlanResource::collection($plans),
             'reviews' => ReviewResource::collection($this->reviews ?? collect()),
             'three_reviews' => ReviewResource::collection(($this->reviews ?? collect())->take(3)),
             'video_links' => $streamLinks,

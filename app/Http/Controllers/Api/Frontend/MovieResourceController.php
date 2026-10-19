@@ -18,7 +18,6 @@ class MovieResourceController extends Controller
     public function actionMovies()
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $genre = Genre::where('slug', 'action')->first();
         if (!$genre) {
@@ -49,7 +48,6 @@ class MovieResourceController extends Controller
     public function animationMovies()
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $genre = Genre::where('slug', 'animation')->first();
         if (!$genre) {
@@ -82,7 +80,6 @@ class MovieResourceController extends Controller
     public function comedyMovies()
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $genre = Genre::where('slug', 'comedy')->first();
         if (!$genre) {
@@ -113,7 +110,6 @@ class MovieResourceController extends Controller
     public function horrorMovies()
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $genre = Genre::where('slug', 'horror')->first();
         if (!$genre) {
@@ -144,7 +140,6 @@ class MovieResourceController extends Controller
     public function romanticMovies()
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $genre = Genre::where('slug', 'romantic')->first();
         if (!$genre) {
@@ -175,7 +170,6 @@ class MovieResourceController extends Controller
     public function dramaMovies()
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $genre = Genre::where('slug', 'drama')->first();
         if (!$genre) {
@@ -206,7 +200,6 @@ class MovieResourceController extends Controller
     public function romanceMovies()
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $genre = Genre::where('slug', 'romance')->first();
         if (!$genre) {

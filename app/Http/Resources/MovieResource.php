@@ -68,9 +68,6 @@ class MovieResource extends JsonResource
             'trailer_url_type' => $this->trailer_url_type,
             'type' => $this->type,
             'trailer_url' => $this->trailer_url,
-            'movie_access' => $this->movie_access,
-            'plan_id' => $this->plan_id,
-            'plan_level' => 0,
             'language' => $this->language,
             'imdb_rating' => $this->IMDb_rating,
             'content_rating' => $this->content_rating,
@@ -88,7 +85,6 @@ class MovieResource extends JsonResource
             'thumbnail_image' => $this->thumbnail_url ?? null,
             'is_watch_list' => $isInWatchList ? true : false,
             'genres' => $genre_data,
-            'plans' => $plans,
             'status' => $this->status,
 
         ];

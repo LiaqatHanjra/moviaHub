@@ -143,25 +143,19 @@ class MoviesController extends Controller
     public function movieDetails(Request $request, $movie_id)
     {
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
         $movieId = $movie_id;
-        $movie = Entertainment::where('id', $movieId)->with('entertainmentGenerMappings', 'plan', 'entertainmentReviews', 'entertainmentTalentMappings', 'entertainmentStreamContentMappings', 'entertainmentDownloadMappings', 'entertainmentLike')->first();
+        $movie = Entertainment::where('id', $movieId)->with('entertainmentGenerMappings', 'entertainmentReviews', 'entertainmentTalentMappings', 'entertainmentStreamContentMappings', 'entertainmentDownloadMappings', 'entertainmentLike')->first();
 
-        $profileId = $request->profile_id;
 
-        if ($profileId) {
-            $continue_watch = ContinueWatch::where('user_id', $user->id)
-                ->where('profile_id', $profileId)
-                ->where('entertainment_id', $movie->id)
-                ->first();
-            if ($continue_watch) {
-                $movie['continue_watch'] = $continue_watch;
-            }
+        $continue_watch = ContinueWatch::where('user_id', $user->id)
+            ->where('entertainment_id', $movie->id)
+            ->first();
+        if ($continue_watch) {
+            $movie['continue_watch'] = $continue_watch;
         }
+        
 
         $movie['reviews'] = $movie->entertainmentReviews ?? null;
-
-        $movie['is_play'] = $currentPlanId >= $movie->plan_id ? 1 : 0;
 
         $responseData = new MoviDetailResource($movie);
         return response()->json([

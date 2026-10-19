@@ -1,7 +1,7 @@
 <template>
   <footer class="mv-w-full mv-bg-surface-container-lowest mv-border-t mv-border-surface-container-high_60 mv-py-space-xl">
     <div class="mv-w-full mv-px-margin-mobile mv-sm-px-margin">
-      <div class="d-grid mv-grid-cols-1 mv-gap-gutter-mobile mv-sm-gap-gutter mv-mb-space-xl" :class="variant === 'public' ? 'mv-sm-grid-cols-2' : 'mv-sm-grid-cols-2 mv-lg-grid-cols-4'">
+      <div class="d-grid mv-grid-cols-1 mv-gap-gutter-mobile mv-sm-gap-gutter mv-mb-space-xl mv-sm-grid-cols-2 mv-lg-grid-cols-4" >
         <div class="d-flex flex-column mv-gap-space-sm">
           <router-link class="d-flex align-items-center mv-gap-space-sm text-decoration-none" to="/">
             <div class="mv-w-8 mv-h-8 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center">

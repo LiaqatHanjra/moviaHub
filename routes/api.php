@@ -22,7 +22,9 @@ Route::get('/papuler-tvshow', [App\Http\Controllers\Api\Frontend\MoviesControlle
 Route::get('/banners', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'banners']);
 Route::get('/movie-banner', [App\Http\Controllers\Api\Frontend\MoviesController::class, 'getMovieBanner']);
 Route::get('/tvshow-banner', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'getTvShowBanners']);
-Route::get('/genres', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'getGenres']);
+Route::get('/
+
+genres', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'getGenres']);
 
 // Helper function to define content routes with conditional middleware
 Route::middleware('auth:sanctum')->group(function () {
