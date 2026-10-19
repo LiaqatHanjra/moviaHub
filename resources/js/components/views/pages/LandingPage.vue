@@ -1,5 +1,6 @@
 <template>
 <AppLayout>
+  <Header/>
   <main class="mv-w-full mv-pt-10 mv-bg-surface-container-lowest min-vh-100">
     <div class="d-flex flex-column mv-w-full">
       <!-- Immersive Cinematic Hero Showcase (Bleeds under shell header) -->
@@ -419,6 +420,7 @@
       
     </div>
   </main>
+  <Footer />
 </AppLayout>
 </template>
 
@@ -426,6 +428,8 @@
 
 import axios from 'axios';
 import AppLayout from '../../layouts/AppLayout.vue';
+import Header from '../../layouts/SiteMenu.vue';
+import Footer from '../../layouts/SiteFooter.vue';
 
 function unwrapList(payload) {
   if (Array.isArray(payload)) {
@@ -442,7 +446,9 @@ function unwrapList(payload) {
 export default {
   name: 'HomePage',
   components: {
-    AppLayout
+    AppLayout,
+    Header,
+    Footer
   },
   data() {
     return {

@@ -2,7 +2,7 @@
   <header class="mv-fixed top-0 start-0 end-0 mv-z-50 mv-bg-surface_90 mv-backdrop-blur-xl mv-border-b mv-border-surface-container-high">
     <div class="mv-h-16 mv-w-full mv-px-margin-mobile mv-sm-px-margin d-flex align-items-center justify-content-between mv-gap-space-xs mv-sm-gap-space-md">
       <div class="d-flex align-items-center mv-gap-space-md mv-xl-gap-space-xl">
-        <router-link class="d-flex align-items-center mv-gap-space-sm mv-group" to="/">
+        <router-link class="d-flex align-items-center mv-gap-space-sm mv-group" to="/home">
           <div class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
             <span class="material-symbols-outlined mv-text-c28550">play_arrow</span>
           </div>
@@ -65,7 +65,7 @@ const userName = computed(() => currentUserName());
 
 const links = computed(() => {
     const items = [
-        { label: 'Home', to: '/' },
+        { label: 'Home', to: '/home' },
         { label: 'Movies', to: '/movies' },
         { label: 'Categories', to: '/categories' },
     ];
