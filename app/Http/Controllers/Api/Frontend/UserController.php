@@ -9,6 +9,7 @@ use App\Models\Entertainment;
 use App\Http\Resources\MovieResource;
 use App\Models\EntertainmentGenres;
 use App\Http\Resources\TVShowListResource;
+use App\Models\UserMovies;
 
 class UserController extends Controller
 {
@@ -85,6 +86,38 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Suggested movies retrieved successfully',
             'suggestedMovies' => $suggestedMovies
+        ], 200);
+    }
+
+    public function myMovies(Request $request)
+    {
+        $user = getApiUser();
+
+        $userMovies = UserMovies::where('user_id', $user->id)->pluck('entertainment_id')->toArray();
+
+        // 3. Find other movies in those genres, not already watched
+        $getMovies = Entertainment::whereIn('id', $userMovies)
+            ->where('type', 'movie')
+            ->where('status', 1)
+            ->whereHas('entertainmentGenerMappings', function ($query) use ($genreIds) {
+                $query->whereIn('genre_id', $genreIds);
+            })
+            ->whereNotIn('id', $watchedIds)
+            ->with([
+                'entertainmentGenerMappings',
+                'entertainmentReviews',
+                'entertainmentTalentMappings',
+                'entertainmentStreamContentMappings',
+                'entertainmentDownloadMappings',
+            ])
+            ->limit(20)
+            ->get();
+
+            $userMovies = MovieResource::collection($getMovies);
+
+        return response()->json([
+            'message' => 'User movies retrieved successfully',
+            'userMovies' => $userMovies
         ], 200);
     }
 }
