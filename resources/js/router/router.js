@@ -223,7 +223,7 @@ router.beforeEach((to, from, next) => {
 
     if (authRequired && !token) {
         next('/');
-    }else if (authRequired && isAdmin !== 'true') {
+    }else if (authRequired) {
         next();  // Allow access for regular users
       } else {
         next(); // for admin user

@@ -318,37 +318,10 @@
           .then(response => {
             console.log('Login successful:', response.data);
             const user = response.data.data || response.data;
-            const isAdmin = Number(user.admin) === 1;
 
             localStorage.setItem('token', `Bearer ${user.api_token}`);
             localStorage.setItem('userName', user.name || 'User');
-            localStorage.setItem('admin', isAdmin ? 'true' : 'false');
             this.isLoading = false;
-
-            if (isAdmin) {
-              const form = document.createElement('form');
-              form.method = 'POST';
-              form.action = '/login';
-
-              const fields = {
-                _token: document.querySelector('meta[name="csrf-token"]')?.content || '',
-                email: this.email,
-                password: this.password,
-              };
-              if (this.remember) {
-                fields.remember = '1';
-              }
-              Object.entries(fields).forEach(([name, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = value;
-                form.appendChild(input);
-              });
-              document.body.appendChild(form);
-              form.submit();
-              return;
-            }
 
             this.$router.push('/home');
 

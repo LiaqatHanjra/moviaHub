@@ -546,7 +546,7 @@ class MoviesController extends Controller
 
     public function getMovieBanner(Request $request)
     {
-        $banners = Banner::where('type', 'movie_page')->where('status', 1)->get();
+        $banners = Banner::where('type', 'movie')->where('status', 1)->get();
         $movieIds = $banners->pluck('type_id')->toArray();
 
         $movies = Entertainment::whereIn('id', $movieIds)->where('status', 1)->get();

@@ -34,8 +34,8 @@
           <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant list-unstyled mb-0">
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/home">About MovieHub</router-link></li>
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/watch/1">Supported Devices</router-link></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/login">Login</a></li>
-            <li><a class="mv-hover-text-on-surface mv-transition-colors" href="/register">Create Account</a></li>
+            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/login">Login</router-link></li>
+            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/register">Create Account</router-link></li>
           </ul>
         </div>
       </div>

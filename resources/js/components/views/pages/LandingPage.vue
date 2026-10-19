@@ -3,122 +3,74 @@
   <main class="mv-w-full mv-pt-10 mv-bg-surface-container-lowest min-vh-100">
     <div class="d-flex flex-column mv-w-full">
       <!-- Immersive Cinematic Hero Showcase (Bleeds under shell header) -->
-      <section class="landing-hero mv-relative mv-w-full mv-nmt-16 overflow-hidden mv-bg-surface-container-lowest">
-        <!-- Atmospheric Ambient Glows -->
-        <div
-          class="mv-absolute mv-ntop-24 mv-nleft-20 mv-w-3bc5a2 mv-h-2f12cf mv-rounded-full mv-bg-primary_10 mv-blur-a6575e pe-none">
-        </div>
-        <div
-          class="mv-absolute mv-top-1_3 mv-nright-24 mv-w-ee879d mv-h-f7c4b3 mv-rounded-full mv-bg-secondary-container_15 mv-blur-16d7a4 pe-none">
-        </div>
-        <div v-if="bannerMovies.length" class="landing-hero-slides">
+       <section class="mv-relative mv-w-full mv-nmt-16 mv-pt-16">
+        <div class="hero-slider">
+
+          <!-- ==================== SLIDE 1 ==================== -->
           <article
-            v-for="(movie, index) in bannerMovies"
+            v-for="(banner, index) in bannerMovies"
             v-show="activeBannerIndex === index"
-            :key="movie.id"
-            class="landing-hero-slide mv-relative mv-w-full mv-min-h-2a5f5a mv-sm-min-h-e4206d d-flex align-items-end"
+            :key="banner.id"
+            class="hero-slide mv-relative mv-w-full overflow-hidden"
             :aria-hidden="activeBannerIndex !== index"
           >
-            <div class="mv-absolute mv-inset-0 mv-bg-cover mv-bg-center"
-              :style="bannerBackground(movie)"
-              role="img"
-              :aria-label="movie.name"></div>
-            <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-lowest mv-via-surface-container-lowest_70 mv-to-surface-container-lowest_30"></div>
-            <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-r mv-from-surface-container-lowest mv-via-surface-container-lowest_80 mv-to-transparent"></div>
-            <div class="mv-relative mv-z-10 mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin mv-pt-36 mv-pb-space-xl mv-max-w-5xl d-flex flex-column mv-gap-space-md">
-              <div class="d-flex flex-wrap align-items-center mv-gap-space-sm">
-                <span class="mv-px-2p5 mv-py-1 mv-rounded-sm mv-bg-primary-container_20 mv-text-primary mv-font-label-sm mv-text-label-sm mv-tracking-widest text-uppercase mv-font-bold mv-backdrop-blur-md">
-                  Featured TVOD Premiere
-                </span>
-                <span class="mv-px-2p5 mv-py-1 mv-rounded-sm mv-bg-surface-container-high_90 mv-text-on-surface mv-font-label-sm mv-text-label-sm text-uppercase mv-font-semibold">
-                  Ultra HD 4K
-                </span>
-                <span v-if="movie.imdb_rating" class="mv-px-2 mv-py-1 mv-rounded-sm mv-bg-surface-container-high_60 mv-text-tertiary mv-font-label-sm mv-text-label-sm text-uppercase mv-font-semibold d-flex align-items-center mv-gap-1">
-                  <span class="material-symbols-outlined mv-text-0ddd99" style="font-variation-settings: 'FILL' 1;">star</span>
-                  {{ movie.imdb_rating }} IMDb
+            <div class="hero-media">
+              <div class="hero-media-fill" :style="backgroundStyle(banner)"></div>
+              <img class="hero-media-poster" :alt="banner.name" :src="imageOf(banner)" />
+              <div class="hero-media-shade"></div>
+            </div>
+            <div class="mv-relative mv-z-10 mv-w-full mv-px-margin-mobile mv-md-px-margin-mobile mv-sm-px-margin mv-pt-24 mv-pb-16 mv-md-pt-32 mv-md-pb-24 mv-max-w-7xl mx-auto d-flex flex-column justify-content-end mv-min-h-623c22">
+              <div class="d-flex flex-wrap align-items-center mv-gap-space-sm mb-3">
+                <span class="d-inline-flex align-items-center mv-gap-1p5 mv-px-space-md mv-py-1 mv-rounded-full mv-bg-primary-container_20 mv-text-primary mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider mv-backdrop-blur-md">Featured Premiere</span>
+                <span v-if="ratingOf(banner)" class="d-inline-flex align-items-center mv-gap-1 mv-px-space-sm mv-py-0p5 mv-rounded mv-bg-surface-container-high mv-text-tertiary mv-font-label-sm mv-text-label-sm">
+                  <span class="material-symbols-outlined mv-text-773d8f" style="font-variation-settings: 'FILL' 1;">star</span>
+                  {{ ratingOf(banner) }} IMDb
                 </span>
               </div>
-              <div class="d-flex flex-column">
-                <h1 class="mv-font-headline-xl-mobile mv-text-headline-xl-mobile mv-sm-font-headline-xl-mobile mv-sm-font-headline-xl mv-sm-text-headline-xl-mobile mv-sm-text-headline-xl mv-lg-text-50dd1f mv-lg-leading-1e4af5 mv-font-extrabold mv-tracking-tight mv-text-on-surface text-uppercase mv-drop-shadow-2xl mv-max-w-3xl">
-                  {{ movie.name }}
-                </h1>
-                <div class="d-flex flex-wrap align-items-center mv-gap-space-sm mv-text-on-surface-variant mv-font-label-lg mv-text-label-lg mt-1">
-                  <template v-for="(genre, genreIndex) in movie.genres || []" :key="genre.id || genre.name || genreIndex">
-                    <span v-if="genreIndex" aria-hidden="true">•</span>
-                    <span class="mv-text-on-surface mv-font-medium">{{ typeof genre === 'string' ? genre : genre.name }}</span>
-                  </template>
-                  <span v-if="movieYear(movie)" class="mv-text-outline">|</span>
-                  <span v-if="movieYear(movie)">{{ movieYear(movie) }}</span>
-                  <span v-if="movie.duration" class="mv-text-outline">|</span>
-                  <span v-if="movie.duration">{{ movie.duration }}</span>
-                  <span class="mv-text-outline">|</span>
-                  <span class="mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-high mv-font-label-sm mv-text-label-sm mv-text-on-surface-variant">HDR10+</span>
-                </div>
+              <h1 class="mv-font-headline-xl-mobile mv-sm-font-headline-xl mv-text-headline-xl-mobile mv-sm-text-headline-xl mv-text-on-surface mv-tracking-tight mv-max-w-3xl mv-drop-shadow-md mb-2">{{ banner.name }}</h1>
+              <div class="d-flex flex-wrap align-items-center mv-gap-x-space-md mv-gap-y-1 mv-font-title-md mv-text-title-md mv-text-on-surface-variant mb-3">
+                <span v-if="genreLine(banner)" class="mv-text-primary mv-font-bold">{{ genreLine(banner) }}</span>
+                <span v-if="yearOf(banner)">{{ yearOf(banner) }}</span>
+                <span v-if="banner.duration">{{ banner.duration }}</span>
               </div>
-              <p class="mv-font-body-lg mv-text-body-lg mv-text-on-surface-variant mv-max-w-2xl mv-line-clamp-2 mv-leading-relaxed">
-                {{ movie.description }}
-              </p>
-              <div class="d-flex flex-wrap align-items-center mv-gap-space-lg mv-pt-space-xs">
-                <div class="d-flex align-items-baseline mv-gap-1p5 mv-px-space-md mv-py-2 mv-rounded-lg mv-bg-surface-container-high_80 mv-backdrop-blur-md mv-shadow-lg">
-                  <span class="mv-font-label-sm mv-text-label-sm mv-text-outline text-uppercase mv-tracking-wider">Rental</span>
-                  <span class="mv-font-headline-md mv-text-headline-md mv-font-extrabold mv-text-on-surface mv-tracking-tight">Rs. 50</span>
-                </div>
-                <button
-                  class="mv-group mv-px-space-xl mv-py-3p5 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold d-flex align-items-center mv-gap-space-sm mv-shadow-391fe7 mv-hover-bg-primary mv-hover-shadow-75ac0d mv-hover-scale-5637fb mv-active-scale-443bba mv-transition-all"
-                  type="button"
-                  @click="goToMovie(movie)">
-                  <span class="material-symbols-outlined mv-text-27bd7e mv-group-hover-translate-x-0p5 mv-transition-transform" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
-                  <span>Buy Now</span>
-                </button>
-                <button
-                  v-if="movie.trailer_url"
-                  class="mv-px-space-lg mv-py-3p5 mv-rounded-full mv-bg-surface-container-high_60 mv-hover-bg-surface-container mv-text-on-surface mv-font-label-lg mv-text-label-lg mv-font-semibold d-flex align-items-center mv-gap-space-sm mv-transition-colors"
-                  type="button"
-                  @click="playTrailer(movie)">
-                  <span class="material-symbols-outlined mv-text-27bd7e">movie</span>
-                  <span>Trailer</span>
-                </button>
-                <button aria-label="Add to Watchlist"
-                  class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-surface-container-high_60 mv-hover-bg-surface-container mv-text-on-surface d-flex align-items-center justify-content-center mv-transition-colors"
-                  type="button">
-                  <span class="material-symbols-outlined mv-text-c28550">bookmark_add</span>
-                </button>
+              <p class="mv-font-body-lg mv-text-body-lg mv-text-on-surface-variant mv-max-w-2xl mv-mb-space-xl mv-line-clamp-3">{{ banner.description }}</p>
+              <div class="d-flex flex-wrap align-items-center mv-gap-space-md">
+              
               </div>
             </div>
           </article>
-          <div v-if="bannerMovies.length > 1" class="landing-hero-controls mv-absolute mv-inset-x-0 mv-bottom-6 mv-z-20 mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin">
-            <div class="mx-auto d-flex align-items-center justify-content-between mv-max-w-5xl mv-gap-space-md">
-              <div class="d-flex align-items-center mv-gap-space-sm">
-                <span class="mv-font-label-sm mv-text-label-sm mv-text-outline text-uppercase mv-tracking-widest">Featured Movies</span>
-                <div class="d-flex align-items-center mv-gap-2" role="group" aria-label="Choose featured movie">
-                  <button
-                    v-for="(movie, index) in bannerMovies"
-                    :key="`landing-banner-${movie.id}`"
-                    type="button"
-                    class="landing-hero-dot"
-                    :class="{ 'is-active': activeBannerIndex === index }"
-                    :aria-label="`Show featured movie ${index + 1}`"
-                    :aria-current="activeBannerIndex === index ? 'true' : null"
-                    @click="showBanner(index)"
-                  ></button>
-                </div>
+          <p v-if="!bannerMovies.length" class="mv-px-margin-mobile mv-py-space-xl mv-text-on-surface-variant">No banners yet.</p>
+        </div>
+        <div v-if="bannerMovies.length" class="hero-slider-controls mv-absolute mv-inset-x-0 mv-bottom-6 mv-z-20 mv-px-margin-mobile mv-md-px-margin-mobile mv-sm-px-margin">
+          <div class="mx-auto d-flex mv-max-w-7xl flex-wrap align-items-center justify-content-between mv-gap-space-md">
+            <div class="d-flex align-items-center mv-gap-space-sm">
+              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline text-uppercase mv-tracking-widest">Now Trending</span>
+              <div class="hero-slider-dots" role="group" aria-label="Choose featured banner">
+                <button
+                  v-for="(banner, index) in bannerMovies"
+                  :key="banner.id"
+                  type="button"
+                  class="hero-slider-dot"
+                  :class="{ 'is-active': activeBannerIndex === index }"
+                  :aria-label="`Show banner ${index + 1}`"
+                  :aria-current="activeBannerIndex === index ? 'true' : null"
+                  @click="showBanner(index)"
+                ></button>
               </div>
-              <div class="d-flex align-items-center mv-gap-2">
-                <button type="button" aria-label="Previous featured movie" @click="showPreviousBanner"
-                  class="d-flex mv-w-9 mv-h-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
-                  <span class="material-symbols-outlined">chevron_left</span>
-                </button>
-                <button type="button" aria-label="Next featured movie" @click="showNextBanner"
-                  class="d-flex mv-w-9 mv-h-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
-                  <span class="material-symbols-outlined">chevron_right</span>
-                </button>
-              </div>
+            </div>
+
+            <div class="d-flex align-items-center mv-gap-2">
+              <button type="button" aria-label="Previous banner" @click="showPreviousBanner"
+                class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
+                <span class="material-symbols-outlined mv-text-c79a76">chevron_left</span>
+              </button>
+              <button type="button" aria-label="Next banner" @click="showNextBanner"
+                class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
+                <span class="material-symbols-outlined mv-text-c79a76">chevron_right</span>
+              </button>
             </div>
           </div>
         </div>
-        <p v-else-if="!isLoadingBanners" class="mv-relative mv-z-10 mv-px-margin-mobile mv-py-space-xl mv-text-on-surface-variant">
-          No featured movies available.
-        </p>
       </section>
       <!-- Content Workspace -->
       <div class="mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin d-flex flex-column mv-gap-space-lg mv-sm-gap-space-xl mv-py-space-xl">
@@ -650,6 +602,7 @@ export default {
       axios.get('/api/movie-banner')
         .then((response) => {
           this.bannerMovies = unwrapList(response.data);
+          console.log('Fetched movie banners:', this.bannerMovies);
         })
         .catch((error) => {
           console.error('Error fetching movie banners:', error);
@@ -667,14 +620,33 @@ export default {
         : this.bannerMovies.length - 1;
     },
     showNextBanner() {
-      this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
+      if (this.bannerMovies.length > 0) {
+        this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
+      }
     },
-    bannerBackground(movie) {
-      const image = movie.thumbnail_image || movie.poster_image;
+    imageOf(movie) {
+      return movie.thumbnail_image || movie.poster_image || '/frontend/favicon.png';
+    },
+    backgroundStyle(movie) {
+      const image = this.imageOf(movie);
       return image ? { backgroundImage: `url("${image}")` } : {};
     },
-    movieYear(movie) {
-      return movie.release_date ? new Date(movie.release_date).getFullYear() : null;
+    ratingOf(movie) {
+      return movie.imdb_rating || movie.rating || null;
+    },
+    genreLine(movie) {
+      if (Array.isArray(movie.genres) && movie.genres.length > 0) {
+        return movie.genres
+          .map((genre) => typeof genre === 'string' ? genre : genre.name)
+          .filter(Boolean)
+          .join(', ');
+      }
+
+      return null;
+    },
+    yearOf(movie) {
+      const releaseDate = movie.release_date || movie.releaseDate;
+      return movie.release_year || movie.releaseYear || (releaseDate ? new Date(releaseDate).getFullYear() : null);
     },
     goToMovie(movie) {
       this.$router.push(`/movie/${movie.id}`);
@@ -722,5 +694,176 @@ export default {
 .landing-hero-dot.is-active {
   width: 2rem;
   background: #93ccff;
+}
+
+.hero-slider {
+    position: relative;
+    min-height: 38rem;
+    background: #0a0e14;
+}
+
+.hero-slide {
+    min-height: 38rem;
+}
+
+.hero-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #0a0e14;
+}
+
+.hero-media-fill,
+.hero-media-poster,
+.hero-media-shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-media-fill {
+    background-position: center;
+    background-size: cover;
+    filter: blur(18px);
+    opacity: 0.45;
+    transform: scale(1.05);
+}
+
+.hero-media-poster {
+    object-fit: cover;
+    object-position: center 25%;
+}
+
+.hero-media-shade {
+    background: linear-gradient(90deg, rgba(10, 14, 20, 0.96) 0%, rgba(10, 14, 20, 0.78) 42%, rgba(10, 14, 20, 0.18) 100%),
+        linear-gradient(0deg, #0a0e14 0%, transparent 45%);
+}
+
+.hero-slider-dot {
+    width: 0.75rem;
+    height: 0.375rem;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: #89929b;
+    cursor: pointer;
+    transition: width 200ms ease, background-color 200ms ease;
+}
+
+.hero-slider-dot.is-active {
+    width: 2rem;
+    background: #93ccff;
+}
+
+.row-slider-wrap {
+    position: relative;
+}
+
+.row-slider {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem 1rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.row-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.row-slide {
+    display: flex;
+    flex: 0 0 calc((100% - 4rem) / 5);
+    min-width: 0;
+    scroll-snap-align: start;
+}
+
+.row-slide > a {
+    width: 100%;
+    min-height: 100%;
+}
+
+.browse-card-content {
+    min-height: 6rem;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.row-slider-arrow {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    display: inline-flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(223, 226, 235, 0.16);
+    border-radius: 9999px;
+    color: #dfe2eb;
+    background: rgba(24, 28, 34, 0.92);
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.row-slider-arrow:hover {
+    background: #3198dc;
+}
+
+.row-slider-arrow-prev {
+    left: -1rem;
+}
+
+.row-slider-arrow-next {
+    right: -1rem;
+}
+
+@media (max-width: 1199.98px) {
+    .row-slide {
+        flex-basis: calc((100% - 3rem) / 4);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .row-slide {
+        flex-basis: calc((100% - 2rem) / 3);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-slider,
+    .hero-slide {
+        min-height: 34rem;
+    }
+
+    .hero-media-shade {
+        background: linear-gradient(0deg, rgba(10, 14, 20, 0.98) 0%, rgba(10, 14, 20, 0.7) 58%, rgba(10, 14, 20, 0.15) 100%);
+    }
+
+    .row-slide {
+        flex-basis: calc((100% - 1rem) / 2);
+    }
+
+    .row-slider-arrow-prev {
+        left: -0.5rem;
+    }
+
+    .row-slider-arrow-next {
+        right: -0.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-slider,
+    .hero-slide {
+        min-height: 31rem;
+    }
+
+    .row-slide {
+        flex-basis: 82%;
+    }
 }
 </style>
