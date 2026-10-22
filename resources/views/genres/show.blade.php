@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'View Genre')
+@section('title', 'View Category')
 @section('content')
     <div class="card mb-3">
         <div class="card-body">
             <div class="position-relative z-3 w-25 d-flex justify-content-between">
-                <h3>Genre Detail</h3>
+                <h3>Category Detail</h3>
                 <div class="create_movie_button_container">
                     <a href="{{ route('admin.genres.index') }}"
                         class="btn btn-primary rounded-1 create_movie_button z-3 opacity-100"><i

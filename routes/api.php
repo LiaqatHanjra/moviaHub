@@ -106,6 +106,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/favorite-personalities', [App\Http\Controllers\Api\Frontend\FavoritePersonalityController::class, 'store']);
         Route::delete('/favorite-personalities/{id}', [App\Http\Controllers\Api\Frontend\FavoritePersonalityController::class, 'destroy']);
 
+        // Categories Routes
+
+        Route::get('/categories', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'getGenres']);
+
     // });
 
 

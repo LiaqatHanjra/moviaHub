@@ -305,7 +305,15 @@ export default {
       return Array.from({ length: last - first + 1 }, (_, index) => first + index);
     },
   },
+  watch: {
+    '$route.query.genre_id'(genreId) {
+      this.selectedGenreId = genreId ? String(genreId) : '';
+      this.loadMovies(1);
+    },
+  },
   mounted() {
+    const { genre_id: genreId } = this.$route.query;
+    this.selectedGenreId = genreId ? String(genreId) : '';
     this.fetchMovieBanners();
     this.fetchGenres();
     this.loadMovies();

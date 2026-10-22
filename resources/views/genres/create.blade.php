@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Create Genre')
+@section('title', 'Create Category')
 
 @section('content')
     <div class="card mb-3">
         <div class="card-body">
             <div class="position-relative z-3 w-50 d-flex justify-content-between">
-                <h3>Add Genre</h3>
+                <h3>Add Category</h3>
                 <div class="create_movie_button_container">
                     <a href="{{ route('admin.genres.index') }}"
                         class="btn btn-primary rounded-1 create_movie_button z-3 opacity-100"><i
@@ -15,7 +15,7 @@
             </div>
             <form action="{{ route('admin.genres.store') }}" method="POST" enctype="multipart/form-data" id="genre-create-form">
                 @csrf
-                <h6 class="fw-bold border-0 mt-3">Genre Info</h6>
+                <h6 class="fw-bold border-0 mt-3">Category Info</h6>
                 <div class="card mt-3">
                     <div class="card-body">
                         <div class="row pt-4">
