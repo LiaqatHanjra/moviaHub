@@ -11,6 +11,7 @@ use App\Models\Entertainment;
 use App\Models\Subscription;
 use App\Models\EntertainmentDownload;
 use App\Models\Like;
+use App\Models\UserMovies;
 use App\Http\Resources\CastCrewListResource;
 use App\Http\Resources\GenresResource;
 use App\Http\Resources\MovieResource;
@@ -121,6 +122,11 @@ class MoviDetailResource extends JsonResource
          }
         }
         $user = getApiUser();
+        $isPurchased = $user
+            ? UserMovies::where('user_id', $user->id)->where('movie_id', $this->id)->exists()
+            : false;
+        $requiresPurchase = strtolower((string) $this->movie_access) !== 'free';
+        $canAccessMedia = !$requiresPurchase || $isPurchased;
         $download = null;
         $isLiked = null;
         $is_like = 0;
@@ -164,6 +170,7 @@ class MoviDetailResource extends JsonResource
             'description' => strip_tags($this->description),
             'trailer_url_type' => $this->trailer_url_type,
             'type' => $this->type,
+            'movie_access' => $this->movie_access,
             'trailer_url' => $this->trailer_url,
             'language' => $this->language,
             'imdb_rating' => $this->IMDb_rating,
@@ -175,14 +182,14 @@ class MoviDetailResource extends JsonResource
             'release_year' => Carbon::parse($this->release_date)->year,
             'is_restricted' => $this->is_restricted,
             'video_upload_type' => $this->video_upload_type,
-            'video_url_input' => $this->video_url_input,
+            'video_url_input' => $canAccessMedia ? $this->video_url_input : null,
             'enable_quality' => $this->enable_quality,
             'is_download' => $this->is_download ?? false,
             'download_status' => $this->download_status,
             'download_type' => $this->download_type,
-            'download_url' => $this->download_url,
+            'download_url' => $canAccessMedia ? $this->download_url : null,
             'enable_download_quality' => $this->enable_download_quality,
-            'download_quality' => $downloadMappings,
+            'download_quality' => $canAccessMedia ? $downloadMappings : [],
             'poster_image' => $this->poster_url,
             'thumbnail_image' => $this->thumbnail_url,
             'is_watch_list' => $this->is_watch_list ?? false,
@@ -192,13 +199,21 @@ class MoviDetailResource extends JsonResource
             'genres' => GenresResource::collection($genre_data),
             'reviews' => ReviewResource::collection($this->reviews ?? collect()),
             'three_reviews' => ReviewResource::collection(($this->reviews ?? collect())->take(3)),
-            'video_links' => $streamLinks,
+            'video_links' => $canAccessMedia ? $streamLinks : [],
             'casts' => CastCrewListResource::collection($casts),
             'directors' => CastCrewListResource::collection($directors),
             'more_items' => MovieResource::collection($more_items),
             'status' => $this->status,
             'download_id' => !empty($download) ? $download->id: null,
             'is_play' => $this->is_play,
+            'is_purchased' => $isPurchased,
+            'requires_purchase' => $requiresPurchase,
+            'wallet_balance' => $user
+                ? (float) \App\Models\UserWallet::where('user_id', $user->id)->value('balance')
+                : 0,
+            'rental_price' => (float) config('services.stripe.movie_rental_price', 50),
+            'stripe_minimum_charge' => (float) config('services.stripe.minimum_charge', 150),
+            'currency' => strtoupper((string) config('services.stripe.currency', 'pkr')),
             // 'is_device_supported' => $deviceTypeResponse['isDeviceSupported'],
 
         ];

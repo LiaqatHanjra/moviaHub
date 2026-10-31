@@ -31,15 +31,43 @@
         </form>
       </div>
 
-      <div class="d-flex align-items-center mv-gap-1 mv-sm-gap-space-md">
-        
-        <router-link class="d-flex align-items-center mv-gap-space-xs mv-sm-gap-space-sm mv-pl-space-xs text-decoration-none" to="/my-movies">
-          <div class="mv-w-8 mv-h-8 mv-rounded-full mv-bg-primary d-flex align-items-center justify-content-center">
-            <span class="material-symbols-outlined mv-text-white mv-text-c79a76">person</span>
-          </div>
-          <span class="d-none d-lg-inline mv-font-label-md mv-text-label-md mv-font-semibold mv-text-on-surface">{{ userName }}</span>
-        </router-link>
-        <button class="btn btn-link mv-text-on-surface-variant mv-font-label-md text-decoration-none p-0" type="button" @click="logout">Sign out</button>
+      <div class="dropdown">
+        <button
+          class="btn p-0 border-0 bg-transparent dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            :src="userImage || '/assets/images/default-user.png'"
+            alt="User Profile"
+            class="mv-w-8 mv-h-8 mv-rounded-full"
+            style="object-fit: cover;"
+          />
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <router-link
+              class="dropdown-item"
+              to="/profile"
+            >
+              <i class="material-symbols-outlined me-2">person</i>
+              Profile
+            </router-link>
+          </li>
+
+          <li>
+            <button
+              class="dropdown-item"
+              type="button"
+              @click="logout"
+            >
+              <i class="material-symbols-outlined me-2">logout</i>
+              Logout
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </header>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import App from './App.vue';
 import router from './router/router.js';
 import '../css/frontend.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 axios.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class UserMovies extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'movie_id',
+        'total_movies',
+    ];
 }

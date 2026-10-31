@@ -33,5 +33,12 @@ return [
     'tmdb' => [
         'api_key' => env('TMDB_API_KEY'),
     ],
+    'stripe' => [
+        'secret' => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+        'currency' => env('STRIPE_CURRENCY', 'pkr'),
+        'movie_rental_price' => env('MOVIE_RENTAL_PRICE', 50),
+        'minimum_charge' => env('STRIPE_MINIMUM_CHARGE', 150),
+    ],
 
 ];

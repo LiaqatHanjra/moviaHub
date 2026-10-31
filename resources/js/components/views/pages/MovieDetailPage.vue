@@ -88,14 +88,36 @@
                     Watch trailer
                   </router-link>
                   <router-link
-                    v-if="hasMovieSource"
+                    v-if="hasMovieSource && (!movie.requires_purchase || movie.is_purchased)"
                     :to="{ name: 'movie-player', params: { id: movie.id }, query: { type: 'movie' } }"
                     class="mv-bg-surface-container-high mv-text-on-surface mv-font-label-lg mv-text-label-lg mv-font-bold mv-px-space-xl mv-py-3 mv-rounded-full d-inline-flex align-items-center mv-gap-space-xs text-decoration-none"
                   >
                     <span class="material-symbols-outlined">movie</span>
                     Watch movie
                   </router-link>
+                  <button
+                    v-if="movie.requires_purchase && !movie.is_purchased"
+                    type="button"
+                    class="mv-bg-primary mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold mv-px-space-xl mv-py-3 mv-rounded-full d-inline-flex align-items-center mv-gap-space-xs border-0"
+                    @click="goToPayment"
+                  >
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                    Rent for {{ formatMoney(movie.rental_price, movie.currency) }}
+                  </button>
+                  <button
+                    v-if="movie.requires_purchase && !movie.is_purchased && Number(movie.wallet_balance) >= Number(movie.rental_price)"
+                    type="button"
+                    class="mv-bg-surface-container-high mv-text-on-surface mv-font-label-lg mv-text-label-lg mv-font-bold mv-px-space-xl mv-py-3 mv-rounded-full d-inline-flex align-items-center mv-gap-space-xs border-0"
+                    :disabled="isPurchasing"
+                    @click="purchaseWithWallet"
+                  >
+                    {{ isPurchasing ? 'Processing...' : 'Use wallet balance' }}
+                  </button>
                 </div>
+                <p v-if="purchaseError" class="mv-text-error" role="alert">{{ purchaseError }}</p>
+                <p v-if="movie.is_purchased" class="mv-text-tertiary mv-font-label-md mv-text-label-md">
+                  This movie is in your library.
+                </p>
 
                 <div v-if="movie.description" class="d-flex flex-column mv-gap-space-xs">
                   <h2 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Description</h2>
@@ -226,6 +248,8 @@ export default {
     return {
       movie: null,
       isLoading: true,
+      isPurchasing: false,
+      purchaseError: '',
       errorMessage: '',
     };
   },
@@ -281,6 +305,45 @@ export default {
           this.isLoading = false;
         }
       }
+    },
+    goToPayment() {
+      if (!this.movie) {
+        return;
+      }
+
+      this.$router.push({
+        path: '/payment',
+        query: { movie_id: this.movie.id },
+      });
+    },
+    async purchaseWithWallet() {
+      if (this.isPurchasing || !this.movie) {
+        return;
+      }
+
+      this.isPurchasing = true;
+      this.purchaseError = '';
+      try {
+        const response = await axios.post('/api/payments/wallet-purchase', {
+          movie_id: this.movie.id,
+        });
+        this.movie.is_purchased = true;
+        this.movie.wallet_balance = response.data.balance;
+      } catch (error) {
+        this.purchaseError = error.response?.data?.message || 'Unable to complete this wallet purchase.';
+        if (error.response?.status === 422 && error.response.data?.balance !== undefined) {
+          this.movie.wallet_balance = error.response.data.balance;
+        }
+      } finally {
+        this.isPurchasing = false;
+      }
+    },
+    formatMoney(amount, currency) {
+      return new Intl.NumberFormat('en', {
+        style: 'currency',
+        currency: currency || 'PKR',
+        maximumFractionDigits: 2,
+      }).format(Number(amount) || 0);
     },
     posterOf(item) {
       return item.poster_image || item.thumbnail_image || '/frontend/favicon.png';

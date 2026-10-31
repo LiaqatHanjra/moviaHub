@@ -25,8 +25,8 @@
           <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant list-unstyled mb-0">
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/my-movies">My Movies</router-link></li>
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/wallet">Wallet</router-link></li>
-            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/payment">Payment</router-link></li>
-            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/payment/success">Purchase Receipts</router-link></li>
+            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/wallet">Add balance</router-link></li>
+            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/wallet">Transaction history</router-link></li>
           </ul>
         </div>
         <div>

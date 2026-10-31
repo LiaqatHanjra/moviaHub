@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_movies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('movie_id')->constrained()->onDelete('cascade');
+            $table->foreignId('movie_id')->constrained('entertainments')->onDelete('cascade');
             $table->integer('total_movies')->default(0);
             $table->softDeletes();
             $table->timestamps();

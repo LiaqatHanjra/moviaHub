@@ -14,6 +14,7 @@ Route::post('register', [App\Http\Controllers\Api\Frontend\AuthController::class
 Route::post('login', [App\Http\Controllers\Api\Frontend\AuthController::class, 'login']);
 Route::post('forgot-password', [App\Http\Controllers\Api\Frontend\AuthController::class, 'sendResetLinkEmail']);
 Route::post('reset-password', [App\Http\Controllers\Api\Frontend\AuthController::class, 'resetPassword']);
+Route::post('payments/stripe/webhook', [App\Http\Controllers\Api\Frontend\PaymentController::class, 'stripeWebhook']);
 
 Route::get('/top-10-movies', [App\Http\Controllers\Api\Frontend\MoviesController::class, 'top10Movies']);
 Route::get('/latest-movies', [App\Http\Controllers\Api\Frontend\MoviesController::class, 'latestMovies']);
@@ -109,6 +110,13 @@ Route::middleware('auth:sanctum')->group(function () {
         // Categories Routes
 
         Route::get('/categories', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'getGenres']);
+
+        Route::get('/my-movies', [App\Http\Controllers\Api\Frontend\UserController::class, 'myMovies']);
+        Route::get('/my-wallet', [App\Http\Controllers\Api\Frontend\UserController::class, 'myWallet']);
+        Route::get('/transaction-history', [App\Http\Controllers\Api\Frontend\UserController::class, 'transactionHistory']);
+        Route::post('/payments/checkout', [App\Http\Controllers\Api\Frontend\PaymentController::class, 'createCheckoutSession']);
+        Route::post('/payments/complete', [App\Http\Controllers\Api\Frontend\PaymentController::class, 'completeCheckout']);
+        Route::post('/payments/wallet-purchase', [App\Http\Controllers\Api\Frontend\PaymentController::class, 'purchaseWithWallet']);
 
     // });
 

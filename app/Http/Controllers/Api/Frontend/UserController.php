@@ -10,6 +10,8 @@ use App\Http\Resources\MovieResource;
 use App\Models\EntertainmentGenres;
 use App\Http\Resources\TVShowListResource;
 use App\Models\UserMovies;
+use App\Models\UserWallet;
+use App\Models\WalletTransaction;
 
 class UserController extends Controller
 {
@@ -93,16 +95,12 @@ class UserController extends Controller
     {
         $user = getApiUser();
 
-        $userMovies = UserMovies::where('user_id', $user->id)->pluck('entertainment_id')->toArray();
+        $userMovies = UserMovies::where('user_id', $user->id)->pluck('movie_id')->toArray();
 
         // 3. Find other movies in those genres, not already watched
         $getMovies = Entertainment::whereIn('id', $userMovies)
             ->where('type', 'movie')
             ->where('status', 1)
-            ->whereHas('entertainmentGenerMappings', function ($query) use ($genreIds) {
-                $query->whereIn('genre_id', $genreIds);
-            })
-            ->whereNotIn('id', $watchedIds)
             ->with([
                 'entertainmentGenerMappings',
                 'entertainmentReviews',
@@ -120,4 +118,38 @@ class UserController extends Controller
             'userMovies' => $userMovies
         ], 200);
     }
+
+    public function myWallet(Request $request)
+    {
+        $loggedInUser = getApiUser();
+
+        $wallet = UserWallet::firstOrCreate(
+            ['user_id' => $loggedInUser->id],
+            ['balance' => 0]
+        );
+
+        return response()->json([
+            'message' => 'User wallet retrieved successfully',
+            'wallet' => $wallet,
+            'currency' => strtoupper((string) config('services.stripe.currency', 'pkr')),
+            'minimum_top_up' => (float) config('services.stripe.minimum_charge', 150),
+        ], 200);
+    }
+
+    public function transactionHistory(Request $request)
+    {
+        $loggedInUser = getApiUser();
+
+        $transactions = WalletTransaction::where('user_id', $loggedInUser->id)
+            ->latest()
+            ->limit(50)
+            ->get();
+
+        return response()->json([
+            'message' => 'User transactions retrieved successfully',
+            'transactions' => $transactions
+        ], 200);
+    }
+
+
 }

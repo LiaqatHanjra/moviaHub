@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\WatchList;
 use App\Models\Like;
+use App\Models\UserMovies;
 
 class MovieResource extends JsonResource
 {
@@ -34,6 +35,11 @@ class MovieResource extends JsonResource
 
         $plans = [];
         $user = getApiUser();
+        $isPurchased = $user
+            ? UserMovies::where('user_id', $user->id)->where('movie_id', $this->id)->exists()
+            : false;
+        $requiresPurchase = strtolower((string) $this->movie_access) !== 'free';
+        $canAccessMedia = !$requiresPurchase || $isPurchased;
         $is_like = 0;
         if($user) {
 
@@ -67,6 +73,7 @@ class MovieResource extends JsonResource
             'description' => strip_tags($this->description),
             'trailer_url_type' => $this->trailer_url_type,
             'type' => $this->type,
+            'movie_access' => $this->movie_access,
             'trailer_url' => $this->trailer_url,
             'language' => $this->language,
             'imdb_rating' => $this->IMDb_rating,
@@ -76,11 +83,15 @@ class MovieResource extends JsonResource
             'release_date' => $this->release_date,
             'is_restricted' => $this->is_restricted,
             'video_upload_type' => $this->video_upload_type,
-            'video_url_input' => $this->video_url_input,
+            'video_url_input' => $canAccessMedia ? $this->video_url_input : null,
             'download_status' => $this->download_status,
             'enable_quality' => $this->enable_quality,
-            'download_url' => $this->download_url,
-            'video_links' => $streamLinks,
+            'download_url' => $canAccessMedia ? $this->download_url : null,
+            'video_links' => $canAccessMedia ? $streamLinks : [],
+            'is_purchased' => $isPurchased,
+            'requires_purchase' => $requiresPurchase,
+            'rental_price' => (float) config('services.stripe.movie_rental_price', 50),
+            'currency' => strtoupper((string) config('services.stripe.currency', 'pkr')),
             'poster_image' => $this->poster_url ?? null,
             'thumbnail_image' => $this->thumbnail_url ?? null,
             'is_watch_list' => $isInWatchList ? true : false,
