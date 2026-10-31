@@ -33,25 +33,32 @@
 
       <div class="dropdown">
         <button
-          class="btn p-0 border-0 bg-transparent dropdown-toggle"
+          class="btn p-0 border-0 bg-transparent"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
+          <!-- Show user image if available -->
           <img
-            :src="userImage || '/assets/images/default-user.png'"
-            alt="User Profile"
+            v-if="userImage"
+            :src="userImage"
+            :alt="userName || 'User'"
             class="mv-w-8 mv-h-8 mv-rounded-full"
             style="object-fit: cover;"
           />
+
+          <!-- Show initials if image is not available -->
+          <div
+            v-else
+            class="mv-w-8 mv-h-8 mv-rounded-full mv-bg-primary d-flex align-items-center justify-content-center mv-text-white mv-font-semibold"
+          >
+            {{ userInitials }}
+          </div>
         </button>
 
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <router-link
-              class="dropdown-item"
-              to="/profile"
-            >
+            <router-link class="dropdown-item py-2 px-3" to="#">
               <i class="material-symbols-outlined me-2">person</i>
               Profile
             </router-link>
@@ -59,7 +66,7 @@
 
           <li>
             <button
-              class="dropdown-item"
+              class="dropdown-item py-2 px-3"
               type="button"
               @click="logout"
             >
@@ -107,6 +114,19 @@ const links = computed(() => {
 
     return items;
 });
+
+const userInitials = computed(() => {
+    if (!userName.value) return 'U';
+
+    return userName.value
+      .trim()
+      .split(/\s+/)
+      .map(name => name.charAt(0).toUpperCase())
+      .slice(0, 2)
+      .join('');
+});
+
+const userImage = computed(() => localStorage.getItem('userImage') || '');
 
 function isActive(to) {
     if (to === '/') {

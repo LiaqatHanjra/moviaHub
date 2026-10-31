@@ -79,67 +79,6 @@ class AuthController extends Controller
             return response()->json(['message' => 'Your account is not active. Please connect with the administration.'], 401);
         }
 
-        if ((int) $user->admin !== 1 && (int) $user->is_subscribe === 0) {
-            try {
-                $plan = Plan::where('id', 1)->with('planLimitation')->first();
-                if ($plan) {
-                    $limitation_data = PlanlimitationMappingResource::collection($plan->planLimitation);
-
-                    $subscribed_plan_data = [
-                        'plan_id' => $plan->id,
-                        'user_id' => $user->id,
-                        'device_id' => $request->device_id,
-                        'start_date' => Carbon::now(),
-                        'end_date' => Carbon::now()->addDays(30),
-                        'status' => 1,
-                        'amount' => $plan['price'],
-                        'discount_percentage' => $plan['discount_percentage'],
-                        'tax_amount' => 0,
-                        'total_amount' => $plan['price'],
-                        'name' => $plan['name'],
-                        'identifier' => $plan['identifier'],
-                        'type' => $plan['duration'],
-                        'duration' => $plan['duration_value'],
-                        'level' => $plan['level'],
-                        'plan_type' => $limitation_data ? json_encode($limitation_data) : null
-
-                    ];
-
-                    Subscription::create($subscribed_plan_data);
-                    $user->is_subscribe = 1;
-                    $user->save();
-                }
-            } catch (\Throwable $e) {
-                // Subscription plans are optional for this login.
-            }
-        }
-
-        if ($request->device_id) {
-            $userDeviceLimit = $user->getDeviceLimit();
-            $userDeviceCount = Device::where('user_id', $user->id)->count();
-
-            $checkDevice = Device::where('user_id', $user->id)->where('device_id', $request->device_id)->first();
-            if ($checkDevice) {
-                if ($userDeviceCount >= $userDeviceLimit['device_limit']) {
-                    return response()->json(['message' => 'You have reached the maximum number of devices. Please upgrade your plan.'], 401);
-                }
-            } else {
-                Device::create([
-                    'user_id' => $user->id,
-                    'device_id' => $request->device_id,
-                    'device_name' => $request->device_name,
-                    'platform' => $request->platform,
-                    'active_profile' => $request->active_profile,
-                ]);
-            }
-        }
-
-        try {
-            $user['plan_details'] = $user->subscriptionPackage;
-        } catch (\Throwable $e) {
-            $user['plan_details'] = null;
-        }
-
         $adminLog = new \App\Models\AdminLog();
         $adminLog->user_id = $user->id;
         $adminLog->username = $user->name;

@@ -321,6 +321,7 @@
 
             localStorage.setItem('token', `Bearer ${user.api_token}`);
             localStorage.setItem('userName', user.name || 'User');
+            localStorage.setItem('userImage', user.profile_image || '');
             this.isLoading = false;
 
             this.$router.push('/home');

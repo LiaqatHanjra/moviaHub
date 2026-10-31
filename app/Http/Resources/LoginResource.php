@@ -14,10 +14,6 @@ class LoginResource extends JsonResource
      */
     public function toArray($request)
     {
-        $planDetails = $this->plan_details;
-        if($planDetails){
-            $planDetails->plan_type = json_decode($planDetails->plan_type);
-        };
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -34,7 +30,6 @@ class LoginResource extends JsonResource
             'is_user_exist' => true,
             'profile_image' => optional($this->profile)->image,
             'admin' => (int) ($this->admin ?? 0),
-            'plan_details' => $planDetails ?? null,
         ];
     }
 }

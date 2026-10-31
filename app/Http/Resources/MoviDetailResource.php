@@ -16,7 +16,6 @@ use App\Http\Resources\CastCrewListResource;
 use App\Http\Resources\GenresResource;
 use App\Http\Resources\MovieResource;
 use App\Http\Resources\ReviewResource;
-use App\Http\Resources\PlanResource;
 use Carbon\Carbon;
 
 
@@ -147,9 +146,6 @@ class MoviDetailResource extends JsonResource
             }
         }
 
-        // $getDeviceTypeData = Subscription::checkPlanSupportDevice($request->user_id);
-        // $deviceTypeResponse = json_decode($getDeviceTypeData->getContent(), true); // Decode to associative array
-        $deviceTypeResponse = [];
 
         $streamLinks = [];
 
@@ -214,7 +210,6 @@ class MoviDetailResource extends JsonResource
             'rental_price' => (float) config('services.stripe.movie_rental_price', 50),
             'stripe_minimum_charge' => (float) config('services.stripe.minimum_charge', 150),
             'currency' => strtoupper((string) config('services.stripe.currency', 'pkr')),
-            // 'is_device_supported' => $deviceTypeResponse['isDeviceSupported'],
 
         ];
     }
