@@ -185,7 +185,7 @@ class AuthController extends Controller
 
         // Validate the request
         $request->validate([
-            'old_password' => 'required|string|min:8',
+            'old_password' => 'required|string',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
@@ -202,7 +202,7 @@ class AuthController extends Controller
 
             // Update the password
             $user->update([
-                'password' => Hash::make($request->new_password),
+                'password' => Hash::make($request->password),
             ]);
 
             return response()->json([

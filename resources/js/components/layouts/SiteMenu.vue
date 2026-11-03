@@ -58,9 +58,16 @@
 
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <router-link class="dropdown-item py-2 px-3" to="#">
+            <router-link class="dropdown-item py-2 px-3" to="/profile">
               <i class="material-symbols-outlined me-2">person</i>
               Profile
+            </router-link>
+          </li>
+
+          <li>
+            <router-link class="dropdown-item py-2 px-3" to="/change-password">
+              <i class="material-symbols-outlined me-2">lock_reset</i>
+              Reset Password
             </router-link>
           </li>
 
@@ -81,7 +88,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { currentUserName, isLoggedIn, logout } from '../auth';
 
@@ -95,8 +102,16 @@ const props = defineProps({
 const route = useRoute();
 const router = useRouter();
 const query = ref('');
+const accountVersion = ref(0);
 const showAccount = computed(() => isLoggedIn());
-const userName = computed(() => currentUserName());
+const userName = computed(() => {
+    accountVersion.value;
+    return currentUserName();
+});
+const userImage = computed(() => {
+    accountVersion.value;
+    return localStorage.getItem('userImage') || '';
+});
 
 const links = computed(() => {
     const items = [
@@ -126,7 +141,12 @@ const userInitials = computed(() => {
       .join('');
 });
 
-const userImage = computed(() => localStorage.getItem('userImage') || '');
+function refreshAccount() {
+    accountVersion.value += 1;
+}
+
+onMounted(() => window.addEventListener('profile-updated', refreshAccount));
+onBeforeUnmount(() => window.removeEventListener('profile-updated', refreshAccount));
 
 function isActive(to) {
     if (to === '/') {
