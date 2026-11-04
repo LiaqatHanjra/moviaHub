@@ -76,118 +76,41 @@
       <!-- Content Workspace -->
       <div class="mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin d-flex flex-column mv-gap-space-lg mv-sm-gap-space-xl mv-py-space-xl">
         <!-- SECTION 2: Categories / Genres Section (Screen 1 Category Pill Row) -->
-        <section class="d-flex flex-column mv-gap-space-lg">
+        <section class="d-flex flex-column mv-gap-space-lg" style="min-width: 0; max-width: 100%;">
           <div class="d-flex flex-column align-items-start mv-gap-space-sm flex-sm-row align-items-sm-end justify-content-sm-between">
             <div class="d-flex flex-column mv-gap-space-xs">
               <span class="mv-font-label-sm mv-text-label-sm mv-text-secondary text-uppercase mv-font-bold mv-tracking-widest">Explore
                 Catalog</span>
               <h2 class="mv-font-headline-lg-mobile mv-text-headline-lg-mobile mv-sm-font-headline-lg-mobile mv-sm-font-headline-lg mv-sm-text-headline-lg-mobile mv-sm-text-headline-lg mv-font-bold mv-text-on-surface mv-tracking-tight">Categories</h2>
             </div>
-            <span class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant d-none d-sm-inline-block">8 Curated
+            <span v-if="genres.length" class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant d-none d-sm-inline-block">{{ genres.length }}
               Genres</span>
           </div>
           <!-- 8 Stylized Category Cards with Vivid Color-coded Badges -->
-          <div class="d-grid mv-grid-cols-2 mv-sm-grid-cols-4 mv-lg-grid-cols-8 mv-gap-space-md">
-            <!-- 1. Bollywood -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
+          <div class="row-slider-wrap" @mouseenter="stopGenreAutoplay" @mouseleave="startGenreAutoplay">
+          <button type="button" class="row-slider-arrow row-slider-arrow-prev" aria-label="Previous genres"
+            style="transform: translateY(-50%);" @click="scrollGenres(-1)">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <button type="button" class="row-slider-arrow row-slider-arrow-next" aria-label="Next genres"
+            style="transform: translateY(-50%);" @click="scrollGenres(1)">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+          <div ref="genreSlider" class="genre-slider"
+            @touchstart.passive="stopGenreAutoplay" @touchend.passive="startGenreAutoplay">
+            <router-link v-for="genre in genres" :key="genre.id"
+              class="genre-slide mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-transition-all mv-shadow-sm text-decoration-none"
+              :to="{ path: '/movies', query: { genre_id: genre.id } }">
               <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-error-container_40 d-flex align-items-center justify-content-center mv-text-error mv-group-hover-scale-110 mv-group-hover-bg-error-container mv-transition-all mb-2 mv-shadow-442b24">
-                <span class="material-symbols-outlined mv-text-59700f"
-                  style="font-variation-settings: 'FILL' 1;">star</span>
+                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-primary-container_30 d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-scale-110 mv-transition-all mb-2 overflow-hidden">
+                <img v-if="genre.poster_url || genre.image" :src="genre.poster_url || genre.image" :alt="genre.name"
+                  class="mv-w-12 mv-h-12" style="object-fit: cover;">
+                <span v-else class="material-symbols-outlined mv-text-59700f">movie</span>
               </div>
               <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">Bollywood</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">340+ titles</span>
-            </button>
-            <!-- 2. Hollywood -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-primary-container_30 d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-scale-110 mv-group-hover-bg-primary-container_50 mv-transition-all mb-2 mv-shadow-cebb15">
-                <span class="material-symbols-outlined mv-text-59700f">movie</span>
-              </div>
-              <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">Hollywood</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">820+ titles</span>
-            </button>
-            <!-- 3. South -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-secondary-container_30 d-flex align-items-center justify-content-center mv-text-secondary mv-group-hover-scale-110 mv-group-hover-bg-secondary-container_50 mv-transition-all mb-2 mv-shadow-a32055">
-                <span class="material-symbols-outlined mv-text-59700f">theaters</span>
-              </div>
-              <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">South</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">190+ titles</span>
-            </button>
-            <!-- 4. Punjabi -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-surface-container-highest d-flex align-items-center justify-content-center mv-text-primary-fixed mv-group-hover-scale-110 mv-group-hover-bg-surface-bright mv-transition-all mb-2 mv-shadow-1147ed">
-                <span class="material-symbols-outlined mv-text-59700f">music_video</span>
-              </div>
-              <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">Punjabi</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">75+ titles</span>
-            </button>
-            <!-- 5. Action -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-primary-container_40 d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-scale-110 mv-group-hover-bg-primary-container mv-transition-all mb-2 mv-shadow-e55f09">
-                <span class="material-symbols-outlined mv-text-59700f"
-                  style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-              </div>
-              <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">Action</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">510+ titles</span>
-            </button>
-            <!-- 6. Comedy -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-tertiary-container_30 d-flex align-items-center justify-content-center mv-text-tertiary mv-group-hover-scale-110 mv-group-hover-bg-tertiary-container_50 mv-transition-all mb-2 mv-shadow-7c68e7">
-                <span class="material-symbols-outlined mv-text-59700f"
-                  style="font-variation-settings: 'FILL' 1;">sentiment_very_satisfied</span>
-              </div>
-              <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">Comedy</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">260+ titles</span>
-            </button>
-            <!-- 7. Thriller -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-secondary-container_40 d-flex align-items-center justify-content-center mv-text-secondary mv-group-hover-scale-110 mv-group-hover-bg-secondary-container mv-transition-all mb-2 mv-shadow-9b2bb9">
-                <span class="material-symbols-outlined mv-text-59700f"
-                  style="font-variation-settings: 'FILL' 1;">bolt</span>
-              </div>
-              <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">Thriller</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">310+ titles</span>
-            </button>
-            <!-- 8. Horror -->
-            <button
-              class="mv-group d-flex flex-column align-items-center justify-content-center mv-p-space-md mv-rounded-xl mv-bg-surface-container-low mv-hover-bg-surface-container mv-border-0 mv-hover-ntranslate-y-1 mv-transition-all mv-shadow-sm"
-              type="button">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-error-container_60 d-flex align-items-center justify-content-center mv-text-error mv-group-hover-scale-110 mv-group-hover-bg-error-container mv-transition-all mb-2 mv-shadow-ee3973">
-                <span class="material-symbols-outlined mv-text-59700f">skull</span>
-              </div>
-              <span
-                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">Horror</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">140+ titles</span>
-            </button>
+                class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">{{ genre.name }}</span>
+            </router-link>
+          </div>
           </div>
         </section>
 
@@ -473,6 +396,7 @@ export default {
   },
   data() {
     return {
+      genres: [],
       bannerMovies: [],
       actionMovies: [],
       horrorMovies: [],
@@ -502,10 +426,29 @@ export default {
   },
   mounted() {
     this.fetchMovieBanners();
+    this.fetchGenres();
     this.fetchCategoryMovies();
     this.fetchLatestMovies();
   },
+  beforeUnmount() {
+    this.stopBannerAutoplay();
+    this.stopGenreAutoplay();
+  },
+  beforeDestroy() {
+    this.stopBannerAutoplay();
+    this.stopGenreAutoplay();
+  },
   methods: {
+    fetchGenres() {
+      axios.get('/api/movies-genres')
+        .then((response) => {
+          this.genres = unwrapList(response.data);
+          this.$nextTick(() => this.startGenreAutoplay());
+        })
+        .catch((error) => {
+          console.error('Error fetching genres:', error);
+        });
+    },
     fetchLatestMovies() {
       axios.get('/api/latest-movies')
         .then((response) => {
@@ -546,7 +489,7 @@ export default {
       axios.get('/api/movie-banner')
         .then((response) => {
           this.bannerMovies = unwrapList(response.data);
-          console.log('Fetched movie banners:', this.bannerMovies);
+          this.startBannerAutoplay();
         })
         .catch((error) => {
           console.error('Error fetching movie banners:', error);
@@ -555,15 +498,51 @@ export default {
           this.isLoadingBanners = false;
         });
     },
+    startBannerAutoplay() {
+      this.stopBannerAutoplay();
+      if (this.bannerMovies.length < 2) return;
+      this.bannerTimer = setInterval(() => this.advanceBanner(), 5000);
+    },
+    stopBannerAutoplay() {
+      clearInterval(this.bannerTimer);
+      this.bannerTimer = null;
+    },
+    advanceBanner() {
+      this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
+    },
+    startGenreAutoplay() {
+      this.stopGenreAutoplay();
+      this.genreTimer = setInterval(() => this.advanceGenres(), 3000);
+    },
+    stopGenreAutoplay() {
+      clearInterval(this.genreTimer);
+      this.genreTimer = null;
+    },
+    scrollGenres(direction) {
+      const slider = this.$refs.genreSlider;
+      if (!slider) return;
+      slider.scrollBy({ left: slider.clientWidth * 0.8 * direction, behavior: 'smooth' });
+    },
+    advanceGenres() {
+      const slider = this.$refs.genreSlider;
+      if (!slider) return;
+      const card = slider.querySelector('.genre-slide');
+      const step = card ? card.offsetWidth + 16 : slider.clientWidth * 0.8;
+      const atEnd = slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 4;
+      slider.scrollTo({ left: atEnd ? 0 : slider.scrollLeft + step, behavior: 'smooth' });
+    },
     showBanner(index) {
       this.activeBannerIndex = index;
+      this.startBannerAutoplay();
     },
     showPreviousBanner() {
+      this.startBannerAutoplay();
       this.activeBannerIndex = this.activeBannerIndex > 0
         ? this.activeBannerIndex - 1
         : this.bannerMovies.length - 1;
     },
     showNextBanner() {
+      this.startBannerAutoplay();
       if (this.bannerMovies.length > 0) {
         this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
       }
@@ -710,8 +689,31 @@ export default {
     background: #93ccff;
 }
 
+.genre-slider {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem 1rem;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.genre-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.genre-slide {
+    flex: 0 0 9rem;
+    min-width: 0;
+}
+
 .row-slider-wrap {
     position: relative;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .row-slider {

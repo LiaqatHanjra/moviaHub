@@ -115,32 +115,25 @@
                         <!-- Top Brand Header -->
                         <div class="auth-flex auth-flex-col auth-items-center auth-text-center auth-mb-7">
                             <div class="auth-flex auth-items-center auth-gap-2 auth-mb-4 auth-group auth-cursor-pointer">
-                                <div
-                                    class="auth-w-10 auth-h-10 auth-rounded-xl auth-overflow-hidden auth-shadow-lg auth-shadow-primary-container/30 auth-flex auth-items-center auth-justify-center auth-bg-surface-container"
-                                >
-                                    <router-link to="/">
-                                        <div
-                                            class="auth-w-9 auth-h-9 auth-rounded-lg auth-bg-primary-container auth-flex auth-items-center auth-justify-center auth-shadow-[0_0_16px_rgba(49,152,220,0.35)] group-hover:auth-scale-105 auth-transition-transform"
-                                        >
-                                            <span class="material-symbols-outlined auth-text-white-container auth-text-[22px]"
-                                                >play_arrow</span
-                                            >
-                                        </div>
-
-                                        <span class="auth-font-headline-md auth-text-headline-md auth-tracking-tight auth-text-on-surface">
-                                            Movie<span class="auth-text-primary auth-font-headline-xl-mobile sm:auth-font-headline-xl"
-                                                >Hub</span
-                                            >
-                                        </span>
-                                    </router-link>
-                                </div>
+                                <router-link to="/" class="auth-flex auth-items-center auth-gap-2.5">
+                                    <div
+                                        class="auth-w-9 auth-h-9 auth-rounded-lg auth-bg-primary-container auth-flex auth-items-center auth-justify-center auth-shadow-[0_0_16px_rgba(49,152,220,0.35)] group-hover:auth-scale-105 auth-transition-transform"
+                                    >
+                                        <span class="material-symbols-outlined auth-text-white-container auth-text-[22px]">play_arrow</span>
+                                    </div>
+                                    <span
+                                        class="auth-font-headline-md auth-text-headline-md auth-tracking-tight auth-text-on-surface auth-flex auth-items-center auth-font-bold"
+                                    >
+                                        Movie<span class="auth-text-primary-container">Hub</span>
+                                    </span>
+                                </router-link>
+                            </div>
                                 <h1
                                     class="auth-font-headline-lg-mobile sm:auth-font-headline-lg auth-text-headline-lg-mobile sm:auth-text-headline-lg auth-text-on-surface auth-mb-1.5 auth-tracking-tight"
                                 >
                                     Welcome Back
                                 </h1>
                                 <p class="auth-font-body-md auth-text-body-md auth-text-on-surface-variant">Login to your account</p>
-                            </div>
                             <!-- Login Form Formwork -->
                             <form class="auth-flex auth-flex-col auth-gap-4" id="loginForm" @submit.prevent="login">
                                 <p v-if="errorMessage" class="auth-text-error auth-font-body-sm auth-text-body-sm" role="alert">

@@ -91,94 +91,20 @@
             </p>
           </div>
           <!-- 8-Category Pill/Card Bento -->
-          <div class="d-grid mv-grid-cols-2 mv-sm-grid-cols-4 mv-lg-grid-cols-8 mv-gap-space-sm mv-md-gap-space-md">
-            <!-- Bollywood -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-239a9c mv-hover-ntranslate-y-1"
-              to="/login">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-pink-600_30 mv-to-rose-400_20 mv-text-rose-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">hotel_class</span>
-              </div>
-              <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Bollywood</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">340+ titles</span>
-            </router-link>
-            <!-- Hollywood -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-f6a547 mv-hover-ntranslate-y-1"
-              to="/login">
+          <div ref="genreSlider" class="genre-slider"
+            @mouseenter="stopGenreAutoplay" @mouseleave="startGenreAutoplay"
+            @touchstart.passive="stopGenreAutoplay" @touchend.passive="startGenreAutoplay">
+            <router-link v-for="genre in genres" :key="genre.id"
+              class="genre-slide mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm"
+              :to="{ path: '/movies', query: { genre_id: genre.id } }">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-primary-container_30 mv-to-secondary_20 mv-text-primary d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">movie</span>
+                <img v-if="genre.poster_url || genre.image" :src="genre.poster_url || genre.image" :alt="genre.name"
+                  class="mv-w-12 mv-h-12 mv-rounded-xl" style="object-fit: cover;">
+                <span v-else class="material-symbols-outlined mv-text-59700f">movie</span>
               </div>
               <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Hollywood</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">820+ titles</span>
-            </router-link>
-            <!-- South Indian -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-5bc903 mv-hover-ntranslate-y-1"
-              to="/login">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-amber-600_30 mv-to-yellow-400_20 mv-text-amber-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">theaters</span>
-              </div>
-              <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">South</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">190+ titles</span>
-            </router-link>
-            <!-- Punjabi -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-9bae99 mv-hover-ntranslate-y-1"
-              to="/login">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-orange-600_30 mv-to-amber-500_20 mv-text-orange-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">graphic_eq</span>
-              </div>
-              <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Punjabi</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">75+ titles</span>
-            </router-link>
-            <!-- Action -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-f6a547 mv-hover-ntranslate-y-1"
-              to="/login">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-primary_30 mv-to-primary-container_20 mv-text-primary d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">local_fire_department</span>
-              </div>
-              <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Action</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">510+ titles</span>
-            </router-link>
-            <!-- Comedy -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-4c5e9c mv-hover-ntranslate-y-1"
-              to="/login">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-tertiary_30 mv-to-tertiary-container_20 mv-text-tertiary d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">sentiment_very_satisfied</span>
-              </div>
-              <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Comedy</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">260+ titles</span>
-            </router-link>
-            <!-- Thriller -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-0bc642 mv-hover-ntranslate-y-1"
-              to="/login">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-purple-600_30 mv-to-indigo-400_20 mv-text-purple-400 d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">visibility</span>
-              </div>
-              <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Thriller</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">310+ titles</span>
-            </router-link>
-            <!-- Horror -->
-            <router-link class="mv-group d-flex flex-column align-items-center text-center mv-p-space-md mv-rounded-2xl mv-bg-surface-container mv-hover-bg-surface-container-high mv-transition-all mv-duration-300 mv-shadow-sm mv-hover-shadow-e609d3 mv-hover-ntranslate-y-1"
-              to="/login">
-              <div
-                class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-red-600_30 mv-to-rose-500_20 mv-text-error d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
-                <span class="material-symbols-outlined mv-text-59700f">skull</span>
-              </div>
-              <span
-                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">Horror</span>
-              <span class="mv-font-label-sm mv-text-label-sm mv-text-outline mv-mt-0p5">140+ titles</span>
+                class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">{{ genre.name }}</span>
             </router-link>
           </div>
         </div>
@@ -453,13 +379,46 @@ export default {
         this.fetchLatest();
         this.fetchShows();
         this.fetchGenres();
-
+    },
+    beforeUnmount() {
+        this.stopBannerAutoplay();
+        this.stopGenreAutoplay();
+    },
+    beforeDestroy() {
+        this.stopBannerAutoplay();
+        this.stopGenreAutoplay();
     },
     methods: {
+        startBannerAutoplay() {
+            this.stopBannerAutoplay();
+            if (this.banners.length < 2) return;
+            this.bannerTimer = setInterval(() => this.showNextBanner(), 5000);
+        },
+        stopBannerAutoplay() {
+            clearInterval(this.bannerTimer);
+            this.bannerTimer = null;
+        },
+        startGenreAutoplay() {
+            this.stopGenreAutoplay();
+            this.genreTimer = setInterval(() => this.advanceGenres(), 3000);
+        },
+        stopGenreAutoplay() {
+            clearInterval(this.genreTimer);
+            this.genreTimer = null;
+        },
+        advanceGenres() {
+            const slider = this.$refs.genreSlider;
+            if (!slider) return;
+            const card = slider.querySelector('.genre-slide');
+            const step = card ? card.offsetWidth + 16 : slider.clientWidth * 0.8;
+            const atEnd = slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 4;
+            slider.scrollTo({ left: atEnd ? 0 : slider.scrollLeft + step, behavior: 'smooth' });
+        },
         fetchGenres() {
             axios.get('/api/genres')
                 .then(response => {
                     this.genres = unwrapList(response.data);
+                    this.$nextTick(() => this.startGenreAutoplay());
                 })
                 .catch(error => {
                     console.error('Error fetching genres:', error);
@@ -469,6 +428,7 @@ export default {
             axios.get('/api/banners')
                 .then(response => {
                     this.banners = unwrapList(response.data);
+                    this.startBannerAutoplay();
                 })
                 .catch(error => {   
                     console.error('Error fetching banners:', error);
@@ -503,15 +463,18 @@ export default {
         },
         showBanner(index) {
             this.activeBannerIndex = index;
+            this.startBannerAutoplay();
         },
         showPreviousBanner() {
+            this.startBannerAutoplay();
             if (this.activeBannerIndex > 0) {
                 this.activeBannerIndex--;
             } else {
                 this.activeBannerIndex = this.banners.length - 1;
             }
         },
-        showNextBanner() {
+        showNextBanner(event) {
+            if (event) this.startBannerAutoplay();
             if (this.activeBannerIndex < this.banners.length - 1) {
                 this.activeBannerIndex++;
             } else {
@@ -606,6 +569,23 @@ export default {
 .hero-slider-dot.is-active {
     width: 2rem;
     background: #93ccff;
+}
+
+.genre-slider {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.25rem 1rem;
+    scrollbar-width: none;
+}
+
+.genre-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.genre-slide {
+    flex: 0 0 9rem;
+    min-width: 0;
 }
 
 .row-slider-wrap {
