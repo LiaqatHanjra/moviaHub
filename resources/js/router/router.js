@@ -1,4 +1,5 @@
-import {createWebHistory,createRouter} from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router'
+import { routeStarted, routeFinished } from '../loader';
 
 import Login from '../components/auth/Login.vue';
 import Register from '../components/auth/Register.vue';
@@ -211,6 +212,10 @@ const router   = createRouter({
     routes
 });
 
+router.beforeEach(() => {
+    routeStarted();
+});
+
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('token');
     const isAdmin = localStorage.getItem('admin');
@@ -241,10 +246,13 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to) => {
+    routeFinished();
     if (to.meta.title) {
         document.title = `MovieHub - ${to.meta.title}`;
     }
 });
+
+router.onError(() => routeFinished());
 
 
 export default router;

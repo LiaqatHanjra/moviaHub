@@ -162,33 +162,32 @@
               <p v-else-if="!movies.length" class="mv-py-space-xl mv-text-on-surface-variant">No movies found.</p>
               <div
                 v-else
-                class="d-grid mv-grid-cols-2 mv-sm-grid-cols-2 mv-md-grid-cols-3 mv-lg-grid-cols-4 mv-gap-gutter-mobile mv-sm-gap-gutter"
+                class="movie-grid"
                 id="movie-grid"
               >
                 <router-link
                   v-for="movie in movies"
                   :key="movie.id"
                   :to="`/movie/${movie.id}`"
-                  class="mv-group mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-sm mv-hover-shadow-xl mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 d-flex flex-column justify-content-between text-decoration-none"
+                  class="mv-group mv-bg-surface-container mv-rounded-xl overflow-hidden mv-shadow-md mv-hover-shadow-695ca5 mv-transition-all mv-duration-300 mv-hover-ntranslate-y-1 d-flex flex-column text-decoration-none"
                 >
-                  <div class="mv-relative mv-w-full mv-aspect-bc11a5 overflow-hidden mv-bg-surface-container-lowest">
+                  <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
                     <img
                       class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500"
                       :src="posterOf(movie)"
                       :alt="`${movie.name} poster`"
                       loading="lazy"
                     />
-                    <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container mv-via-transparent mv-to-transparent mv-opacity-90"></div>
                     <span
                       v-if="movie.imdb_rating"
-                      class="mv-absolute mv-top-2p5 mv-left-2p5 d-flex align-items-center mv-gap-1 mv-bg-surface-container-lowest_80 mv-backdrop-blur-md mv-px-2 mv-py-0p5 mv-rounded mv-text-tertiary mv-font-label-sm mv-text-label-sm mv-font-bold"
+                      class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm"
                     >
-                      <span class="material-symbols-outlined">star</span>{{ movie.imdb_rating }}
+                      <span class="material-symbols-outlined mv-text-3eb376" style="font-variation-settings: 'FILL' 1;">star</span> {{ movie.imdb_rating }}
                     </span>
                   </div>
-                  <div class="mv-p-space-md d-flex flex-column mv-gap-2 mv-nmt-4 mv-relative mv-z-10">
+                  <div class="movie-card-content d-flex flex-column mv-flex-1 justify-content-between">
                     <div>
-                      <h2 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold text-truncate mv-group-hover-text-primary">
+                      <h2 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold text-truncate mv-group-hover-text-primary mv-transition-colors">
                         {{ movie.name }}
                       </h2>
                       <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate mb-0">
@@ -428,3 +427,35 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.movie-card-content {
+  min-height: 6rem;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+@media (max-width: 1199.98px) {
+  .movie-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991.98px) {
+  .movie-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+</style>
