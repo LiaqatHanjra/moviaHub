@@ -44,6 +44,9 @@
               <div>
                 <h2 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold text-truncate mv-group-hover-text-primary mv-transition-colors">{{ movie.name }}</h2>
                 <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant text-truncate mb-0">{{ genreLine(movie) || movie.language || 'Movie' }}</p>
+                <p class="mv-font-label-sm mv-text-label-sm mv-text-tertiary mb-0 mt-2">
+                  {{ remainingDaysLabel(movie) }}
+                </p>
               </div>
             </div>
           </router-link>
@@ -92,6 +95,10 @@ export default {
         .map((genre) => (typeof genre === 'string' ? genre : genre.name))
         .filter(Boolean)
         .join(', ');
+    },
+    remainingDaysLabel(movie) {
+      const days = Number(movie.rental_remaining_days);
+      return `${days} day${days === 1 ? '' : 's'} remaining`;
     },
   },
 };

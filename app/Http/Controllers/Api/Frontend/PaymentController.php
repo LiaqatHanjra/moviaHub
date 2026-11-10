@@ -64,7 +64,7 @@ class PaymentController extends Controller
                 return response()->json(['message' => 'Free movies do not require purchase.'], 422);
             }
 
-            if (UserMovies::query()
+            if (UserMovies::active()
                 ->where('user_id', $user->id)
                 ->where('movie_id', $movie->id)
                 ->exists()) {
@@ -159,7 +159,7 @@ class PaymentController extends Controller
         $purchase = DB::transaction(function () use ($user, $movie, $amountMinor): array {
             User::query()->whereKey($user->id)->lockForUpdate()->firstOrFail();
 
-            if (UserMovies::query()
+            if (UserMovies::active()
                 ->where('user_id', $user->id)
                 ->where('movie_id', $movie->id)
                 ->exists()) {
@@ -383,10 +383,16 @@ class PaymentController extends Controller
                 ->where('type', 'movie')
                 ->firstOrFail();
 
-            UserMovies::query()->firstOrCreate(
-                ['user_id' => $userId, 'movie_id' => $movie->id],
-                ['total_movies' => 1]
-            );
+            if (!UserMovies::active()
+                ->where('user_id', $userId)
+                ->where('movie_id', $movie->id)
+                ->exists()) {
+                UserMovies::query()->create([
+                    'user_id' => $userId,
+                    'movie_id' => $movie->id,
+                    'total_movies' => 1,
+                ]);
+            }
 
             if ($walletCreditMinor > 0) {
                 $newBalanceMinor = $this->toMinorUnits($wallet->balance) + $walletCreditMinor;

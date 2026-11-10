@@ -121,9 +121,10 @@ class MoviDetailResource extends JsonResource
          }
         }
         $user = getApiUser();
-        $isPurchased = $user
-            ? UserMovies::where('user_id', $user->id)->where('movie_id', $this->id)->exists()
-            : false;
+        $purchase = $user
+            ? UserMovies::active()->where('user_id', $user->id)->where('movie_id', $this->id)->first()
+            : null;
+        $isPurchased = (bool) $purchase;
         $requiresPurchase = strtolower((string) $this->movie_access) !== 'free';
         $canAccessMedia = !$requiresPurchase || $isPurchased;
         $download = null;
@@ -203,6 +204,9 @@ class MoviDetailResource extends JsonResource
             'download_id' => !empty($download) ? $download->id: null,
             'is_play' => $this->is_play,
             'is_purchased' => $isPurchased,
+            'rental_purchased_at' => $purchase?->created_at?->toIso8601String(),
+            'rental_expires_at' => $purchase?->expiresAt()->toIso8601String(),
+            'rental_remaining_days' => $purchase?->remainingDays(),
             'requires_purchase' => $requiresPurchase,
             'wallet_balance' => $user
                 ? (float) \App\Models\UserWallet::where('user_id', $user->id)->value('balance')

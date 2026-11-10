@@ -95,7 +95,10 @@ class UserController extends Controller
     {
         $user = getApiUser();
 
-        $userMovies = UserMovies::where('user_id', $user->id)->pluck('movie_id')->toArray();
+        $userMovies = UserMovies::active()
+            ->where('user_id', $user->id)
+            ->pluck('movie_id')
+            ->toArray();
 
         // 3. Find other movies in those genres, not already watched
         $getMovies = Entertainment::whereIn('id', $userMovies)

@@ -35,9 +35,10 @@ class MovieResource extends JsonResource
 
         $plans = [];
         $user = getApiUser();
-        $isPurchased = $user
-            ? UserMovies::where('user_id', $user->id)->where('movie_id', $this->id)->exists()
-            : false;
+        $purchase = $user
+            ? UserMovies::active()->where('user_id', $user->id)->where('movie_id', $this->id)->first()
+            : null;
+        $isPurchased = (bool) $purchase;
         $requiresPurchase = strtolower((string) $this->movie_access) !== 'free';
         $canAccessMedia = !$requiresPurchase || $isPurchased;
         $is_like = 0;
@@ -89,6 +90,9 @@ class MovieResource extends JsonResource
             'download_url' => $canAccessMedia ? $this->download_url : null,
             'video_links' => $canAccessMedia ? $streamLinks : [],
             'is_purchased' => $isPurchased,
+            'rental_purchased_at' => $purchase?->created_at?->toIso8601String(),
+            'rental_expires_at' => $purchase?->expiresAt()->toIso8601String(),
+            'rental_remaining_days' => $purchase?->remainingDays(),
             'requires_purchase' => $requiresPurchase,
             'rental_price' => (float) config('services.stripe.movie_rental_price', 50),
             'currency' => strtoupper((string) config('services.stripe.currency', 'pkr')),
