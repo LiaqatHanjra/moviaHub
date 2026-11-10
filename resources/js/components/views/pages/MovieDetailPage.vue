@@ -137,7 +137,7 @@
                     </div>
                     <div v-if="movie.release_date">
                       <dt class="mv-font-label-sm mv-text-label-sm mv-text-outline">Release date</dt>
-                      <dd class="mv-font-title-md mv-text-title-md mv-font-semibold mv-text-on-surface mb-0">{{ movie.release_date }}</dd>
+                      <dd class="mv-font-title-md mv-text-title-md mv-font-semibold mv-text-on-surface mb-0">{{ formatDate(movie.release_date) }}</dd>
                     </div>
                     <div v-if="movie.duration">
                       <dt class="mv-font-label-sm mv-text-label-sm mv-text-outline">Runtime</dt>
@@ -348,6 +348,24 @@ export default {
         currency: currency || 'PKR',
         maximumFractionDigits: 2,
       }).format(Number(amount) || 0);
+    },
+    formatDate(value) {
+      if (!value) {
+        return '';
+      }
+
+      const datePart = String(value).split('T')[0];
+      const [year, month, day] = datePart.split('-').map(Number);
+      const date = year && month && day
+        ? new Date(Date.UTC(year, month - 1, day))
+        : new Date(value);
+
+      return new Intl.DateTimeFormat('en', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC',
+      }).format(date);
     },
     posterOf(item) {
       return item.poster_image || item.thumbnail_image || '/frontend/favicon.png';
