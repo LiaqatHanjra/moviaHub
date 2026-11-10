@@ -153,7 +153,7 @@
             </section>
 
             <section v-if="movie.directors && movie.directors.length" class="d-flex flex-column mv-gap-space-md">
-              <h2 class="mv-font-headline-md mv-text-headline-md mv-font-bold mv-text-on-surface">Directors</h2>
+              <h2 class="mv-font-headline-md mv-text-headline-md mv-font-bold mv-text-on-surface">Crew</h2>
               <div class="d-flex flex-wrap mv-gap-space-md">
                 <div
                   v-for="director in movie.directors"
@@ -161,7 +161,10 @@
                   class="d-flex align-items-center mv-gap-space-sm mv-bg-surface-container-low mv-rounded-xl mv-p-space-sm"
                 >
                   <img class="mv-w-12 mv-h-12 mv-rounded-full mv-object-cover" :src="personImageOf(director)" :alt="director.name" />
-                  <span class="mv-font-title-md mv-text-title-md mv-font-semibold mv-text-on-surface">{{ director.name }}</span>
+                  <span class="d-flex flex-column">
+                    <span class="mv-font-title-md mv-text-title-md mv-font-semibold mv-text-on-surface">{{ director.name }}</span>
+                    <span class="mv-font-label-sm mv-text-label-sm mv-text-outline">Director</span>
+                  </span>
                 </div>
               </div>
             </section>
@@ -180,6 +183,7 @@
                     :alt="person.name"
                   />
                   <span class="mv-font-label-md mv-text-label-md mv-font-semibold mv-text-on-surface">{{ person.name }}</span>
+                  <span class="mv-font-label-sm mv-text-label-sm mv-text-outline">Actor</span>
                 </div>
               </div>
             </section>

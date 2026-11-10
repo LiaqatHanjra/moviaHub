@@ -31,14 +31,18 @@ class MoviDetailResource extends JsonResource
         $casts = [];
         $directors = [];
 
-        if ($this->entertainmentTalentMappings) {
-            foreach ($this->entertainmentTalentMappings as $mapping) {
-                if ($mapping && $mapping->talentprofile) {
-                    if ($mapping->talentprofile->type === 'actor') {
-                        $casts[] = $mapping->talentprofile;
-                    } elseif ($mapping->talentprofile->type === 'director') {
-                        $directors[] = $mapping->talentprofile;
-                    }
+        $talentMappings = $this->relationLoaded('entertainmentTalentMappings')
+            ? $this->entertainmentTalentMappings
+            : EntertainmentCast::with('talentprofile')
+                ->where('entertainment_id', $this->id)
+                ->get();
+
+        foreach ($talentMappings as $mapping) {
+            if ($mapping && $mapping->talentprofile) {
+                if ($mapping->talentprofile->type === 'actor') {
+                    $casts[] = $mapping->talentprofile;
+                } elseif ($mapping->talentprofile->type === 'director') {
+                    $directors[] = $mapping->talentprofile;
                 }
             }
         }
