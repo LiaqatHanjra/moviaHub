@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center mv-gap-space-md mv-xl-gap-space-xl">
         <router-link class="d-flex align-items-center mv-gap-space-sm mv-group" to="/">
           <div class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
-            <span class="material-symbols-outlined mv-text-c28550">play_arrow</span>
+            <span class="mv-text-c28550 bi bi-play-fill"></span>
           </div>
           <span class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-tracking-tight mv-text-on-surface">Movie<span class="mv-text-primary">Hub</span></span>
         </router-link>

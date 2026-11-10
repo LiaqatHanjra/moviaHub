@@ -32,7 +32,7 @@
                           <div
                               class="auth-w-9 auth-h-9 auth-rounded-lg auth-bg-primary-container auth-flex auth-items-center auth-justify-center auth-shadow-[0_0_16px_rgba(49,152,220,0.35)] group-hover:auth-scale-105 auth-transition-transform"
                           >
-                              <span class="material-symbols-outlined auth-text-white-container auth-text-[22px]">play_arrow</span>
+                              <span class="auth-text-white-container auth-text-[22px] bi bi-play-fill"></span>
                           </div>
                           <span
                               class="auth-font-headline-md auth-text-headline-md auth-tracking-tight auth-text-on-surface auth-flex auth-items-center auth-font-bold"
@@ -62,10 +62,8 @@
                           </label>
                           <div class="auth-relative auth-flex auth-items-center">
                               <span
-                                  class="material-symbols-outlined auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none"
-                              >
-                                  person
-                              </span>
+                                  class="auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none bi bi-person"
+                              ></span>
                               <input
                                   class="auth-w-full auth-h-11 auth-pl-11 auth-pr-4 auth-bg-surface-container auth-rounded-lg auth-font-body-md auth-text-body-md auth-text-on-surface placeholder:auth-text-outline-variant focus:auth-outline-none focus:auth-bg-surface-variant auth-transition-all auth-shadow-inner"
                                   id="fullName"
@@ -85,10 +83,8 @@
                           </label>
                           <div class="auth-relative auth-flex auth-items-center">
                               <span
-                                  class="material-symbols-outlined auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none"
-                              >
-                                  mail
-                              </span>
+                                  class="auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none bi bi-envelope"
+                              ></span>
                               <input
                                   class="auth-w-full auth-h-11 auth-pl-11 auth-pr-4 auth-bg-surface-container auth-rounded-lg auth-font-body-md auth-text-body-md auth-text-on-surface placeholder:auth-text-outline-variant focus:auth-outline-none focus:auth-bg-surface-variant auth-transition-all auth-shadow-inner"
                                   id="identifier"
@@ -109,10 +105,8 @@
                           </label>
                           <div class="auth-relative auth-flex auth-items-center">
                               <span
-                                  class="material-symbols-outlined auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none"
-                              >
-                                  lock
-                              </span>
+                                  class="auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none bi bi-lock"
+                              ></span>
                               <input
                                   class="auth-w-full auth-h-11 auth-pl-11 auth-pr-11 auth-bg-surface-container auth-rounded-lg auth-font-body-md auth-text-body-md auth-text-on-surface placeholder:auth-text-outline-variant focus:auth-outline-none focus:auth-bg-surface-variant auth-transition-all auth-shadow-inner"
                                   id="password"
@@ -123,10 +117,10 @@
                               <button
                                   class="auth-absolute auth-right-3 auth-text-outline hover:auth-text-on-surface auth-transition-colors auth-p-1 auth-flex auth-items-center auth-justify-center"
                                   id="togglePassBtn"
-                                  onclick="const p = document.getElementById('password'); const icon = document.getElementById('passIcon'); if(p.type === 'password'){ p.type = 'text'; icon.textContent = 'visibility'; } else { p.type = 'password'; icon.textContent = 'visibility_off'; }"
+                                  onclick="const p = document.getElementById('password'); const icon = document.getElementById('passIcon'); const show = p.type === 'password'; p.type = show ? 'text' : 'password'; icon.classList.toggle('bi-eye', show); icon.classList.toggle('bi-eye-slash', !show);"
                                   type="button"
                               >
-                                  <span class="material-symbols-outlined auth-text-[18px]" id="passIcon">visibility_off</span>
+                                  <span class="auth-text-[18px] bi bi-eye-slash" id="passIcon"></span>
                               </button>
                           </div>
                       </div>
@@ -140,10 +134,8 @@
                           </label>
                           <div class="auth-relative auth-flex auth-items-center">
                               <span
-                                  class="material-symbols-outlined auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none"
-                              >
-                                  verified_user
-                              </span>
+                                  class="auth-absolute auth-left-3.5 auth-text-outline auth-text-[20px] auth-pointer-events-none bi bi-patch-check"
+                              ></span>
                               <input
                                   class="auth-w-full auth-h-11 auth-pl-11 auth-pr-11 auth-bg-surface-container auth-rounded-lg auth-font-body-md auth-text-body-md auth-text-on-surface placeholder:auth-text-outline-variant focus:auth-outline-none focus:auth-bg-surface-variant auth-transition-all auth-shadow-inner"
                                   id="confirmPassword"
@@ -154,11 +146,11 @@
                               <button
                                   class="auth-absolute auth-right-3 auth-text-outline hover:auth-text-on-surface auth-transition-colors auth-p-1 auth-flex auth-items-center auth-justify-center"
                                   id="toggleConfirmPassBtn"
-                                  onclick="const p = document.getElementById('confirmPassword'); const icon = document.getElementById('confirmPassIcon'); if(p.type === 'password'){ p.type = 'text'; icon.textContent = 'visibility'; } else { p.type = 'password'; icon.textContent = 'visibility_off'; }"
+                                  onclick="const p = document.getElementById('confirmPassword'); const icon = document.getElementById('confirmPassIcon'); const show = p.type === 'password'; p.type = show ? 'text' : 'password'; icon.classList.toggle('bi-eye', show); icon.classList.toggle('bi-eye-slash', !show);"
                                   type="button"
                               >
-                                  <span class="material-symbols-outlined auth-text-[18px]" id="confirmPassIcon"
-                                      >visibility_off</span
+                                  <span class="auth-text-[18px] bi bi-eye-slash" id="confirmPassIcon"
+                                      ></span
                                   >
                               </button>
                           </div>
@@ -188,7 +180,7 @@
                           type="submit"
                       >
                           <span>Register</span>
-                          <span class="material-symbols-outlined auth-text-[18px]">arrow_forward</span>
+                          <span class="auth-text-[18px] bi bi-arrow-right"></span>
                       </button>
                   </form>
                   <!-- Social / Secondary Sign-Up Options Separator -->
@@ -242,12 +234,12 @@
                   <!-- Security & Quality Trust Badges -->
                   <div class="auth-mt-8 auth-pt-4 auth-w-full auth-flex auth-items-center auth-justify-center auth-gap-4 auth-text-on-surface-variant/60">
                       <div class="auth-flex auth-items-center auth-gap-1.5 auth-font-label-sm auth-text-label-sm auth-uppercase auth-tracking-wider">
-                          <span class="material-symbols-outlined auth-text-[16px] auth-text-tertiary">lock</span>
+                          <span class="auth-text-[16px] auth-text-tertiary bi bi-lock"></span>
                           <span>256-bit Encrypted</span>
                       </div>
                       <div class="auth-w-1 auth-h-1 auth-rounded-full auth-bg-outline-variant"></div>
                       <div class="auth-flex auth-items-center auth-gap-1.5 auth-font-label-sm auth-text-label-sm auth-uppercase auth-tracking-wider">
-                          <span class="material-symbols-outlined auth-text-[16px] auth-text-primary">hd</span>
+                          <span class="auth-text-[16px] auth-text-primary bi bi-badge-hd"></span>
                           <span>Ultra HD Stream</span>
                       </div>
                   </div>

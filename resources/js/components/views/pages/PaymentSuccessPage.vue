@@ -8,7 +8,7 @@
             Verifying your payment with Stripe...
           </p>
           <div v-else>
-            <span class="material-symbols-outlined mv-text-tertiary mv-text-5xl">
+            <span class="mv-text-tertiary mv-text-5xl bi">
               {{ isSuccessful ? 'check_circle' : 'error' }}
             </span>
             <h1 class="mv-font-headline-md mv-text-headline-md mv-font-bold mv-text-on-surface">

@@ -9,7 +9,7 @@
             <div class="d-flex flex-column align-items-center text-center mv-mb-7">
                 <a href="{{ route('login') }}" class="d-flex align-items-center mv-gap-2 mb-3 text-decoration-none">
                     <span class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center">
-                        <span class="material-symbols-outlined">play_arrow</span>
+                        <span class="bi bi-play-fill"></span>
                     </span>
                     <span class="mv-font-headline-md mv-text-on-surface">Movie<span class="mv-text-primary">Hub</span></span>
                 </a>

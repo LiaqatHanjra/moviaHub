@@ -16,9 +16,9 @@
               class="d-flex align-items-center mv-gap-space-xs mv-font-label-md mv-text-label-md mv-text-on-surface-variant"
             >
               <router-link to="/home" class="mv-hover-text-primary mv-transition-colors">Home</router-link>
-              <span class="material-symbols-outlined mv-text-outline">chevron_right</span>
+              <span class="mv-text-outline bi bi-chevron-right"></span>
               <router-link to="/movies" class="mv-hover-text-primary mv-transition-colors">Movies</router-link>
-              <span class="material-symbols-outlined mv-text-outline">chevron_right</span>
+              <span class="mv-text-outline bi bi-chevron-right"></span>
               <span class="mv-text-primary mv-font-bold">{{ movie.name }}</span>
             </nav>
 
@@ -35,7 +35,7 @@
                       <div v-if="movie.imdb_rating">
                         <p class="mv-font-label-sm mv-text-label-sm mv-text-on-surface-variant text-uppercase">IMDb score</p>
                         <p class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">
-                          <span class="material-symbols-outlined mv-text-tertiary align-middle">star</span>
+                          <span class="mv-text-tertiary align-middle bi bi-star-fill"></span>
                           {{ movie.imdb_rating }}<span class="mv-font-body-sm mv-text-body-sm">/10</span>
                         </p>
                       </div>
@@ -84,7 +84,7 @@
                     :to="{ name: 'movie-player', params: { id: movie.id }, query: { type: 'trailer' } }"
                     class="mv-bg-primary mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold mv-px-space-xl mv-py-3 mv-rounded-full d-inline-flex align-items-center mv-gap-space-xs text-decoration-none"
                   >
-                    <span class="material-symbols-outlined">play_circle</span>
+                    <span class="bi bi-play-circle"></span>
                     Watch trailer
                   </router-link>
                   <router-link
@@ -92,7 +92,7 @@
                     :to="{ name: 'movie-player', params: { id: movie.id }, query: { type: 'movie' } }"
                     class="mv-bg-surface-container-high mv-text-on-surface mv-font-label-lg mv-text-label-lg mv-font-bold mv-px-space-xl mv-py-3 mv-rounded-full d-inline-flex align-items-center mv-gap-space-xs text-decoration-none"
                   >
-                    <span class="material-symbols-outlined">movie</span>
+                    <span class="bi bi-film"></span>
                     Watch movie
                   </router-link>
                   <button
@@ -101,7 +101,7 @@
                     class="mv-bg-primary mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold mv-px-space-xl mv-py-3 mv-rounded-full d-inline-flex align-items-center mv-gap-space-xs border-0"
                     @click="goToPayment"
                   >
-                    <span class="material-symbols-outlined">shopping_bag</span>
+                    <span class="bi bi-bag"></span>
                     Rent for {{ formatMoney(movie.rental_price, movie.currency) }}
                   </button>
                   <button

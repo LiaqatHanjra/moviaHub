@@ -8,7 +8,7 @@
         <div class="d-flex mv-min-w-0 flex-wrap align-items-center mv-gap-space-sm mv-sm-gap-space-md">
           <a class="d-flex align-items-center mv-gap-space-xs mv-text-on-surface-variant mv-hover-text-primary mv-transition-colors mv-py-1p5 mv-px-space-sm mv-rounded-lg mv-hover-bg-surface-container"
             data-path="my-movies" href="/my-movies">
-            <span class="material-symbols-outlined mv-text-27bd7e">arrow_back</span>
+            <span class="mv-text-27bd7e bi bi-arrow-left"></span>
             <span class="mv-font-label-lg mv-text-label-lg mv-font-semibold">Back to Library</span>
           </a>
           <span class="mv-w-1 mv-h-4 mv-rounded-full mv-bg-surface-container-high d-none d-sm-inline-block"></span>
@@ -24,13 +24,13 @@
           <button
             class="d-flex align-items-center mv-gap-1p5 mv-px-3 mv-py-1p5 mv-rounded-full mv-bg-surface-container mv-hover-bg-surface-container-high mv-text-on-surface-variant mv-hover-text-on-surface mv-font-label-md mv-text-label-md mv-transition-all"
             id="theaterModeBtn" type="button">
-            <span class="material-symbols-outlined mv-text-c79a76">crop_landscape</span>
+            <span class="mv-text-c79a76 bi bi-crop"></span>
             <span class="d-none d-md-inline">Theater View</span>
           </button>
           <button
             class="mv-w-9 mv-h-9 mv-rounded-full mv-bg-surface-container mv-hover-bg-surface-container-high mv-text-on-surface-variant mv-hover-text-on-surface d-flex align-items-center justify-content-center mv-transition-colors"
             title="Movie Info" type="button">
-            <span class="material-symbols-outlined mv-text-c79a76">info</span>
+            <span class="mv-text-c79a76 bi bi-info-circle"></span>
           </button>
         </div>
       </div>
@@ -57,8 +57,8 @@
               <button
                 class="mv-relative mv-z-10 mv-w-20 mv-h-20 mv-rounded-full mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-xl mv-shadow-primary-container_40 mv-transition-all mv-duration-300 mv-hover-scale-110 mv-active-scale-95 mv-group-play"
                 id="centerPlayBtn" type="button">
-                <span class="material-symbols-outlined mv-text-175ac4 ms-1 mv-group-hover_play-scale-105 mv-transition-transform"
-                  style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                <span class="mv-text-175ac4 ms-1 mv-group-hover_play-scale-105 mv-transition-transform bi bi-play-fill"
+                  style="font-variation-settings: 'FILL' 1;"></span>
                 <span class="mv-absolute mv-ninset-2 mv-rounded-full mv-border-2 mv-border-primary_30 mv-animate-ping mv-opacity-40"></span>
               </button>
               <!-- Top-Right Live Stream Badge / Buffering Indicator -->
@@ -101,24 +101,24 @@
                     <button
                       class="mv-w-9 mv-h-9 mv-rounded-full d-flex align-items-center justify-content-center mv-text-on-surface mv-hover-text-primary mv-hover-bg-surface-container mv-transition-colors"
                       title="Play / Pause" type="button">
-                      <span class="material-symbols-outlined mv-text-59700f">pause</span>
+                      <span class="mv-text-59700f bi bi-pause-fill"></span>
                     </button>
                     <button
                       class="mv-w-8 mv-h-8 mv-rounded-full d-flex align-items-center justify-content-center mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors"
                       title="Replay 10s" type="button">
-                      <span class="material-symbols-outlined mv-text-27bd7e">replay_10</span>
+                      <span class="mv-text-27bd7e bi bi-arrow-counterclockwise"></span>
                     </button>
                     <button
                       class="mv-w-8 mv-h-8 mv-rounded-full d-flex align-items-center justify-content-center mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors"
                       title="Forward 10s" type="button">
-                      <span class="material-symbols-outlined mv-text-27bd7e">forward_10</span>
+                      <span class="mv-text-27bd7e bi bi-arrow-right-circle"></span>
                     </button>
                     <!-- Volume Slider Block -->
                     <div class="d-flex align-items-center mv-gap-space-xs mv-group-vol ms-1">
                       <button
                         class="mv-w-8 mv-h-8 mv-rounded-full d-flex align-items-center justify-content-center mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors"
                         title="Mute" type="button">
-                        <span class="material-symbols-outlined mv-text-27bd7e">volume_up</span>
+                        <span class="mv-text-27bd7e bi bi-volume-up"></span>
                       </button>
                       <div
                         class="mv-w-16 mv-sm-w-20 mv-h-1p5 mv-rounded-full mv-bg-surface-bright_50 mv-relative overflow-hidden mv-cursor-pointer">
@@ -138,7 +138,7 @@
                     <button
                       class="d-flex align-items-center mv-gap-1 mv-px-2p5 mv-py-1 mv-rounded-full mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-font-label-sm mv-text-label-sm"
                       id="audioSubtitlesBtn" title="Audio &amp; Subtitles" type="button">
-                      <span class="material-symbols-outlined mv-text-c79a76">subtitles</span>
+                      <span class="mv-text-c79a76 bi bi-badge-cc"></span>
                       <span class="d-none d-md-inline">ENG [CC]</span>
                     </button>
                     <!-- Speed Toggle -->
@@ -151,13 +151,13 @@
                     <button
                       class="mv-w-8 mv-h-8 mv-rounded-full d-flex align-items-center justify-content-center mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors"
                       title="Settings" type="button">
-                      <span class="material-symbols-outlined mv-text-27bd7e">settings</span>
+                      <span class="mv-text-27bd7e bi bi-gear"></span>
                     </button>
                     <!-- Fullscreen Button -->
                     <button
                       class="mv-w-9 mv-h-9 mv-rounded-full d-flex align-items-center justify-content-center mv-text-on-surface mv-hover-text-primary mv-hover-bg-surface-container mv-transition-colors ms-1"
                       id="fullscreenToggle" title="Fullscreen" type="button">
-                      <span class="material-symbols-outlined mv-text-c28550">fullscreen</span>
+                      <span class="mv-text-c28550 bi bi-fullscreen"></span>
                     </button>
                   </div>
                 </div>
@@ -169,23 +169,23 @@
                 <button
                   class="d-flex align-items-center mv-gap-2 mv-px-space-md mv-py-2 mv-rounded-full mv-bg-primary-container mv-hover-bg-secondary-container mv-transition-all mv-font-label-md mv-text-label-md mv-shadow-md mv-shadow-primary-container_20"
                   type="button">
-                  <span class="material-symbols-outlined mv-text-c79a76">download</span>
+                  <span class="mv-text-c79a76 bi bi-download"></span>
                   <span>Download Offline Copy</span>
                 </button>
                 <button
                   class="d-flex align-items-center mv-gap-2 mv-px-space-md mv-py-2 mv-rounded-full mv-bg-surface-container-low mv-hover-bg-surface-container mv-text-on-surface mv-transition-colors mv-font-label-md mv-text-label-md"
                   type="button">
-                  <span class="material-symbols-outlined mv-text-tertiary mv-text-c79a76">bookmark_add</span>
+                  <span class="mv-text-tertiary mv-text-c79a76 bi bi-bookmark-plus"></span>
                   <span>Add to Watchlist</span>
                 </button>
                 <button
                   class="mv-w-9 mv-h-9 mv-rounded-full mv-bg-surface-container-low mv-hover-bg-surface-container mv-text-on-surface-variant mv-hover-text-on-surface d-flex align-items-center justify-content-center mv-transition-colors"
                   title="Share movie" type="button">
-                  <span class="material-symbols-outlined mv-text-c79a76">share</span>
+                  <span class="mv-text-c79a76 bi bi-share"></span>
                 </button>
               </div>
               <div class="d-flex align-items-center mv-gap-space-xs mv-text-on-surface-variant mv-font-label-sm mv-text-label-sm">
-                <span class="material-symbols-outlined mv-text-tertiary mv-text-58f475">verified</span>
+                <span class="mv-text-tertiary mv-text-58f475 bi bi-patch-check"></span>
                 <span>Digital TVOD License • 48h Remaining Rental Window</span>
               </div>
             </div>
@@ -196,7 +196,7 @@
             <div class="mv-p-space-lg mv-rounded-xl mv-bg-surface-container-low d-flex flex-column mv-gap-space-md mv-shadow-sm">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center mv-gap-space-xs">
-                  <span class="material-symbols-outlined mv-text-primary mv-text-27bd7e">hd</span>
+                  <span class="mv-text-primary mv-text-27bd7e bi bi-badge-hd"></span>
                   <h2 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Quality</h2>
                 </div>
                 <span
@@ -255,7 +255,7 @@
                 <!-- 4K Ultra HD (VIP Only) -->
                 <div class="mv-p-space-sm mv-rounded-lg mv-bg-surface-container_40 d-flex align-items-center justify-content-between mv-opacity-80">
                   <div class="d-flex align-items-center mv-gap-space-sm">
-                    <span class="material-symbols-outlined mv-text-outline mv-text-c79a76">lock</span>
+                    <span class="mv-text-outline mv-text-c79a76 bi bi-lock"></span>
                     <div class="d-flex flex-column">
                       <span class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface-variant">4K Ultra HD</span>
                       <span class="mv-font-body-sm mv-text-body-sm mv-text-outline">HDR10+ • 6.8 GB</span>
@@ -280,7 +280,7 @@
             <!-- Audio & Subtitles Panel -->
             <div class="mv-p-space-lg mv-rounded-xl mv-bg-surface-container-low d-flex flex-column mv-gap-space-sm mv-shadow-sm">
               <div class="d-flex align-items-center mv-gap-space-xs mv-text-on-surface">
-                <span class="material-symbols-outlined mv-text-primary mv-text-27bd7e">graphic_eq</span>
+                <span class="mv-text-primary mv-text-27bd7e bi bi-bar-chart"></span>
                 <h3 class="mv-font-title-md mv-text-title-md mv-font-bold">Audio &amp; Subtitles</h3>
               </div>
               <div class="d-flex flex-column mv-gap-space-xs mt-1">
@@ -313,7 +313,7 @@
           <div
             class="mv-lg-col-span-4 d-flex flex-column mv-gap-space-md mv-p-space-lg mv-rounded-xl mv-bg-surface-container-low mv-shadow-sm">
             <div class="d-flex align-items-center mv-gap-space-xs">
-              <span class="material-symbols-outlined mv-text-primary mv-text-27bd7e">movie</span>
+              <span class="mv-text-primary mv-text-27bd7e bi bi-film"></span>
               <h2 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Movie Information</h2>
             </div>
             <div class="d-flex flex-column mv-gap-space-sm mv-font-body-md mv-text-body-md mv-divide-y-0">
@@ -358,7 +358,7 @@
             class="mv-lg-col-span-8 d-flex flex-column mv-gap-space-md mv-p-space-lg mv-rounded-xl mv-bg-surface-container-low mv-shadow-sm">
             <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center mv-gap-space-xs">
-                <span class="material-symbols-outlined mv-text-secondary mv-text-27bd7e">view_timeline</span>
+                <span class="mv-text-secondary mv-text-27bd7e bi bi-view-list"></span>
                 <h3 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Jump to Chapter</h3>
               </div>
               <span class="mv-font-label-sm mv-text-label-sm mv-text-on-surface-variant">4 Chapters Included</span>
@@ -442,7 +442,7 @@
             <!-- User Playback Note / Offline storage advisory -->
             <div class="mt-2 mv-p-space-sm mv-rounded-lg mv-bg-surface-container d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center mv-gap-space-sm">
-                <span class="material-symbols-outlined mv-text-primary mv-text-27bd7e">cloud_sync</span>
+                <span class="mv-text-primary mv-text-27bd7e bi bi-cloud-arrow-up"></span>
                 <span class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">Your playback timestamp is automatically
                   synced across all connected devices.</span>
               </div>

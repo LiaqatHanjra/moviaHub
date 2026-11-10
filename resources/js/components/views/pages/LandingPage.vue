@@ -24,7 +24,7 @@
               <div class="d-flex flex-wrap align-items-center mv-gap-space-sm mb-3">
                 <span class="d-inline-flex align-items-center mv-gap-1p5 mv-px-space-md mv-py-1 mv-rounded-full mv-bg-primary-container_20 mv-text-primary mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider mv-backdrop-blur-md">Featured Premiere</span>
                 <span v-if="ratingOf(banner)" class="d-inline-flex align-items-center mv-gap-1 mv-px-space-sm mv-py-0p5 mv-rounded mv-bg-surface-container-high mv-text-tertiary mv-font-label-sm mv-text-label-sm">
-                  <span class="material-symbols-outlined mv-text-773d8f" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="mv-text-773d8f bi bi-star-fill" style="font-variation-settings: 'FILL' 1;"></span>
                   {{ ratingOf(banner) }} IMDb
                 </span>
               </div>
@@ -63,11 +63,11 @@
             <div class="d-flex align-items-center mv-gap-2">
               <button type="button" aria-label="Previous banner" @click="showPreviousBanner"
                 class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
-                <span class="material-symbols-outlined mv-text-c79a76">chevron_left</span>
+                <span class="mv-text-c79a76 bi bi-chevron-left"></span>
               </button>
               <button type="button" aria-label="Next banner" @click="showNextBanner"
                 class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
-                <span class="material-symbols-outlined mv-text-c79a76">chevron_right</span>
+                <span class="mv-text-c79a76 bi bi-chevron-right"></span>
               </button>
             </div>
           </div>
@@ -90,11 +90,11 @@
           <div class="row-slider-wrap" @mouseenter="stopGenreAutoplay" @mouseleave="startGenreAutoplay">
           <button type="button" class="row-slider-arrow row-slider-arrow-prev" aria-label="Previous genres"
             style="transform: translateY(-50%);" @click="scrollGenres(-1)">
-            <span class="material-symbols-outlined">chevron_left</span>
+            <span class="bi bi-chevron-left"></span>
           </button>
           <button type="button" class="row-slider-arrow row-slider-arrow-next" aria-label="Next genres"
             style="transform: translateY(-50%);" @click="scrollGenres(1)">
-            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="bi bi-chevron-right"></span>
           </button>
           <div ref="genreSlider" class="genre-slider"
             @touchstart.passive="stopGenreAutoplay" @touchend.passive="startGenreAutoplay">
@@ -105,7 +105,7 @@
                 class="mv-w-12 mv-h-12 mv-rounded-full mv-bg-primary-container_30 d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-scale-110 mv-transition-all mb-2 overflow-hidden">
                 <img v-if="genre.poster_url || genre.image" :src="genre.poster_url || genre.image" :alt="genre.name"
                   class="mv-w-12 mv-h-12" style="object-fit: cover;">
-                <span v-else class="material-symbols-outlined mv-text-59700f">movie</span>
+                <span v-else class="mv-text-59700f bi bi-film"></span>
               </div>
               <span
                 class="mv-font-label-lg mv-text-label-lg mv-font-semibold mv-text-on-surface mv-group-hover-text-primary mv-transition-colors">{{ genre.name }}</span>
@@ -131,7 +131,7 @@
               to="/movies">
               <span>View All</span>
               <span
-                class="material-symbols-outlined mv-text-c79a76 mv-group-hover-translate-x-1 mv-transition-transform">arrow_forward</span>
+                class="mv-text-c79a76 mv-group-hover-translate-x-1 mv-transition-transform bi bi-arrow-right"></span>
             </router-link>
           </div>
           <p v-if="isLoadingCategoryMovies" class="mv-text-on-surface-variant">Loading action and horror movies...</p>
@@ -185,8 +185,8 @@
               <div class="d-flex align-items-center mv-gap-space-sm">
                 <div
                   class="mv-w-8 mv-h-8 mv-rounded-full mv-bg-tertiary-container d-flex align-items-center justify-content-center mv-text-on-tertiary-container">
-                  <span class="material-symbols-outlined mv-text-27bd7e"
-                    style="font-variation-settings: 'FILL' 1;">trending_up</span>
+                  <span class="mv-text-27bd7e bi bi-graph-up-arrow"
+                    style="font-variation-settings: 'FILL' 1;"></span>
                 </div>
                 <h3 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Trending Rentals Today</h3>
               </div>
@@ -204,7 +204,7 @@
                   class="d-flex mv-w-8 mv-h-8 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-hover-bg-primary-container"
                   @click="showPreviousLatestMovies"
                 >
-                  <span class="material-symbols-outlined">chevron_left</span>
+                  <span class="bi bi-chevron-left"></span>
                 </button>
                 <button
                   type="button"
@@ -212,7 +212,7 @@
                   class="d-flex mv-w-8 mv-h-8 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-hover-bg-primary-container"
                   @click="showNextLatestMovies"
                 >
-                  <span class="material-symbols-outlined">chevron_right</span>
+                  <span class="bi bi-chevron-right"></span>
                 </button>
               </div>
             </div>
@@ -246,12 +246,6 @@
                 </router-link>
               </template>
             </div>
-            <!-- Subtext Info -->
-            <div
-              class="d-flex align-items-center justify-content-between mv-pt-space-xs mv-text-on-surface-variant mv-font-body-sm mv-text-body-sm mv-z-10">
-              <span>Rentals valid for 48 hours once playback commences • Unlimited rewatches</span>
-              <a class="mv-text-secondary mv-font-label-md mv-text-label-md mv-font-bold mv-hover-underline" href="#">View Top 50 →</a>
-            </div>
           </div>
           <!-- Wallet Quick Top-Up & Promo Card (1 Col) -->
           <div
@@ -263,34 +257,37 @@
                 <h3 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface mt-1">Wallet Balance</h3>
               </div>
               <div class="mv-w-10 mv-h-10 mv-rounded-xl mv-bg-tertiary-container_30 mv-text-tertiary d-flex align-items-center justify-content-center">
-                <span class="material-symbols-outlined mv-text-59700f">account_balance_wallet</span>
+                <span class="mv-text-59700f bi bi-wallet2"></span>
               </div>
             </div>
             <div class="d-flex flex-column mv-gap-1">
               <div class="d-flex align-items-baseline mv-gap-2">
-                <span class="mv-font-headline-xl-mobile mv-sm-font-headline-xl mv-text-headline-xl-mobile mv-sm-text-headline-xl mv-font-extrabold mv-text-on-surface">Rs. 300</span>
-                <span class="mv-font-label-md mv-text-label-md mv-text-tertiary mv-font-semibold d-flex align-items-center">
-                  <span class="material-symbols-outlined mv-text-58f475">check_circle</span> Ready
+                <span class="mv-font-headline-xl-mobile mv-sm-font-headline-xl mv-text-headline-xl-mobile mv-sm-text-headline-xl mv-font-extrabold mv-text-on-surface">
+                  {{ formatMoney(wallet.balance) }}
+                </span>
+                <span v-if="walletLoading" class="mv-font-label-md mv-text-label-md mv-text-on-surface-variant">
+                  Loading...
+                </span>
+                <span v-else class="mv-font-label-md mv-text-label-md mv-text-tertiary mv-font-semibold d-flex align-items-center">
+                  <span class="mv-text-58f475 bi bi-check-circle"></span> Ready
                 </span>
               </div>
-              <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">Sufficient credit to instantly rent up to 6
-                Ultra HD movies.</p>
+              <p v-if="walletError" class="mv-font-body-sm mv-text-body-sm mv-text-error mb-0" role="alert">{{ walletError }}</p>
+              <p v-else class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
+                Add funds securely with Stripe and use your wallet for movie rentals.
+              </p>
             </div>
             <div class="d-flex align-items-center mv-gap-space-sm mv-pt-space-xs">
               <button
+                v-for="amount in availableTopUpAmounts"
+                :key="amount"
                 class="mv-flex-1 mv-py-2 mv-rounded-lg mv-bg-surface-container-high mv-hover-bg-surface-bright mv-text-on-surface mv-font-label-md mv-text-label-md mv-font-semibold mv-transition-colors"
-                onclick="topupWallet(100)" type="button">
-                +Rs. 100
-              </button>
-              <button
-                class="mv-flex-1 mv-py-2 mv-rounded-lg mv-bg-surface-container-high mv-hover-bg-surface-bright mv-text-on-surface mv-font-label-md mv-text-label-md mv-font-semibold mv-transition-colors"
-                onclick="topupWallet(200)" type="button">
-                +Rs. 200
-              </button>
-              <button
-                class="mv-flex-1 mv-py-2 mv-rounded-lg mv-bg-primary-container mv-text-white mv-font-label-md mv-text-label-md mv-font-bold mv-hover-bg-primary mv-transition-colors"
-                onclick="topupWallet(500)" type="button">
-                +Rs. 500
+                :class="{ 'mv-bg-primary-container mv-text-white mv-font-bold': amount === availableTopUpAmounts[availableTopUpAmounts.length - 1] }"
+                :disabled="walletLoading || isTopUpSubmitting"
+                type="button"
+                @click="startWalletTopUp(amount)"
+              >
+                {{ isTopUpSubmitting && selectedTopUpAmount === amount ? 'Opening...' : `+${formatMoney(amount)}` }}
               </button>
             </div>
           </div>
@@ -306,13 +303,13 @@
           <button
             class="mv-absolute mv-top-4 mv-right-4 mv-w-8 mv-h-8 mv-rounded-full mv-bg-surface-container-high mv-text-on-surface-variant mv-hover-text-on-surface d-flex align-items-center justify-content-center"
             onclick="closeModal()" type="button">
-            <span class="material-symbols-outlined mv-text-c79a76">close</span>
+            <span class="mv-text-c79a76 bi bi-x-lg"></span>
           </button>
           <!-- Emerald Confirmation Icon -->
           <div
             class="mv-w-16 mv-h-16 mv-rounded-full mv-bg-tertiary-container_30 mv-text-tertiary d-flex align-items-center justify-content-center mb-3 mv-shadow-58ba74">
-            <span class="material-symbols-outlined mv-text-4262a5"
-              style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            <span class="mv-text-4262a5 bi bi-check-circle"
+              style="font-variation-settings: 'FILL' 1;"></span>
           </div>
           <h3 class="mv-font-headline-md mv-text-headline-md mv-font-bold mv-text-on-surface">Purchase Successful!</h3>
           <p class="mv-font-body-md mv-text-body-md mv-text-on-surface-variant mt-1" id="modalMovieMsg">Movie has been added to
@@ -347,14 +344,14 @@
             <button
               class="mv-flex-1 mv-py-3 mv-rounded-full mv-bg-primary-container mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold d-flex align-items-center justify-content-center mv-gap-1p5 mv-shadow-be49ab mv-hover-bg-primary mv-transition-all"
               onclick="startWatching()" type="button">
-              <span class="material-symbols-outlined mv-text-c79a76"
-                style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+              <span class="mv-text-c79a76 bi bi-play-fill"
+                style="font-variation-settings: 'FILL' 1;"></span>
               <span>Watch Online</span>
             </button>
             <button
               class="mv-flex-1 mv-py-3 mv-rounded-full mv-bg-surface-container-high mv-hover-bg-surface-bright mv-text-on-surface mv-font-label-lg mv-text-label-lg mv-font-semibold d-flex align-items-center justify-content-center mv-gap-1p5 mv-transition-colors"
               onclick="downloadMovie()" type="button">
-              <span class="material-symbols-outlined mv-text-c79a76">download</span>
+              <span class="mv-text-c79a76 bi bi-download"></span>
               <span>Download</span>
             </button>
           </div>
@@ -408,6 +405,14 @@ export default {
       isLoadingLatestMovies: true,
       latestMoviesError: '',
       categoryMovieErrors: 0,
+      wallet: { balance: 0 },
+      currency: 'PKR',
+      minimumTopup: 150,
+      topUpAmounts: [200, 500, 1000],
+      walletLoading: true,
+      isTopUpSubmitting: false,
+      selectedTopUpAmount: null,
+      walletError: '',
     };
   },
   computed: {
@@ -423,12 +428,16 @@ export default {
     visibleLatestMovies() {
       return this.latestMovies.slice(this.latestMoviePage * 2, this.latestMoviePage * 2 + 2);
     },
+    availableTopUpAmounts() {
+      return this.topUpAmounts.filter((amount) => amount >= this.minimumTopup);
+    },
   },
   mounted() {
     this.fetchMovieBanners();
     this.fetchGenres();
     this.fetchCategoryMovies();
     this.fetchLatestMovies();
+    this.fetchWallet();
   },
   beforeUnmount() {
     this.stopBannerAutoplay();
@@ -497,6 +506,57 @@ export default {
         .finally(() => {
           this.isLoadingBanners = false;
         });
+    },
+    fetchWallet() {
+      this.walletLoading = true;
+      axios.get('/api/my-wallet')
+        .then((response) => {
+          this.wallet = response.data.wallet || { balance: 0 };
+          this.currency = response.data.currency || 'PKR';
+          this.minimumTopup = Number(response.data.minimum_top_up) || 150;
+        })
+        .catch((error) => {
+          console.error('Error fetching wallet:', error);
+          this.walletError = error.response?.data?.message || 'Unable to load your wallet balance.';
+        })
+        .finally(() => {
+          this.walletLoading = false;
+        });
+    },
+    startWalletTopUp(amount) {
+      const selectedAmount = Number(amount);
+      if (!Number.isFinite(selectedAmount) || selectedAmount < this.minimumTopup || selectedAmount > 10000) {
+        this.walletError = `Choose an amount from ${this.formatMoney(this.minimumTopup)} to ${this.formatMoney(10000)}.`;
+        return;
+      }
+
+      this.selectedTopUpAmount = selectedAmount;
+      this.isTopUpSubmitting = true;
+      this.walletError = '';
+
+      axios.post('/api/payments/checkout', {
+        type: 'wallet_top_up',
+        amount: selectedAmount,
+      })
+        .then((response) => {
+          if (!response.data?.checkout_url) {
+            throw new Error('Stripe Checkout did not return a payment URL.');
+          }
+          window.location.assign(response.data.checkout_url);
+        })
+        .catch((error) => {
+          console.error('Unable to start wallet top-up:', error);
+          this.walletError = error.response?.data?.message || error.message || 'Unable to start Stripe Checkout.';
+          this.isTopUpSubmitting = false;
+          this.selectedTopUpAmount = null;
+        });
+    },
+    formatMoney(amount) {
+      return new Intl.NumberFormat('en', {
+        style: 'currency',
+        currency: this.currency || 'PKR',
+        maximumFractionDigits: 2,
+      }).format(Number(amount) || 0);
     },
     startBannerAutoplay() {
       this.stopBannerAutoplay();

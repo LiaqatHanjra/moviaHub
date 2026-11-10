@@ -119,7 +119,7 @@
                                     <div
                                         class="auth-w-9 auth-h-9 auth-rounded-lg auth-bg-primary-container auth-flex auth-items-center auth-justify-center auth-shadow-[0_0_16px_rgba(49,152,220,0.35)] group-hover:auth-scale-105 auth-transition-transform"
                                     >
-                                        <span class="material-symbols-outlined auth-text-white-container auth-text-[22px]">play_arrow</span>
+                                        <span class="auth-text-white-container auth-text-[22px] bi bi-play-fill"></span>
                                     </div>
                                     <span
                                         class="auth-font-headline-md auth-text-headline-md auth-tracking-tight auth-text-on-surface auth-flex auth-items-center auth-font-bold"
@@ -148,7 +148,7 @@
                                         class="auth-relative auth-flex auth-items-center auth-rounded-xl auth-bg-surface-container auth-transition-all auth-duration-200 focus-within:auth-bg-surface-container-high focus-within:auth-shadow-[0_0_0_2px_rgba(49,152,220,0.5)]"
                                     >
                                         <div class="auth-absolute auth-left-3.5 auth-flex auth-items-center auth-pointer-events-none auth-text-outline">
-                                            <span class="material-symbols-outlined auth-text-[19px]">mail</span>
+                                            <span class="auth-text-[19px] bi bi-envelope"></span>
                                         </div>
                                         <input
                                             autocomplete="username"
@@ -173,7 +173,7 @@
                                         class="auth-relative auth-flex auth-items-center auth-rounded-xl auth-bg-surface-container auth-transition-all auth-duration-200 focus-within:auth-bg-surface-container-high focus-within:auth-shadow-[0_0_0_2px_rgba(49,152,220,0.5)]"
                                     >
                                         <div class="auth-absolute auth-left-3.5 auth-flex auth-items-center auth-pointer-events-none auth-text-outline">
-                                            <span class="material-symbols-outlined auth-text-[19px]">lock</span>
+                                            <span class="auth-text-[19px] bi bi-lock"></span>
                                         </div>
                                         <input
                                             autocomplete="current-password"
@@ -190,8 +190,8 @@
                                             id="togglePasswordBtn"
                                             type="button"
                                         >
-                                            <span class="material-symbols-outlined auth-text-[19px]" id="pwdEyeIcon"
-                                                >visibility</span
+                                            <span class="auth-text-[19px] bi bi-eye" id="pwdEyeIcon"
+                                                ></span
                                             >
                                         </button>
                                     </div>
@@ -205,7 +205,7 @@
                                                 class="auth-w-4 auth-h-4 auth-rounded auth-bg-surface-container peer-checked:auth-bg-primary-container peer-focus-visible:auth-ring-2 peer-focus-visible:auth-ring-primary auth-transition-all auth-flex auth-items-center auth-justify-center"
                                             >
                                                 <span
-                                                    class="material-symbols-outlined auth-text-white-container auth-text-[14px] auth-opacity-0 peer-checked:auth-opacity-100 auth-transition-opacity auth-font-bold"
+                                                    class="auth-text-white-container auth-text-[14px] auth-opacity-0 peer-checked:auth-opacity-100 auth-transition-opacity auth-font-bold bi bi-check"
                                                     >check</span
                                                 >
                                             </div>
@@ -233,8 +233,8 @@
                                     
                                         Login
                                     
-                                    <span class="auth-hidden material-symbols-outlined auth-text-[20px] auth-animate-spin" id="btnSpinner"
-                                        >progress_activity</span
+                                    <span class="auth-hidden auth-text-[20px] auth-animate-spin bi bi-arrow-repeat" id="btnSpinner"
+                                        ></span
                                     >
                                 </button>
                             </form>
@@ -254,17 +254,17 @@
                         <!-- Quick Footer Badges / Trust Markers -->
                         <div class="auth-flex auth-items-center auth-justify-center auth-gap-6 auth-mt-6 auth-text-outline auth-font-label-sm auth-text-label-sm">
                             <div class="auth-flex auth-items-center auth-gap-1.5">
-                                <span class="material-symbols-outlined auth-text-[16px] auth-text-tertiary">verified_user</span>
+                                <span class="auth-text-[16px] auth-text-tertiary bi bi-patch-check"></span>
                                 <span>Secure Stream TVOD</span>
                             </div>
                             <div class="auth-w-1 auth-h-1 auth-rounded-full auth-bg-surface-variant"></div>
                             <div class="auth-flex auth-items-center auth-gap-1.5">
-                                <span class="material-symbols-outlined auth-text-[16px] auth-text-primary">hd</span>
+                                <span class="auth-text-[16px] auth-text-primary bi bi-badge-hd"></span>
                                 <span>Ultra 4K Atmos</span>
                             </div>
                             <div class="auth-w-1 auth-h-1 auth-rounded-full auth-bg-surface-variant"></div>
                             <div class="auth-flex auth-items-center auth-gap-1.5">
-                                <span class="material-symbols-outlined auth-text-[16px]">bolt</span>
+                                <span class="auth-text-[16px] bi bi-lightning-fill"></span>
                                 <span>Instant Access</span>
                             </div>
                         </div>

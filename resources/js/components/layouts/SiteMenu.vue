@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center mv-gap-space-md mv-xl-gap-space-xl">
         <router-link class="d-flex align-items-center mv-gap-space-sm mv-group" to="/home">
           <div class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
-            <span class="material-symbols-outlined mv-text-c28550">play_arrow</span>
+            <span class="mv-text-c28550 bi bi-play-fill"></span>
           </div>
           <span class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-tracking-tight mv-text-on-surface">Movie<span class="mv-text-primary">Hub</span></span>
         </router-link>
@@ -21,7 +21,7 @@
 
       <div class="mv-flex-1 mv-max-w-md d-none d-xxl-block">
         <form class="mv-relative d-flex align-items-center" @submit.prevent="search">
-          <span class="material-symbols-outlined mv-absolute mv-left-space-md mv-text-outline pe-none mv-text-27bd7e">search</span>
+          <span class="mv-absolute mv-left-space-md mv-text-outline pe-none mv-text-27bd7e bi bi-search"></span>
           <input
             v-model="query"
             class="mv-w-full mv-h-10 mv-pl-10 mv-pr-space-md mv-bg-surface-container-low mv-border mv-border-surface-container-high mv-rounded-full mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline mv-focus-outline-none mv-focus-border-primary mv-focus-bg-surface-container mv-transition-all"
@@ -31,7 +31,8 @@
         </form>
       </div>
 
-      <div class="dropdown">
+      <div class="d-flex align-items-center mv-gap-space-sm">
+        <div class="dropdown d-none d-xl-block">
         <button
           class="btn p-0 border-0 bg-transparent"
           type="button"
@@ -59,14 +60,14 @@
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
             <router-link class="dropdown-item py-2 px-3" to="/profile">
-              <i class="material-symbols-outlined me-2">person</i>
+              <i class="me-2 bi bi-person"></i>
               Profile
             </router-link>
           </li>
 
           <li>
             <router-link class="dropdown-item py-2 px-3" to="/change-password">
-              <i class="material-symbols-outlined me-2">lock_reset</i>
+              <i class="me-2 bi bi-key"></i>
               Reset Password
             </router-link>
           </li>
@@ -77,12 +78,70 @@
               type="button"
               @click="logout"
             >
-              <i class="material-symbols-outlined me-2">logout</i>
+              <i class="me-2 bi bi-box-arrow-right"></i>
               Logout
             </button>
           </li>
         </ul>
+        </div>
+
+        <button
+          class="btn p-0 border-0 bg-transparent d-xl-none mv-text-on-surface"
+          type="button"
+          :aria-expanded="mobileMenuOpen"
+          aria-controls="mobile-site-menu"
+          aria-label="Toggle navigation menu"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+          <span :class="mobileMenuOpen ? 'bi bi-x-lg' : 'bi bi-list'"></span>
+        </button>
       </div>
+    </div>
+
+    <div
+      v-if="mobileMenuOpen"
+      id="mobile-site-menu"
+      class="d-xl-none mv-absolute top-100 start-0 end-0 mv-bg-surface-container-lowest mv-border-b mv-border-surface-container-high mv-shadow-lg"
+    >
+      <nav class="d-flex flex-column mv-p-space-md mv-gap-space-xs">
+        <router-link
+          v-for="link in links"
+          :key="`mobile-${link.to}`"
+          :to="link.to"
+          class="mv-px-space-md mv-py-space-sm mv-font-label-lg mv-text-label-lg text-decoration-none mv-rounded-lg"
+          :class="isActive(link.to) ? 'mv-bg-surface-container-high mv-text-on-surface' : 'mv-text-on-surface-variant mv-hover-text-on-surface'"
+          @click="closeMobileMenu"
+        >{{ link.label }}</router-link>
+
+        <template v-if="showAccount">
+          <div class="mv-border-t mv-border-surface-container-high mt-2 mv-pt-space-xs">
+            <router-link
+              class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-space-sm mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant text-decoration-none mv-rounded-lg mv-hover-text-on-surface"
+              to="/profile"
+              @click="closeMobileMenu"
+            >
+              <i class="bi bi-person"></i>
+              Profile
+            </router-link>
+            <router-link
+              class="d-flex align-items-center mv-gap-space-sm mv-px-space-md mv-py-space-sm mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant text-decoration-none mv-rounded-lg mv-hover-text-on-surface"
+              to="/change-password"
+              @click="closeMobileMenu"
+            >
+              <i class="bi bi-key"></i>
+              Reset Password
+            </router-link>
+            <button
+              class="btn d-flex align-items-center mv-gap-space-sm w-100 mv-px-space-md mv-py-space-sm mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant text-start mv-hover-text-on-surface"
+              type="button"
+              @click="handleMobileLogout"
+            >
+              <i class="bi bi-box-arrow-right"></i>
+              Logout
+            </button>
+          </div>
+        </template>
+      </nav>
     </div>
   </header>
 </template>
@@ -103,6 +162,7 @@ const route = useRoute();
 const router = useRouter();
 const query = ref('');
 const accountVersion = ref(0);
+const mobileMenuOpen = ref(false);
 const showAccount = computed(() => isLoggedIn());
 const userName = computed(() => {
     accountVersion.value;
@@ -162,5 +222,14 @@ function isActive(to) {
 
 function search() {
     router.push({ path: '/movies', query: query.value ? { q: query.value } : {} });
+}
+
+function closeMobileMenu() {
+    mobileMenuOpen.value = false;
+}
+
+function handleMobileLogout() {
+    closeMobileMenu();
+    logout();
 }
 </script>

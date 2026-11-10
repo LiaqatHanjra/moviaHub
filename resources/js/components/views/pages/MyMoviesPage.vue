@@ -37,7 +37,7 @@
                 v-if="movie.imdb_rating"
                 class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm"
               >
-                <span class="material-symbols-outlined mv-text-3eb376" style="font-variation-settings: 'FILL' 1;">star</span> {{ movie.imdb_rating }}
+                <span class="mv-text-3eb376 bi bi-star-fill" style="font-variation-settings: 'FILL' 1;"></span> {{ movie.imdb_rating }}
               </span>
             </div>
             <div class="movie-card-content d-flex flex-column mv-flex-1 justify-content-between">

@@ -8,7 +8,7 @@
               :to="`/movie/${$route.params.id}`"
               class="mv-text-on-surface-variant mv-hover-text-primary d-inline-flex align-items-center mv-gap-space-xs text-decoration-none"
             >
-              <span class="material-symbols-outlined">arrow_back</span>
+              <span class="bi bi-arrow-left"></span>
               Movie details
             </router-link>
             <span v-if="movie" class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface">
@@ -81,7 +81,7 @@
               Your browser does not support HTML video playback.
             </video>
             <div v-else class="player-message">
-              <span class="material-symbols-outlined">error</span>
+              <span class="bi bi-exclamation-circle"></span>
               <p>{{ sourceError || 'No playable video is available for this selection.' }}</p>
             </div>
             <button
@@ -92,7 +92,7 @@
               title="Enter fullscreen"
               @click="toggleFullscreen"
             >
-              <span class="material-symbols-outlined">fullscreen</span>
+              <span class="bi bi-fullscreen"></span>
             </button>
           </div>
 
@@ -362,7 +362,7 @@ export default {
   text-align: center;
 }
 
-.player-message .material-symbols-outlined {
+.player-message .bi {
   margin-bottom: 0.5rem;
   font-size: 2.5rem;
 }

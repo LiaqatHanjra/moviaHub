@@ -14,7 +14,7 @@
                 </svg>
             </button>
             <a href="{{ route('admin.dashboard.index') }}" class="brand-icon text-decoration-none d-flex align-items-center mh-brand">
-                <span class="mh-mark"><span class="material-symbols-outlined">shield</span></span>
+                <span class="mh-mark"><span class="bi bi-shield"></span></span>
                 <span class="mh-word">Movie<span>Hub</span></span>
             </a>
         </div>

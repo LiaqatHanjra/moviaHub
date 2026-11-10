@@ -24,7 +24,7 @@
               <div class="d-flex flex-wrap align-items-center mv-gap-space-sm mb-3">
                 <span class="d-inline-flex align-items-center mv-gap-1p5 mv-px-space-md mv-py-1 mv-rounded-full mv-bg-primary-container_20 mv-text-primary mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider mv-backdrop-blur-md">Featured Premiere</span>
                 <span v-if="ratingOf(banner)" class="d-inline-flex align-items-center mv-gap-1 mv-px-space-sm mv-py-0p5 mv-rounded mv-bg-surface-container-high mv-text-tertiary mv-font-label-sm mv-text-label-sm">
-                  <span class="material-symbols-outlined mv-text-773d8f" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="mv-text-773d8f bi bi-star-fill" style="font-variation-settings: 'FILL' 1;"></span>
                   {{ ratingOf(banner) }} IMDb
                 </span>
               </div>
@@ -63,11 +63,11 @@
             <div class="d-flex align-items-center mv-gap-2">
               <button type="button" aria-label="Previous banner" @click="showPreviousBanner"
                 class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
-                <span class="material-symbols-outlined mv-text-c79a76">chevron_left</span>
+                <span class="mv-text-c79a76 bi bi-chevron-left"></span>
               </button>
               <button type="button" aria-label="Next banner" @click="showNextBanner"
                 class="d-flex mv-h-9 mv-w-9 align-items-center justify-content-center mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-transition-colors mv-hover-bg-primary-container">
-                <span class="material-symbols-outlined mv-text-c79a76">chevron_right</span>
+                <span class="mv-text-c79a76 bi bi-chevron-right"></span>
               </button>
             </div>
           </div>
@@ -81,7 +81,7 @@
             <div>
               <div
                 class="d-flex align-items-center mv-gap-space-xs mv-text-secondary mv-font-label-md mv-text-label-md text-uppercase mv-tracking-wider mb-1">
-                <span class="material-symbols-outlined mv-text-58f475">grid_view</span>
+                <span class="mv-text-58f475 bi bi-grid-3x3-gap"></span>
                 Curation Engine
               </div>
               <h2 class="mv-font-headline-lg-mobile mv-sm-font-headline-lg mv-text-headline-lg-mobile mv-sm-text-headline-lg mv-text-on-surface mv-tracking-tight">EXPLORE BY CATEGORY</h2>
@@ -101,7 +101,7 @@
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-gradient-to-tr mv-from-primary-container_30 mv-to-secondary_20 mv-text-primary d-flex align-items-center justify-content-center mb-2 mv-group-hover-scale-110 mv-transition-transform">
                 <img v-if="genre.poster_url || genre.image" :src="genre.poster_url || genre.image" :alt="genre.name"
                   class="mv-w-12 mv-h-12 mv-rounded-xl" style="object-fit: cover;">
-                <span v-else class="material-symbols-outlined mv-text-59700f">movie</span>
+                <span v-else class="mv-text-59700f bi bi-film"></span>
               </div>
               <span
                 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold mv-group-hover-text-primary mv-transition-colors">{{ genre.name }}</span>
@@ -116,7 +116,7 @@
           <div>
             <div
               class="d-flex align-items-center mv-gap-space-xs mv-text-primary mv-font-label-md mv-text-label-md text-uppercase mv-tracking-wider mb-1">
-              <span class="material-symbols-outlined mv-text-58f475">local_fire_department</span>
+              <span class="mv-text-58f475 bi bi-fire"></span>
               Top TVOD Rentals
             </div>
             <h2 class="mv-font-headline-lg-mobile mv-sm-font-headline-lg mv-text-headline-lg-mobile mv-sm-text-headline-lg mv-text-on-surface mv-tracking-tight">FEATURED MOVIES</h2>
@@ -125,7 +125,7 @@
         <p v-if="!featured.length" class="mv-text-on-surface-variant">Nothing to show yet.</p>
         <div v-else class="row-slider-wrap">
           <button type="button" aria-label="Previous featured movies" class="row-slider-arrow row-slider-arrow-prev" @click="scrollRow($event, -1)">
-            <span class="material-symbols-outlined">chevron_left</span>
+            <span class="bi bi-chevron-left"></span>
           </button>
           <div class="row-slider" data-row="featured">
           <div v-for="movie in featured" :key="movie.id" class="row-slide">
@@ -133,7 +133,7 @@
             <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
               <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="movie.name" :src="imageOf(movie)" />
               <span v-if="ratingOf(movie)" class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm">
-                <span class="material-symbols-outlined mv-text-3eb376" style="font-variation-settings: 'FILL' 1;">star</span> {{ ratingOf(movie) }}
+                <span class="mv-text-3eb376 bi bi-star-fill" style="font-variation-settings: 'FILL' 1;"></span> {{ ratingOf(movie) }}
               </span>
             </div>
             <div class="browse-card-content d-flex flex-column mv-flex-1 justify-content-between">
@@ -150,7 +150,7 @@
           </div>
           </div>
           <button type="button" aria-label="Next featured movies" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
-            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="bi bi-chevron-right"></span>
           </button>
         </div>
 
@@ -163,7 +163,7 @@
           <div>
             <div
               class="d-flex align-items-center mv-gap-space-xs mv-text-primary mv-font-label-md mv-text-label-md text-uppercase mv-tracking-wider mb-1">
-              <span class="material-symbols-outlined mv-text-58f475">stars</span>
+              <span class="mv-text-58f475 bi bi-stars"></span>
               Critically Acclaimed
             </div>
             <h2 class="mv-font-headline-lg-mobile mv-sm-font-headline-lg mv-text-headline-lg-mobile mv-sm-text-headline-lg mv-text-on-surface mv-tracking-tight">POPULAR BLOCKBUSTERS</h2>
@@ -172,7 +172,7 @@
         <p v-if="!latest.length" class="mv-text-on-surface-variant">Nothing to show yet.</p>
         <div v-else class="row-slider-wrap">
           <button type="button" aria-label="Previous blockbusters" class="row-slider-arrow row-slider-arrow-prev" @click="scrollRow($event, -1)">
-            <span class="material-symbols-outlined">chevron_left</span>
+            <span class="bi bi-chevron-left"></span>
           </button>
           <div class="row-slider" data-row="latest">
           <div v-for="movie in latest" :key="movie.id" class="row-slide">
@@ -180,7 +180,7 @@
             <div class="mv-relative mv-aspect-bc11a5 mv-w-full overflow-hidden mv-bg-surface-container-high">
               <img class="mv-w-full h-100 mv-object-cover mv-group-hover-scale-105 mv-transition-transform mv-duration-500" :alt="movie.name" :src="imageOf(movie)" />
               <span v-if="ratingOf(movie)" class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm">
-                <span class="material-symbols-outlined mv-text-3eb376" style="font-variation-settings: 'FILL' 1;">star</span> {{ ratingOf(movie) }}
+                <span class="mv-text-3eb376 bi bi-star-fill" style="font-variation-settings: 'FILL' 1;"></span> {{ ratingOf(movie) }}
               </span>
             </div>
             <div class="browse-card-content d-flex flex-column mv-flex-1 justify-content-between">
@@ -194,7 +194,7 @@
           </div>
           </div>
           <button type="button" aria-label="Next blockbusters" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
-            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="bi bi-chevron-right"></span>
           </button>
         </div>
 
@@ -207,7 +207,7 @@
             <div>
               <div
                 class="d-flex align-items-center mv-gap-space-xs mv-text-tertiary mv-font-label-md mv-text-label-md text-uppercase mv-tracking-wider mb-1">
-                <span class="material-symbols-outlined mv-text-58f475">tv</span>
+                <span class="mv-text-58f475 bi bi-tv"></span>
                 Complete Season Bundles
               </div>
               <h2 class="mv-font-headline-lg-mobile mv-sm-font-headline-lg mv-text-headline-lg-mobile mv-sm-text-headline-lg mv-text-on-surface mv-tracking-tight">BINGE-WORTHY TV SERIES</h2>
@@ -216,7 +216,7 @@
           <p v-if="!shows.length" class="mv-text-on-surface-variant">No series to show yet.</p>
           <div v-else class="row-slider-wrap">
             <button type="button" aria-label="Previous series" class="row-slider-arrow row-slider-arrow-prev" @click="scrollRow($event, -1)">
-              <span class="material-symbols-outlined">chevron_left</span>
+              <span class="bi bi-chevron-left"></span>
             </button>
             <div class="row-slider" data-row="shows">
             <div v-for="show in shows" :key="show.id" class="row-slide">
@@ -234,7 +234,7 @@
             </div>
             </div>
             <button type="button" aria-label="Next series" class="row-slider-arrow row-slider-arrow-next" @click="scrollRow($event, 1)">
-              <span class="material-symbols-outlined">chevron_right</span>
+              <span class="bi bi-chevron-right"></span>
             </button>
           </div>
 
@@ -263,7 +263,7 @@
             <!-- Feature 1 -->
             <div class="d-flex flex-column mv-gap-space-sm mv-p-space-md mv-rounded-xl mv-bg-surface-container-low">
               <div class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-primary-container_20 mv-text-primary d-flex align-items-center justify-content-center">
-                <span class="material-symbols-outlined mv-text-2d3e81">high_quality</span>
+                <span class="mv-text-2d3e81 bi bi-badge-hd"></span>
               </div>
               <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold">Ultra 4K &amp; Dolby Atmos</h3>
               <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
@@ -274,7 +274,7 @@
             <div class="d-flex flex-column mv-gap-space-sm mv-p-space-md mv-rounded-xl mv-bg-surface-container-low">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-secondary-container_20 mv-text-secondary d-flex align-items-center justify-content-center">
-                <span class="material-symbols-outlined mv-text-2d3e81">schedule</span>
+                <span class="mv-text-2d3e81 bi bi-clock"></span>
               </div>
               <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold">48-Hour Rental Window</h3>
               <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
@@ -285,7 +285,7 @@
             <!-- Feature 3 -->
             <div class="d-flex flex-column mv-gap-space-sm mv-p-space-md mv-rounded-xl mv-bg-surface-container-low">
               <div class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-tertiary-container_20 mv-text-tertiary d-flex align-items-center justify-content-center">
-                <span class="material-symbols-outlined mv-text-2d3e81">account_balance_wallet</span>
+                <span class="mv-text-2d3e81 bi bi-wallet2"></span>
               </div>
               <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold">Instant Local Top-Up</h3>
               <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
@@ -297,7 +297,7 @@
             <div class="d-flex flex-column mv-gap-space-sm mv-p-space-md mv-rounded-xl mv-bg-surface-container-low">
               <div
                 class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-surface-variant_40 mv-text-primary-fixed-dim d-flex align-items-center justify-content-center">
-                <span class="material-symbols-outlined mv-text-2d3e81">download_for_offline</span>
+                <span class="mv-text-2d3e81 bi bi-cloud-download"></span>
               </div>
               <h3 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold">Offline Downloads</h3>
               <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant">
@@ -312,7 +312,7 @@
             <div class="d-flex align-items-center mv-gap-space-md">
               <div
                 class="mv-w-10 mv-h-10 mv-rounded-full mv-bg-primary-container d-flex align-items-center justify-content-center flex-shrink-0">
-                <span class="material-symbols-outlined mv-text-c28550">card_giftcard</span>
+                <span class="mv-text-c28550 bi bi-gift"></span>
               </div>
               <div>
                 <h4 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-bold">Ready to start streaming?</h4>

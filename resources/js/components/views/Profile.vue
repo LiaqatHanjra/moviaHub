@@ -46,7 +46,7 @@
               class="mv-bg-primary mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold mv-px-space-lg mv-py-3 mv-rounded-full"
               @click="openEditDialog"
             >
-              <i class="material-symbols-outlined align-middle me-1">edit</i>
+              <i class="align-middle me-1 bi bi-pencil"></i>
               Edit Profile
             </button>
           </div>

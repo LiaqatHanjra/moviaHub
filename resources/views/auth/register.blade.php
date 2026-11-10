@@ -18,7 +18,7 @@
 <div class="d-flex align-items-center mv-gap-space-sm mb-3">
   <a href="/" class="d-flex align-items-center mv-gap-2p5">
    <div class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
-            <span class="material-symbols-outlined mv-text-c28550">play_arrow</span></div>
+            <span class="mv-text-c28550 bi bi-play-fill"></span></div>
 <span class="mv-font-headline-md mv-text-headline-md mv-tracking-tight mv-text-on-surface d-flex align-items-center mv-font-bold">
         Movie<span class="mv-text-primary-container">Hub</span>
 </span>
@@ -49,9 +49,7 @@
           Full Name
         </label>
 <div class="mv-relative d-flex align-items-center">
-<span class="material-symbols-outlined mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none">
-            person
-          </span>
+<span class="mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none bi bi-person"></span>
 <input class="mv-w-full mv-h-11 mv-pl-11 mv-pr-4 mv-bg-surface-container mv-rounded-lg mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline-variant mv-focus-outline-none mv-focus-bg-surface-variant mv-transition-all mv-shadow-inner" id="fullName" name="name" value="{{ old('name') }}" placeholder="Enter your name" required="" type="text"/>
 </div>
 </div>
@@ -61,9 +59,7 @@
           Email / Mobile Number
         </label>
 <div class="mv-relative d-flex align-items-center">
-<span class="material-symbols-outlined mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none">
-            mail
-          </span>
+<span class="mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none bi bi-envelope"></span>
 <input class="mv-w-full mv-h-11 mv-pl-11 mv-pr-4 mv-bg-surface-container mv-rounded-lg mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline-variant mv-focus-outline-none mv-focus-bg-surface-variant mv-transition-all mv-shadow-inner" id="identifier" name="email" value="{{ old('email') }}" placeholder="Enter your email or mobile number" required="" type="email"/>
 </div>
 </div>
@@ -74,12 +70,10 @@
 <span class="mv-text-tertiary mv-font-label-sm mv-text-label-sm text-lowercase mv-opacity-90">min. 8 chars</span>
 </label>
 <div class="mv-relative d-flex align-items-center">
-<span class="material-symbols-outlined mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none">
-            lock
-          </span>
+<span class="mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none bi bi-lock"></span>
 <input class="mv-w-full mv-h-11 mv-pl-11 mv-pr-11 mv-bg-surface-container mv-rounded-lg mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline-variant mv-focus-outline-none mv-focus-bg-surface-variant mv-transition-all mv-shadow-inner" id="password" name="password" placeholder="Create a password" required="" type="password"/>
-<button class="mv-absolute mv-right-3 mv-text-outline mv-hover-text-on-surface mv-transition-colors mv-p-1 d-flex align-items-center justify-content-center" id="togglePassBtn" onclick="const p = document.getElementById('password'); const icon = document.getElementById('passIcon'); if(p.type === 'password'){ p.type = 'text'; icon.textContent = 'visibility'; } else { p.type = 'password'; icon.textContent = 'visibility_off'; }" type="button">
-<span class="material-symbols-outlined mv-text-c79a76" id="passIcon">visibility_off</span>
+<button class="mv-absolute mv-right-3 mv-text-outline mv-hover-text-on-surface mv-transition-colors mv-p-1 d-flex align-items-center justify-content-center" id="togglePassBtn" onclick="const p = document.getElementById('password'); const icon = document.getElementById('passIcon'); const show = p.type === 'password'; p.type = show ? 'text' : 'password'; icon.classList.toggle('bi-eye', show); icon.classList.toggle('bi-eye-slash', !show);" type="button">
+<span class="mv-text-c79a76 bi bi-eye-slash" id="passIcon"></span>
 </button>
 </div>
 </div>
@@ -89,12 +83,10 @@
           Confirm Password
         </label>
 <div class="mv-relative d-flex align-items-center">
-<span class="material-symbols-outlined mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none">
-            verified_user
-          </span>
+<span class="mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none bi bi-patch-check"></span>
 <input class="mv-w-full mv-h-11 mv-pl-11 mv-pr-11 mv-bg-surface-container mv-rounded-lg mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline-variant mv-focus-outline-none mv-focus-bg-surface-variant mv-transition-all mv-shadow-inner" id="confirmPassword" name="password_confirmation" placeholder="Confirm your password" required="" type="password"/>
-<button class="mv-absolute mv-right-3 mv-text-outline mv-hover-text-on-surface mv-transition-colors mv-p-1 d-flex align-items-center justify-content-center" id="toggleConfirmPassBtn" onclick="const p = document.getElementById('confirmPassword'); const icon = document.getElementById('confirmPassIcon'); if(p.type === 'password'){ p.type = 'text'; icon.textContent = 'visibility'; } else { p.type = 'password'; icon.textContent = 'visibility_off'; }" type="button">
-<span class="material-symbols-outlined mv-text-c79a76" id="confirmPassIcon">visibility_off</span>
+<button class="mv-absolute mv-right-3 mv-text-outline mv-hover-text-on-surface mv-transition-colors mv-p-1 d-flex align-items-center justify-content-center" id="toggleConfirmPassBtn" onclick="const p = document.getElementById('confirmPassword'); const icon = document.getElementById('confirmPassIcon'); const show = p.type === 'password'; p.type = show ? 'text' : 'password'; icon.classList.toggle('bi-eye', show); icon.classList.toggle('bi-eye-slash', !show);" type="button">
+<span class="mv-text-c79a76 bi bi-eye-slash" id="confirmPassIcon"></span>
 </button>
 </div>
 </div>
@@ -108,7 +100,7 @@
 <!-- Primary Action CTA -->
 <button class="mv-mt-3 mv-w-full mv-h-12 mv-rounded-full mv-bg-gradient-to-r mv-from-primary-container mv-via-primary-container mv-to-secondary-container mv-text-white mv-font-label-lg mv-text-label-lg d-flex align-items-center justify-content-center mv-gap-2 mv-shadow-lg mv-shadow-primary-container_25 mv-hover-shadow-primary-container_40 mv-active-scale-e06373 mv-transition-all mv-duration-200" id="submitBtn" type="submit">
 <span>Register</span>
-<span class="material-symbols-outlined mv-text-c79a76">arrow_forward</span>
+<span class="mv-text-c79a76 bi bi-arrow-right"></span>
 </button>
 </form>
 <!-- Social / Secondary Sign-Up Options Separator -->
@@ -147,12 +139,12 @@
 <!-- Security & Quality Trust Badges -->
 <div class="mv-mt-8 mv-pt-4 mv-w-full d-flex align-items-center justify-content-center mv-gap-4 mv-text-on-surface-variant_60">
 <div class="d-flex align-items-center mv-gap-1p5 mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider">
-<span class="material-symbols-outlined mv-text-58f475 mv-text-tertiary">lock</span>
+<span class="mv-text-58f475 mv-text-tertiary bi bi-lock"></span>
 <span>256-bit Encrypted</span>
 </div>
 <div class="mv-w-1 mv-h-1 mv-rounded-full mv-bg-outline-variant"></div>
 <div class="d-flex align-items-center mv-gap-1p5 mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider">
-<span class="material-symbols-outlined mv-text-58f475 mv-text-primary">hd</span>
+<span class="mv-text-58f475 mv-text-primary bi bi-badge-hd"></span>
 <span>Ultra HD Stream</span>
 </div>
 </div>

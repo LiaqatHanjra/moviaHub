@@ -1,15 +1,15 @@
 <template>
-<div class="mv-fixed mv-top-16 start-0 bottom-0 mv-w-64 mv-bg-surface mv-border-r mv-border-surface-container-high mv-z-40 d-none d-md-flex flex-column justify-content-between mv-p-space-md"><div class="d-flex flex-column mv-gap-space-md"><div class="mv-px-space-sm mv-py-space-xs"><span class="mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider mv-text-outline mv-font-bold">User Menu</span></div><nav class="d-flex flex-column mv-gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg"><a aria-current="page" class="mv-px-space-md mv-py-2p5 mv-transition-colors mv-bg-surface-container-high mv-text-primary mv-font-semibold mv-rounded-lg" data-path="dashboard" href="/wallet">Dashboard</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="my-movies" href="/my-movies">My Movies</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="wallet" href="/wallet">Wallet</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="purchase-history" href="/payment/success">Purchase History</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="profile" href="/wallet">Profile</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="settings" href="/wallet">Settings</a></nav></div><div class="d-flex flex-column mv-gap-space-sm mv-pt-space-md mv-border-t mv-border-surface-container-high_60"><a class="mv-px-space-md mv-py-2 mv-font-label-md mv-text-label-md mv-text-on-surface-variant mv-hover-text-on-surface d-flex align-items-center justify-content-between" data-path="home" href="/home"><span>Back to Stream</span><span class="material-symbols-outlined mv-text-c79a76">arrow_forward</span></a><a class="mv-px-space-md mv-py-2 mv-font-label-md mv-text-label-md mv-text-error_80 mv-hover-text-error mv-transition-colors d-flex align-items-center justify-content-between" data-path="login" href="/login"><span>Sign Out</span><span class="material-symbols-outlined mv-text-c79a76">logout</span></a></div></div><main class="mv-w-full mv-pt-28 mv-xl-pt-16 mv-md-pl-64 mv-bg-surface-container-lowest min-vh-100"><div class="d-flex flex-column mv-w-full">
+<div class="mv-fixed mv-top-16 start-0 bottom-0 mv-w-64 mv-bg-surface mv-border-r mv-border-surface-container-high mv-z-40 d-none d-md-flex flex-column justify-content-between mv-p-space-md"><div class="d-flex flex-column mv-gap-space-md"><div class="mv-px-space-sm mv-py-space-xs"><span class="mv-font-label-sm mv-text-label-sm text-uppercase mv-tracking-wider mv-text-outline mv-font-bold">User Menu</span></div><nav class="d-flex flex-column mv-gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg"><a aria-current="page" class="mv-px-space-md mv-py-2p5 mv-transition-colors mv-bg-surface-container-high mv-text-primary mv-font-semibold mv-rounded-lg" data-path="dashboard" href="/wallet">Dashboard</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="my-movies" href="/my-movies">My Movies</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="wallet" href="/wallet">Wallet</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="purchase-history" href="/payment/success">Purchase History</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="profile" href="/wallet">Profile</a><a class="mv-px-space-md mv-py-2p5 mv-font-label-lg mv-text-label-lg mv-text-on-surface-variant mv-hover-text-on-surface mv-hover-bg-surface-container mv-transition-colors mv-rounded-lg" data-path="settings" href="/wallet">Settings</a></nav></div><div class="d-flex flex-column mv-gap-space-sm mv-pt-space-md mv-border-t mv-border-surface-container-high_60"><a class="mv-px-space-md mv-py-2 mv-font-label-md mv-text-label-md mv-text-on-surface-variant mv-hover-text-on-surface d-flex align-items-center justify-content-between" data-path="home" href="/home"><span>Back to Stream</span><span class="mv-text-c79a76 bi bi-arrow-right"></span></a><a class="mv-px-space-md mv-py-2 mv-font-label-md mv-text-label-md mv-text-error_80 mv-hover-text-error mv-transition-colors d-flex align-items-center justify-content-between" data-path="login" href="/login"><span>Sign Out</span><span class="mv-text-c79a76 bi bi-box-arrow-right"></span></a></div></div><main class="mv-w-full mv-pt-28 mv-xl-pt-16 mv-md-pl-64 mv-bg-surface-container-lowest min-vh-100"><div class="d-flex flex-column mv-w-full">
 <!-- Interactive / Modal Backdrop Layer (Hidden by default) -->
 <div class="mv-fixed mv-inset-0 mv-z-50 d-flex align-items-center justify-content-center mv-bg-surface-container-lowest_80 mv-backdrop-blur-md mv-opacity-0 pe-none mv-transition-all mv-duration-300" id="quick-recharge-modal">
 <div class="mv-bg-surface-container-high mv-rounded-xl mv-p-space-lg mv-w-full mv-max-w-md mv-shadow-2xl mv-relative">
 <div class="d-flex align-items-center justify-content-between mb-3">
 <div class="d-flex align-items-center mv-gap-space-sm">
-<span class="material-symbols-outlined mv-text-primary mv-text-59700f">account_balance_wallet</span>
+<span class="mv-text-primary mv-text-59700f bi bi-wallet2"></span>
 <h3 class="mv-font-headline-sm mv-text-headline-sm mv-text-on-surface mv-font-bold">Top Up Wallet</h3>
 </div>
 <button class="mv-text-on-surface-variant mv-hover-text-on-surface mv-transition-colors" id="close-modal-btn">
-<span class="material-symbols-outlined">close</span>
+<span class="bi bi-x-lg"></span>
 </button>
 </div>
 <p class="mv-font-body-md mv-text-body-md mv-text-on-surface-variant mb-4">Instant TVOD reload via EasyPaisa, JazzCash, or Debit Card.</p>
@@ -19,7 +19,7 @@
 <button class="amount-pill mv-py-2p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface mv-font-label-md mv-text-label-md mv-hover-bg-primary mv-hover-text-white mv-transition-all">Rs. 500</button>
 </div>
 <button class="mv-w-full mv-py-3 mv-rounded-full mv-bg-primary mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold mv-shadow-d057f2 mv-hover-bg-primary-fixed mv-transition-all d-flex align-items-center justify-content-center mv-gap-space-xs" id="confirm-recharge-btn">
-<span class="material-symbols-outlined mv-text-27bd7e">bolt</span>
+<span class="mv-text-27bd7e bi bi-lightning-fill"></span>
 <span>Proceed to Secure Gateway</span>
 </button>
 </div>
@@ -36,7 +36,7 @@
 <h1 class="mv-font-headline-lg-mobile mv-sm-font-headline-lg mv-text-headline-lg-mobile mv-sm-text-headline-lg mv-font-bold mv-text-on-surface mv-tracking-tight">Dashboard</h1>
 </div>
 <div class="d-flex align-items-center mv-gap-space-sm mv-bg-surface-container-low mv-px-space-md mv-py-1p5 mv-rounded-full">
-<span class="material-symbols-outlined mv-text-outline mv-text-c79a76">calendar_today</span>
+<span class="mv-text-outline mv-text-c79a76 bi bi-calendar3"></span>
 <span class="mv-font-label-md mv-text-label-md mv-text-on-surface-variant mv-font-medium">Session Active • 27 Sep 2026</span>
 </div>
 </div>
@@ -49,7 +49,7 @@
 <div class="d-flex flex-column flex-sm-row align-items-sm-center mv-gap-space-lg">
 <!-- Neon Icon Holder -->
 <div class="mv-w-16 mv-h-16 mv-rounded-xl mv-bg-tertiary-container_30 d-flex align-items-center justify-content-center mv-text-tertiary mv-shadow-a869b0">
-<span class="material-symbols-outlined mv-text-4262a5" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="mv-text-4262a5 bi bi-wallet2" style="font-variation-settings: 'FILL' 1;"></span>
 </div>
 <div class="d-flex flex-column">
 <div class="d-flex align-items-center mv-gap-space-xs">
@@ -66,7 +66,7 @@
 <!-- Add Balance CTA Button -->
 <div class="d-flex align-items-center mv-gap-space-md align-self-start align-self-lg-auto">
 <button class="mv-px-space-lg mv-py-3 mv-rounded-full mv-bg-primary mv-text-white mv-font-label-lg mv-text-label-lg mv-font-bold d-flex align-items-center mv-gap-space-xs mv-shadow-fc3ffe mv-hover-bg-primary-fixed mv-hover-scale-105 mv-active-scale-95 mv-transition-all" id="open-recharge-btn">
-<span class="material-symbols-outlined mv-text-27bd7e mv-font-bold">add</span>
+<span class="mv-text-27bd7e mv-font-bold bi bi-plus"></span>
 <span>Add Balance</span>
 </button>
 </div>
@@ -82,7 +82,7 @@
 <span class="mv-font-body-sm mv-text-body-sm mv-text-outline mt-1">Library &amp; Wishlisted</span>
 </div>
 <div class="mv-w-12 mv-h-12 mv-rounded-lg mv-bg-surface-container-highest d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-bg-primary mv-group-hover-text-white mv-transition-all">
-<span class="material-symbols-outlined mv-text-2d3e81">movie</span>
+<span class="mv-text-2d3e81 bi bi-film"></span>
 </div>
 </div>
 <!-- Purchased Movies -->
@@ -93,7 +93,7 @@
 <span class="mv-font-body-sm mv-text-body-sm mv-text-outline mt-1">Permanent TVOD Rights</span>
 </div>
 <div class="mv-w-12 mv-h-12 mv-rounded-lg mv-bg-tertiary-container_20 d-flex align-items-center justify-content-center mv-text-tertiary mv-group-hover-bg-tertiary mv-group-hover-text-on-tertiary mv-transition-all">
-<span class="material-symbols-outlined mv-text-2d3e81" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="mv-text-2d3e81 bi bi-check-circle" style="font-variation-settings: 'FILL' 1;"></span>
 </div>
 </div>
 <!-- Total Spent -->
@@ -104,7 +104,7 @@
 <span class="mv-font-body-sm mv-text-body-sm mv-text-outline mt-1">Across 3 Transactions</span>
 </div>
 <div class="mv-w-12 mv-h-12 mv-rounded-lg mv-bg-surface-container-highest d-flex align-items-center justify-content-center mv-text-secondary mv-group-hover-bg-secondary mv-group-hover-text-on-secondary mv-transition-all">
-<span class="material-symbols-outlined mv-text-2d3e81">receipt_long</span>
+<span class="mv-text-2d3e81 bi bi-receipt"></span>
 </div>
 </div>
 </div>
@@ -114,7 +114,7 @@
 <img class="mv-w-full h-100 mv-object-cover" data-alt="Dark, moody cinematic still of an atmospheric neo-noir sci-fi desert scene with intense orange rim light, deep charcoal shadows, and cinematic blue grade." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpDu2wafbdDfFTebL6VvA951pEKUjB7noonmwyuWI045GvriiIROlp7uzPqcGCMRoM_HgWF908qYDB2DjMyJZkRrwz37gBDKGwKzPedLKLGTRjsEyC3SAxNFMSSilpoLxB97fj0xgJu6Iol8qKHQg5RQ2NEsFOqOIz9hBRLPC9UAFSXGlZpt7rp3p89AKLE27ol5YudblzhbZfvXxgLXCGgEaW7q1huqbXc53xyk9FbGxd9b2ui8yjtA"/>
 <div class="mv-absolute mv-inset-0 mv-bg-gradient-to-t mv-from-surface-container-lowest_90 mv-via-transparent mv-to-transparent"></div>
 <div class="mv-absolute mv-bottom-2 mv-left-2 d-flex align-items-center mv-gap-1 mv-bg-surface_80 mv-backdrop-blur-sm mv-px-2 mv-py-0p5 mv-rounded mv-text-on-surface mv-font-label-sm mv-text-label-sm">
-<span class="material-symbols-outlined mv-text-0ddd99 mv-text-tertiary">check</span>
+<span class="mv-text-0ddd99 mv-text-tertiary bi bi-check"></span>
 <span>Ready to stream</span>
 </div>
 </div>
@@ -130,11 +130,11 @@
 </div>
 <div class="mt-3 d-flex align-items-center mv-gap-space-md flex-wrap">
 <a class="mv-px-space-md mv-py-2 mv-rounded-full mv-bg-primary mv-text-white mv-font-label-md mv-text-label-md mv-font-bold d-flex align-items-center mv-gap-1 mv-hover-bg-primary-fixed mv-transition-all mv-shadow-8c95a3" href="#">
-<span class="material-symbols-outlined mv-text-c79a76">play_arrow</span>
+<span class="mv-text-c79a76 bi bi-play-fill"></span>
 <span>Resume (48m left)</span>
 </a>
 <a class="mv-px-space-md mv-py-2 mv-rounded-full mv-bg-surface-container-high mv-text-on-surface mv-font-label-md mv-text-label-md mv-font-medium mv-hover-bg-surface-variant mv-transition-colors d-flex align-items-center mv-gap-1" href="/watch/1">
-<span class="material-symbols-outlined mv-text-c79a76">download</span>
+<span class="mv-text-c79a76 bi bi-download"></span>
 <span>Offline Options</span>
 </a>
 </div>
@@ -146,13 +146,13 @@
 <div class="d-flex align-items-center justify-content-between mv-pb-space-sm">
 <div class="d-flex align-items-center mv-gap-space-sm">
 <div class="mv-w-8 mv-h-8 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-primary">
-<span class="material-symbols-outlined mv-text-27bd7e">history</span>
+<span class="mv-text-27bd7e bi bi-clock-history"></span>
 </div>
 <h2 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Recent Activity</h2>
 </div>
 <a class="mv-text-primary mv-hover-text-primary-fixed mv-font-label-md mv-text-label-md mv-font-bold d-flex align-items-center mv-gap-0p5 mv-transition-colors mv-group" href="/payment/success">
 <span>View All History</span>
-<span class="material-symbols-outlined mv-text-58f475 mv-group-hover-translate-x-1 mv-transition-transform">arrow_forward</span>
+<span class="mv-text-58f475 mv-group-hover-translate-x-1 mv-transition-transform bi bi-arrow-right"></span>
 </a>
 </div>
 <!-- Activity Items List -->
@@ -161,7 +161,7 @@
 <div class="mv-bg-surface-container-low mv-hover-bg-surface-container-high mv-p-space-md mv-rounded-xl d-flex align-items-center justify-content-between mv-transition-colors mv-gap-space-md">
 <div class="d-flex align-items-center mv-gap-space-md mv-min-w-0">
 <div class="mv-w-10 mv-h-10 mv-rounded-full mv-bg-error-container_30 mv-text-error d-flex align-items-center justify-content-center flex-shrink-0">
-<span class="material-symbols-outlined mv-text-27bd7e">movie</span>
+<span class="mv-text-27bd7e bi bi-film"></span>
 </div>
 <div class="d-flex flex-column mv-min-w-0">
 <div class="d-flex align-items-center mv-gap-space-xs flex-wrap">
@@ -181,7 +181,7 @@
 <div class="mv-bg-surface-container-low mv-hover-bg-surface-container-high mv-p-space-md mv-rounded-xl d-flex align-items-center justify-content-between mv-transition-colors mv-gap-space-md">
 <div class="d-flex align-items-center mv-gap-space-md mv-min-w-0">
 <div class="mv-w-10 mv-h-10 mv-rounded-full mv-bg-tertiary-container_30 mv-text-tertiary d-flex align-items-center justify-content-center flex-shrink-0">
-<span class="material-symbols-outlined mv-text-27bd7e">add_card</span>
+<span class="mv-text-27bd7e bi bi-credit-card"></span>
 </div>
 <div class="d-flex flex-column mv-min-w-0">
 <div class="d-flex align-items-center mv-gap-space-xs flex-wrap">
@@ -201,7 +201,7 @@
 <div class="mv-bg-surface-container-low mv-hover-bg-surface-container-high mv-p-space-md mv-rounded-xl d-flex align-items-center justify-content-between mv-transition-colors mv-gap-space-md">
 <div class="d-flex align-items-center mv-gap-space-md mv-min-w-0">
 <div class="mv-w-10 mv-h-10 mv-rounded-full mv-bg-error-container_30 mv-text-error d-flex align-items-center justify-content-center flex-shrink-0">
-<span class="material-symbols-outlined mv-text-27bd7e">movie</span>
+<span class="mv-text-27bd7e bi bi-film"></span>
 </div>
 <div class="d-flex flex-column mv-min-w-0">
 <div class="d-flex align-items-center mv-gap-space-xs flex-wrap">
@@ -221,7 +221,7 @@
 <div class="mv-bg-surface-container-low mv-hover-bg-surface-container-high mv-p-space-md mv-rounded-xl d-flex align-items-center justify-content-between mv-transition-colors mv-gap-space-md">
 <div class="d-flex align-items-center mv-gap-space-md mv-min-w-0">
 <div class="mv-w-10 mv-h-10 mv-rounded-full mv-bg-error-container_30 mv-text-error d-flex align-items-center justify-content-center flex-shrink-0">
-<span class="material-symbols-outlined mv-text-27bd7e">movie</span>
+<span class="mv-text-27bd7e bi bi-film"></span>
 </div>
 <div class="d-flex flex-column mv-min-w-0">
 <div class="d-flex align-items-center mv-gap-space-xs flex-wrap">
@@ -243,7 +243,7 @@
 <div class="mv-bg-surface-container mv-p-space-md mv-rounded-xl d-flex flex-column flex-sm-row align-items-center justify-content-between mv-gap-space-md">
 <div class="d-flex align-items-center mv-gap-space-md">
 <div class="mv-w-10 mv-h-10 mv-rounded-full mv-bg-secondary-container_20 mv-text-secondary d-flex align-items-center justify-content-center">
-<span class="material-symbols-outlined mv-text-27bd7e">help_center</span>
+<span class="mv-text-27bd7e bi bi-question-circle"></span>
 </div>
 <div>
 <h4 class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface">Need help with purchases or playback?</h4>

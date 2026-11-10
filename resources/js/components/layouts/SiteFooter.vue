@@ -5,7 +5,7 @@
         <div class="d-flex flex-column mv-gap-space-sm">
           <router-link class="d-flex align-items-center mv-gap-space-sm text-decoration-none" to="/">
             <div class="mv-w-8 mv-h-8 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center">
-              <span class="material-symbols-outlined mv-text-c79a76">play_arrow</span>
+              <span class="mv-text-c79a76 bi bi-play-fill"></span>
             </div>
             <span class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Movie<span class="mv-text-primary">Hub</span></span>
           </router-link>
@@ -14,7 +14,7 @@
         <div >
           <h4 class="mv-font-label-lg mv-text-label-lg mv-font-bold mv-text-on-surface mb-3 text-uppercase mv-tracking-wider">Discover</h4>
           <ul class="d-flex flex-column mv-gap-space-sm mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant list-unstyled mb-0">
-            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/">Browse</router-link></li>
+            <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/home">Browse</router-link></li>
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/movies">Movies</router-link></li>
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/categories">Categories</router-link></li>
             <li><router-link class="mv-hover-text-on-surface mv-transition-colors" to="/subscribe">Pricing &amp; Plans</router-link></li>

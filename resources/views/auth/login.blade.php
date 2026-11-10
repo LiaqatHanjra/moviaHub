@@ -95,7 +95,7 @@
                 class="mv-w-10 mv-h-10 mv-rounded-xl overflow-hidden mv-shadow-lg mv-shadow-primary-container_30 d-flex align-items-center justify-content-center mv-bg-surface-container">
                 <a href="/">
                   <div class="mv-w-9 mv-h-9 mv-rounded-lg mv-bg-primary-container d-flex align-items-center justify-content-center mv-shadow-da2bcf mv-group-hover-scale-105 mv-transition-transform">
-            <span class="material-symbols-outlined mv-text-c28550">play_arrow</span></div>
+            <span class="mv-text-c28550 bi bi-play-fill"></span></div>
               </div>
               <span class="mv-font-headline-md mv-text-headline-md mv-tracking-tight mv-text-on-surface">
                 Movie<span class="mv-text-primary mv-font-headline-xl-mobile mv-sm-font-headline-xl">Hub</span>
@@ -130,7 +130,7 @@
               <div
                 class="mv-relative d-flex align-items-center mv-rounded-xl mv-bg-surface-container mv-transition-all mv-duration-200 mv-focus-within-bg-surface-container-high mv-focus-within-shadow-c733a0">
                 <div class="mv-absolute mv-left-3p5 d-flex align-items-center pe-none mv-text-outline">
-                  <span class="material-symbols-outlined mv-text-5e43e3">mail</span>
+                  <span class="mv-text-5e43e3 bi bi-envelope"></span>
                 </div>
                 <input autocomplete="username"
                   class="mv-w-full mv-h-11 mv-pl-10 mv-pr-3p5 mv-bg-transparent mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline-variant mv-placeholder-font-body-sm mv-focus-outline-none"
@@ -145,7 +145,7 @@
               <div
                 class="mv-relative d-flex align-items-center mv-rounded-xl mv-bg-surface-container mv-transition-all mv-duration-200 mv-focus-within-bg-surface-container-high mv-focus-within-shadow-c733a0">
                 <div class="mv-absolute mv-left-3p5 d-flex align-items-center pe-none mv-text-outline">
-                  <span class="material-symbols-outlined mv-text-5e43e3">lock</span>
+                  <span class="mv-text-5e43e3 bi bi-lock"></span>
                 </div>
                 <input autocomplete="current-password"
                   class="mv-w-full mv-h-11 mv-pl-10 mv-pr-11 mv-bg-transparent mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline-variant mv-placeholder-font-body-sm mv-focus-outline-none"
@@ -153,7 +153,7 @@
                 <button aria-label="Toggle password visibility"
                   class="mv-absolute mv-right-3p5 d-flex align-items-center justify-content-center mv-text-outline mv-hover-text-on-surface mv-transition-colors mv-focus-outline-none"
                   id="togglePasswordBtn" type="button">
-                  <span class="material-symbols-outlined mv-text-5e43e3" id="pwdEyeIcon">visibility</span>
+                  <span class="mv-text-5e43e3 bi bi-eye" id="pwdEyeIcon"></span>
                 </button>
               </div>
             </div>
@@ -165,7 +165,7 @@
                   <div
                     class="mv-w-4 mv-h-4 mv-rounded mv-bg-surface-container mv-peer-checked-bg-primary-container mv-peer-focus-visible-ring-2 mv-peer-focus-visible-ring-primary mv-transition-all d-flex align-items-center justify-content-center">
                     <span
-                      class="material-symbols-outlined mv-text-0ddd99 mv-opacity-0 mv-peer-checked-opacity-100 mv-transition-opacity mv-font-bold">check</span>
+                      class="mv-text-0ddd99 mv-opacity-0 mv-peer-checked-opacity-100 mv-transition-opacity mv-font-bold bi bi-check"></span>
                   </div>
                 </div>
                 <span
@@ -184,8 +184,8 @@
               id="loginSubmitBtn" type="submit">
 
               <span class="mv-font-headline-sm mv-text-headline-sm mv-text-white" id="btnText">Login</span>
-              <span class="d-none material-symbols-outlined mv-text-27bd7e mv-animate-spin"
-                id="btnSpinner">progress_activity</span>
+              <span class="d-none mv-text-27bd7e mv-animate-spin bi bi-arrow-repeat"
+                id="btnSpinner"></span>
             </button>
           </form>
           <!-- Switch to Register Link -->
@@ -202,17 +202,17 @@
         <!-- Quick Footer Badges / Trust Markers -->
         <div class="d-flex align-items-center justify-content-center mv-gap-6 mt-4 mv-text-outline mv-font-label-sm mv-text-label-sm">
           <div class="d-flex align-items-center mv-gap-1p5">
-            <span class="material-symbols-outlined mv-text-58f475 mv-text-tertiary">verified_user</span>
+            <span class="mv-text-58f475 mv-text-tertiary bi bi-patch-check"></span>
             <span>Secure Stream TVOD</span>
           </div>
           <div class="mv-w-1 mv-h-1 mv-rounded-full mv-bg-surface-variant"></div>
           <div class="d-flex align-items-center mv-gap-1p5">
-            <span class="material-symbols-outlined mv-text-58f475 mv-text-primary">hd</span>
+            <span class="mv-text-58f475 mv-text-primary bi bi-badge-hd"></span>
             <span>Ultra 4K Atmos</span>
           </div>
           <div class="mv-w-1 mv-h-1 mv-rounded-full mv-bg-surface-variant"></div>
           <div class="d-flex align-items-center mv-gap-1p5">
-            <span class="material-symbols-outlined mv-text-58f475">bolt</span>
+            <span class="mv-text-58f475 bi bi-lightning-fill"></span>
             <span>Instant Access</span>
           </div>
         </div>
@@ -228,7 +228,8 @@ document.getElementById('togglePasswordBtn')?.addEventListener('click', function
     if (!pwd || !icon) return;
     const show = pwd.type === 'password';
     pwd.type = show ? 'text' : 'password';
-    icon.textContent = show ? 'visibility_off' : 'visibility';
+    icon.classList.toggle('bi-eye', !show);
+    icon.classList.toggle('bi-eye-slash', show);
 });
 
 const loginForm = document.getElementById('loginForm');

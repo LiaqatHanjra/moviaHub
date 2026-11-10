@@ -43,36 +43,36 @@
                                   class="mood-btn mv-px-space-md mv-py-2 mv-bg-primary mv-text-white mv-rounded-full mv-font-label-md mv-text-label-md d-flex align-items-center mv-gap-space-xs mv-transition-all mv-shadow-md mv-active-scale-95"
                                   data-mood="all"
                               >
-                                  <span class="material-symbols-outlined mv-text-58f475">apps</span>
+                                  <span class="mv-text-58f475 bi bi-grid"></span>
                                   All Vibes
                               </button>
                               <button
                                   class="mood-btn mv-px-space-md mv-py-2 mv-bg-surface-container-high mv-hover-bg-surface-container-highest mv-text-on-surface-variant mv-hover-text-on-surface mv-rounded-full mv-font-label-md mv-text-label-md d-flex align-items-center mv-gap-space-xs mv-transition-all mv-active-scale-95"
                                   data-mood="mind-bending"
                               >
-                                  <span class="material-symbols-outlined mv-text-58f475 mv-text-primary">psychology</span>
+                                  <span class="mv-text-58f475 mv-text-primary bi bi-lightbulb"></span>
                                   Mind-Bending Plots
                               </button>
                               <button
                                   class="mood-btn mv-px-space-md mv-py-2 mv-bg-surface-container-high mv-hover-bg-surface-container-highest mv-text-on-surface-variant mv-hover-text-on-surface mv-rounded-full mv-font-label-md mv-text-label-md d-flex align-items-center mv-gap-space-xs mv-transition-all mv-active-scale-95"
                                   data-mood="adrenaline"
                               >
-                                  <span class="material-symbols-outlined mv-text-58f475 mv-text-error">speed</span>
+                                  <span class="mv-text-58f475 mv-text-error bi bi-speedometer2"></span>
                                   Adrenaline Rush
                               </button>
                               <button
                                   class="mood-btn mv-px-space-md mv-py-2 mv-bg-surface-container-high mv-hover-bg-surface-container-highest mv-text-on-surface-variant mv-hover-text-on-surface mv-rounded-full mv-font-label-md mv-text-label-md d-flex align-items-center mv-gap-space-xs mv-transition-all mv-active-scale-95"
                                   data-mood="chills"
                               >
-                                  <span class="material-symbols-outlined mv-text-58f475 mv-text-secondary">bedtime</span>
+                                  <span class="mv-text-58f475 mv-text-secondary bi bi-moon"></span>
                                   Late Night Chills
                               </button>
                               <button
                                   class="mood-btn mv-px-space-md mv-py-2 mv-bg-surface-container-high mv-hover-bg-surface-container-highest mv-text-on-surface-variant mv-hover-text-on-surface mv-rounded-full mv-font-label-md mv-text-label-md d-flex align-items-center mv-gap-space-xs mv-transition-all mv-active-scale-95"
                                   data-mood="feel-good"
                               >
-                                  <span class="material-symbols-outlined mv-text-58f475 mv-text-tertiary"
-                                      >sentiment_very_satisfied</span
+                                  <span class="mv-text-58f475 mv-text-tertiary bi bi-emoji-laughing"
+                                      ></span
                                   >
                                   Feel Good &amp; Warm
                               </button>
@@ -80,8 +80,8 @@
                                   class="mood-btn mv-px-space-md mv-py-2 mv-bg-surface-container-high mv-hover-bg-surface-container-highest mv-text-on-surface-variant mv-hover-text-on-surface mv-rounded-full mv-font-label-md mv-text-label-md d-flex align-items-center mv-gap-space-xs mv-transition-all mv-active-scale-95"
                                   data-mood="spectacle"
                               >
-                                  <span class="material-symbols-outlined mv-text-58f475 mv-text-secondary-fixed"
-                                      >auto_awesome</span
+                                  <span class="mv-text-58f475 mv-text-secondary-fixed bi bi-stars"
+                                      ></span
                                   >
                                   Epic Visual Spectacle
                               </button>
@@ -89,8 +89,8 @@
                                   class="mood-btn mv-px-space-md mv-py-2 mv-bg-surface-container-high mv-hover-bg-surface-container-highest mv-text-on-surface-variant mv-hover-text-on-surface mv-rounded-full mv-font-label-md mv-text-label-md d-flex align-items-center mv-gap-space-xs mv-transition-all mv-active-scale-95"
                                   data-mood="gritty"
                               >
-                                  <span class="material-symbols-outlined mv-text-58f475 mv-text-outline"
-                                      >shield_with_heart</span
+                                  <span class="mv-text-58f475 mv-text-outline bi bi-shield-fill"
+                                      ></span
                                   >
                                   Gritty &amp; Realistic
                               </button>
@@ -147,7 +147,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-bg-primary mv-group-hover-text-white mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">movie_filter</span>
+                                              <span class="mv-text-c28550 bi bi-collection-play"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -181,7 +181,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-bg-primary mv-group-hover-text-white mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">rocket_launch</span>
+                                              <span class="mv-text-c28550 bi bi-rocket-takeoff"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -227,7 +227,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-secondary mv-group-hover-bg-secondary mv-group-hover-text-on-secondary mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">blur_on</span>
+                                              <span class="mv-text-c28550 bi bi-cloud-fog"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -273,7 +273,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-tertiary mv-group-hover-bg-tertiary mv-group-hover-text-on-tertiary mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">visibility</span>
+                                              <span class="mv-text-c28550 bi bi-eye"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -319,7 +319,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-error mv-group-hover-bg-error mv-group-hover-text-on-error mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">dark_mode</span>
+                                              <span class="mv-text-c28550 bi bi-moon"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -365,7 +365,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-bg-primary mv-group-hover-text-white mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">mood</span>
+                                              <span class="mv-text-c28550 bi bi-emoji-smile"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -411,7 +411,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-tertiary mv-group-hover-bg-tertiary mv-group-hover-text-on-tertiary mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">favorite</span>
+                                              <span class="mv-text-c28550 bi bi-heart-fill"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -457,7 +457,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-secondary mv-group-hover-bg-secondary mv-group-hover-text-on-secondary mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">shield</span>
+                                              <span class="mv-text-c28550 bi bi-shield"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -503,7 +503,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-primary mv-group-hover-bg-primary mv-group-hover-text-white mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">animation</span>
+                                              <span class="mv-text-c28550 bi bi-film"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -549,7 +549,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-secondary mv-group-hover-bg-secondary mv-group-hover-text-on-secondary mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">fort</span>
+                                              <span class="mv-text-c28550 bi bi-building"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -595,7 +595,7 @@
                                           <div
                                               class="mv-w-10 mv-h-10 mv-rounded-lg mv-bg-surface-container-high d-flex align-items-center justify-content-center mv-text-tertiary mv-group-hover-bg-tertiary mv-group-hover-text-on-tertiary mv-transition-colors"
                                           >
-                                              <span class="material-symbols-outlined mv-text-c28550">videocam</span>
+                                              <span class="mv-text-c28550 bi bi-camera-video"></span>
                                           </div>
                                           <span
                                               class="mv-font-label-sm mv-text-label-sm mv-px-2 mv-py-0p5 mv-rounded-full mv-bg-surface-container-highest mv-text-on-surface-variant"
@@ -688,7 +688,7 @@
                                           class="mt-1 d-flex align-items-center mv-text-primary mv-font-label-md mv-text-label-md mv-group-hover-translate-x-1 mv-transition-transform"
                                       >
                                           Explore The Master Collection
-                                          <span class="material-symbols-outlined mv-text-58f475 ms-1">arrow_forward</span>
+                                          <span class="mv-text-58f475 ms-1 bi bi-arrow-right"></span>
                                       </div>
                                   </div>
                               </div>
@@ -713,9 +713,9 @@
                                               class="mv-px-2 mv-py-0p5 mv-bg-tertiary-container mv-text-on-tertiary mv-font-label-sm mv-text-label-sm mv-rounded mv-font-bold d-flex align-items-center mv-gap-1"
                                           >
                                               <span
-                                                  class="material-symbols-outlined mv-text-773d8f"
+                                                  class="mv-text-773d8f bi bi-star-fill"
                                                   style="font-variation-settings: &quot;FILL&quot; 1"
-                                                  >star</span
+                                                  ></span
                                               >
                                               8.5+ IMDb
                                           </span>
@@ -735,7 +735,7 @@
                                           class="mt-1 d-flex align-items-center mv-text-tertiary mv-font-label-md mv-text-label-md mv-group-hover-translate-x-1 mv-transition-transform"
                                       >
                                           Stream Hall of Fame
-                                          <span class="material-symbols-outlined mv-text-58f475 ms-1">arrow_forward</span>
+                                          <span class="mv-text-58f475 ms-1 bi bi-arrow-right"></span>
                                       </div>
                                   </div>
                               </div>
@@ -776,7 +776,7 @@
                                           class="mt-1 d-flex align-items-center mv-text-secondary mv-font-label-md mv-text-label-md mv-group-hover-translate-x-1 mv-transition-transform"
                                       >
                                           Browse Flash Rentals
-                                          <span class="material-symbols-outlined mv-text-58f475 ms-1">arrow_forward</span>
+                                          <span class="mv-text-58f475 ms-1 bi bi-arrow-right"></span>
                                       </div>
                                   </div>
                               </div>
@@ -790,7 +790,7 @@
                               <div
                                   class="mv-w-12 mv-h-12 mv-rounded-xl mv-bg-primary_10 d-flex align-items-center justify-content-center mv-text-primary"
                               >
-                                  <span class="material-symbols-outlined mv-text-deed42">speed</span>
+                                  <span class="mv-text-deed42 bi bi-speedometer2"></span>
                               </div>
                               <div>
                                   <h4 class="mv-font-title-md mv-text-title-md mv-text-on-surface mv-font-semibold">
@@ -806,13 +806,13 @@
                               <button
                                   class="mv-w-full mv-md-w-auto mv-px-space-lg mv-py-2p5 mv-bg-surface-container-high mv-hover-bg-surface-container-highest mv-text-on-surface mv-rounded-full mv-font-label-md mv-text-label-md mv-transition-colors d-flex align-items-center justify-content-center mv-gap-space-xs"
                               >
-                                  <span class="material-symbols-outlined mv-text-c79a76">account_balance_wallet</span>
+                                  <span class="mv-text-c79a76 bi bi-wallet2"></span>
                                   Top-up Wallet (Rs. 300)
                               </button>
                               <button
                                   class="mv-w-full mv-md-w-auto mv-px-space-lg mv-py-2p5 mv-bg-primary mv-hover-bg-primary-container mv-text-white mv-rounded-full mv-font-label-md mv-text-label-md mv-transition-colors mv-shadow-md d-flex align-items-center justify-content-center mv-gap-space-xs"
                               >
-                                  <span class="material-symbols-outlined mv-text-c79a76">play_circle</span>
+                                  <span class="mv-text-c79a76 bi bi-play-circle"></span>
                                   Latest Releases
                               </button>
                           </div>

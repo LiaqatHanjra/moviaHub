@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-@import 'material-symbols/outlined.css';
-@import './frontend-assets/mv-fonts.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import url('https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css');
 @import './frontend-assets/mv-theme.css';

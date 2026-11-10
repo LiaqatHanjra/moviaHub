@@ -35,7 +35,7 @@
                 <div class="d-grid mv-grid-cols-1 mv-md-grid-cols-12 mv-gap-space-sm align-items-center">
                   <div class="mv-md-col-span-6 mv-relative d-flex align-items-center">
                     <span
-                      class="material-symbols-outlined mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none">search</span>
+                      class="mv-absolute mv-left-3p5 mv-text-outline mv-text-27bd7e pe-none bi bi-search"></span>
                     <input
                       class="mv-w-full mv-h-11 mv-pl-11 mv-pr-space-md mv-bg-surface-container-lowest mv-text-on-surface mv-font-body-md mv-text-body-md mv-rounded-lg mv-placeholder-text-outline mv-focus-outline-none mv-focus-bg-surface-container-high mv-transition-all"
                       v-model="searchInput"
@@ -56,7 +56,7 @@
                       <option v-for="genre in genres" :key="genre.id" :value="String(genre.id)">{{ genre.name }}</option>
                     </select>
                     <span
-                      class="material-symbols-outlined mv-absolute mv-right-3 mv-top-3 pe-none mv-text-outline mv-text-27bd7e">keyboard_arrow_down</span>
+                      class="mv-absolute mv-right-3 mv-top-3 pe-none mv-text-outline mv-text-27bd7e bi bi-chevron-down"></span>
                   </div>
                   <button
                     type="button"
@@ -93,7 +93,7 @@
                       v-if="currentBanner && currentBanner.imdb_rating"
                       class="mv-px-2 mv-py-0p5 mv-rounded mv-bg-surface-container-highest mv-text-tertiary mv-font-label-sm mv-text-label-sm mv-font-bold d-flex align-items-center mv-gap-1"
                     >
-                      <span class="material-symbols-outlined mv-text-0ddd99">star</span>
+                      <span class="mv-text-0ddd99 bi bi-star-fill"></span>
                       IMDb {{ currentBanner.imdb_rating }}
                     </span>
                   </div>
@@ -116,7 +116,7 @@
                   <div class="d-flex align-items-center mv-gap-space-sm">
                     <button
                       class="mv-px-space-lg mv-py-3 mv-rounded-full mv-bg-primary-container mv-font-label-lg mv-text-label-lg mv-font-bold mv-hover-scale-105 mv-transition-all mv-shadow-051d8e d-flex align-items-center mv-gap-2">
-                      <span class="material-symbols-outlined mv-text-27bd7e">bolt</span> Rent Now
+                      <span class="mv-text-27bd7e bi bi-lightning-fill"></span> Rent Now
                     </button>
                     <button
                       v-if="movieBanners.length > 1"
@@ -125,7 +125,7 @@
                       class="mv-w-11 mv-h-11 mv-rounded-full mv-bg-surface-container-high mv-hover-bg-surface-bright mv-text-on-surface d-flex align-items-center justify-content-center mv-transition-colors"
                       @click="showNextBanner"
                     >
-                      <span class="material-symbols-outlined mv-text-c28550">chevron_right</span>
+                      <span class="mv-text-c28550 bi bi-chevron-right"></span>
                     </button>
                   </div>
                 </div>
@@ -182,7 +182,7 @@
                       v-if="movie.imdb_rating"
                       class="mv-absolute mv-top-2 mv-left-2 d-inline-flex align-items-center mv-gap-0p5 mv-px-1p5 mv-py-0p5 mv-rounded mv-bg-surface-container-lowest_80 mv-backdrop-blur-sm mv-text-tertiary mv-font-label-sm mv-text-label-sm"
                     >
-                      <span class="material-symbols-outlined mv-text-3eb376" style="font-variation-settings: 'FILL' 1;">star</span> {{ movie.imdb_rating }}
+                      <span class="mv-text-3eb376 bi bi-star-fill" style="font-variation-settings: 'FILL' 1;"></span> {{ movie.imdb_rating }}
                     </span>
                   </div>
                   <div class="movie-card-content d-flex flex-column mv-flex-1 justify-content-between">
