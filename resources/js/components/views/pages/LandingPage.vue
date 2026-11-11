@@ -444,6 +444,7 @@ import axios from 'axios';
 import AppLayout from '../../layouts/AppLayout.vue';
 import Header from '../../layouts/SiteMenu.vue';
 import Footer from '../../layouts/SiteFooter.vue';
+import { useGlobalSearch } from '../../useGlobalSearch';
 
 function unwrapList(payload) {
   if (Array.isArray(payload)) {
@@ -463,6 +464,9 @@ export default {
     AppLayout,
     Header,
     Footer
+  },
+  setup() {
+    return useGlobalSearch();
   },
   data() {
     return {
@@ -489,22 +493,11 @@ export default {
       bannerError: '',
       genresLoading: true,
       genreError: '',
-      searchQuery: '',
-      searchResults: null,
-      searchMessage: '',
-      searchLoading: false,
-      searchRequestId: 0,
       mobileShortcuts: [
         { label: 'Punjabi', className: 'shortcut-punjabi', languages: 'punjabi' },
         { label: 'Bollywood', className: 'shortcut-bollywood', languages: 'hindi' },
         { label: 'South', className: 'shortcut-south', languages: ['tamil', 'telugu', 'malayalam', 'kannada'] },
         { label: 'Hollywood', className: 'shortcut-hollywood', languages: 'english' },
-      ],
-      searchGroups: [
-        { key: 'movies', label: 'Movies' },
-        { key: 'tvShows', label: 'TV shows' },
-        { key: 'seasons', label: 'Seasons' },
-        { key: 'episodes', label: 'Episodes' },
       ],
     };
   },
@@ -512,9 +505,6 @@ export default {
     mobileBannerItems() {
       if (this.bannerMovies.length < 2) return this.bannerMovies;
       return Array.from({ length: Math.ceil(4 / this.bannerMovies.length) }, () => this.bannerMovies).flat();
-    },
-    hasSearchResults() {
-      return this.searchGroups.some((group) => this.searchResults[group.key]?.length);
     },
     featuredMovies() {
       return [
@@ -541,7 +531,6 @@ export default {
     this.fetchWallet();
   },
   beforeUnmount() {
-    this.searchRequestId++;
     window.removeEventListener('resize', this.closeGenresOnDesktop);
     this.stopBannerAutoplay();
     this.stopGenreAutoplay();
@@ -551,14 +540,6 @@ export default {
     this.stopGenreAutoplay();
   },
   methods: {
-    searchResultPath(group, item) {
-      if (group === 'movies' && item.id) return `/movie/${item.id}`;
-      if (group === 'tvShows' && item.id) return `/series/${item.id}`;
-      if ((group === 'seasons' || group === 'episodes') && item.entertainment_id) {
-        return `/series/${item.entertainment_id}`;
-      }
-      return null;
-    },
     fetchGenres() {
       axios.get('/api/movies-genres')
         .then((response) => {
@@ -572,35 +553,6 @@ export default {
         .finally(() => {
           this.genresLoading = false;
         });
-    },
-    async searchCatalog() {
-      const search = this.searchQuery.trim();
-      const requestId = ++this.searchRequestId;
-      this.searchResults = null;
-      this.searchMessage = '';
-      this.searchLoading = false;
-      if (search.length < 2) {
-        this.searchMessage = 'Enter at least 2 characters to search.';
-        return;
-      }
-      this.searchLoading = true;
-      try {
-        const response = await axios.get('/api/global-search', { params: { search, summary: 1 } });
-        if (requestId === this.searchRequestId) this.searchResults = response.data;
-      } catch (error) {
-        if (requestId === this.searchRequestId) {
-          console.error('Error searching catalog:', error);
-          this.searchMessage = 'Unable to search right now. Please try again.';
-        }
-      } finally {
-        if (requestId === this.searchRequestId) this.searchLoading = false;
-      }
-    },
-    clearSearch() {
-      this.searchRequestId++;
-      this.searchResults = null;
-      this.searchMessage = '';
-      this.searchLoading = false;
     },
     openGenres() {
       this.$refs.genresDialog.showModal();

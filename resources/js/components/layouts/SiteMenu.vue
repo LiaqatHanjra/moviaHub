@@ -19,16 +19,39 @@
         </nav>
       </div>
 
-      <div class="mv-flex-1 mv-max-w-md d-none d-xxl-block">
-        <form class="mv-relative d-flex align-items-center" @submit.prevent="search">
+      <div class="header-search mv-flex-1 mv-max-w-md d-none d-md-block" @keydown.esc="clearSearch">
+        <form class="mv-relative d-flex align-items-center" role="search" @submit.prevent="searchCatalog">
           <span class="mv-absolute mv-left-space-md mv-text-outline pe-none mv-text-27bd7e bi bi-search"></span>
+          <label class="visually-hidden" for="header-global-search">Search movies and shows</label>
           <input
-            v-model="query"
+            id="header-global-search"
+            v-model="searchQuery"
             class="mv-w-full mv-h-10 mv-pl-10 mv-pr-space-md mv-bg-surface-container-low mv-border mv-border-surface-container-high mv-rounded-full mv-font-body-md mv-text-body-md mv-text-on-surface mv-placeholder-text-outline mv-focus-outline-none mv-focus-border-primary mv-focus-bg-surface-container mv-transition-all"
-            placeholder="Search movies, genres..."
+            placeholder="Search movies and shows..."
             type="search"
+            maxlength="100"
+            @input="clearSearch"
           />
+          <button type="submit" class="header-search-submit" :disabled="searchLoading" aria-label="Search">
+            <span class="bi bi-arrow-right" aria-hidden="true"></span>
+          </button>
         </form>
+        <div v-if="searchMessage || searchResults" class="header-search-results" aria-live="polite">
+          <p v-if="searchMessage" class="header-search-message" role="status">{{ searchMessage }}</p>
+          <template v-if="searchResults">
+            <template v-for="group in searchGroups" :key="group.key">
+              <div v-if="searchResults[group.key] && searchResults[group.key].length" class="header-search-group">
+                <h2>{{ group.label }}</h2>
+                <template v-for="item in searchResults[group.key]" :key="item.id">
+                  <router-link v-if="searchResultPath(group.key, item)" :to="searchResultPath(group.key, item)"
+                    @click="clearSearch">{{ item.name }}</router-link>
+                  <span v-else>{{ item.name }}</span>
+                </template>
+              </div>
+            </template>
+            <p v-if="!hasSearchResults" class="header-search-message">No results found.</p>
+          </template>
+        </div>
       </div>
 
       <div class="d-flex align-items-center mv-gap-space-sm">
@@ -148,8 +171,9 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { currentUserName, isLoggedIn, logout } from '../auth';
+import { useGlobalSearch } from '../useGlobalSearch';
 
 const props = defineProps({
     variant: {
@@ -159,8 +183,7 @@ const props = defineProps({
 });
 
 const route = useRoute();
-const router = useRouter();
-const query = ref('');
+const { searchQuery, searchResults, searchMessage, searchLoading, searchGroups, hasSearchResults, searchCatalog, clearSearch, searchResultPath } = useGlobalSearch();
 const accountVersion = ref(0);
 const mobileMenuOpen = ref(false);
 const showAccount = computed(() => isLoggedIn());
@@ -220,10 +243,6 @@ function isActive(to) {
     return route.path === to || route.path.startsWith(`${to}/`);
 }
 
-function search() {
-    router.push({ path: '/movies', query: query.value ? { q: query.value } : {} });
-}
-
 function closeMobileMenu() {
     mobileMenuOpen.value = false;
 }
@@ -233,3 +252,68 @@ function handleMobileLogout() {
     logout();
 }
 </script>
+
+<style scoped>
+.header-search {
+    position: relative;
+    min-width: 0;
+}
+
+.header-search input {
+    padding-right: 2.5rem;
+}
+
+.header-search-submit {
+    position: absolute;
+    right: 0.4rem;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #dfe2eb;
+}
+
+.header-search-submit:disabled {
+    opacity: 0.5;
+}
+
+.header-search-results {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    max-height: min(60vh, 24rem);
+    overflow-y: auto;
+    border: 1px solid #30343b;
+    border-radius: 0.5rem;
+    background: #191d23;
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+}
+
+.header-search-message,
+.header-search-group h2 {
+    margin: 0;
+    padding: 0.65rem 0.8rem;
+    color: #dfe2eb;
+    font-size: 0.85rem;
+}
+
+.header-search-group h2 {
+    color: #93ccff;
+}
+
+.header-search-group a,
+.header-search-group span {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    border-top: 1px solid #30343b;
+    color: #fff;
+    text-decoration: none;
+}
+
+.header-search-group a:hover,
+.header-search-group a:focus-visible {
+    background: #30343b;
+}
+</style>
