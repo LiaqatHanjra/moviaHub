@@ -64,6 +64,14 @@ class MoviesController extends Controller
             $movieList->where('language', $request->language);
         }
 
+        if ($request->has('languages')) {
+            $validated = $request->validate([
+                'languages' => 'required|array|min:1',
+                'languages.*' => 'required|string|max:100',
+            ]);
+            $movieList->whereIn('language', $validated['languages']);
+        }
+
         $movies = $movieList->distinct('id')
             ->orderBy('release_date', 'desc')
             ->paginate(20);

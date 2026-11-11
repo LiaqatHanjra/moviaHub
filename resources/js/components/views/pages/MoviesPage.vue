@@ -32,6 +32,9 @@
               </div>
               <div
                 class="mv-bg-surface-container mv-rounded-xl mv-p-space-md d-flex flex-column mv-gap-space-md mv-shadow-md">
+                <p v-if="selectedLanguages.length" class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant mb-0">
+                  Languages: {{ selectedLanguages.join(', ') }}
+                </p>
                 <div class="d-grid mv-grid-cols-1 mv-md-grid-cols-12 mv-gap-space-sm align-items-center">
                   <div class="mv-md-col-span-6 mv-relative d-flex align-items-center">
                     <span
@@ -274,6 +277,7 @@ export default {
       genres: [],
       searchInput: '',
       selectedGenreId: '',
+      selectedLanguages: [],
       isLoadingMovies: true,
       moviesError: '',
       pagination: {
@@ -305,14 +309,13 @@ export default {
     },
   },
   watch: {
-    '$route.query.genre_id'(genreId) {
-      this.selectedGenreId = genreId ? String(genreId) : '';
+    '$route.query'() {
+      this.applyRouteFilters();
       this.loadMovies(1);
     },
   },
   mounted() {
-    const { genre_id: genreId } = this.$route.query;
-    this.selectedGenreId = genreId ? String(genreId) : '';
+    this.applyRouteFilters();
     this.fetchMovieBanners();
     this.fetchGenres();
     this.loadMovies();
@@ -321,6 +324,13 @@ export default {
     window.clearTimeout(this.searchTimeout);
   },
   methods: {
+    applyRouteFilters() {
+      const { genre_id: genreId, language } = this.$route.query;
+      this.selectedGenreId = genreId ? String(genreId) : '';
+      this.selectedLanguages = (Array.isArray(language) ? language : [language])
+        .filter((value) => typeof value === 'string' && value.trim())
+        .map((value) => value.trim());
+    },
     fetchGenres() {
       axios.get('/api/genres')
         .then((response) => {
@@ -340,7 +350,15 @@ export default {
       window.clearTimeout(this.searchTimeout);
       this.searchInput = '';
       this.selectedGenreId = '';
-      this.loadMovies(1);
+      this.selectedLanguages = [];
+      if (this.$route.query.genre_id || this.$route.query.language) {
+        const query = { ...this.$route.query };
+        delete query.genre_id;
+        delete query.language;
+        this.$router.replace({ query });
+      } else {
+        this.loadMovies(1);
+      }
     },
     async loadMovies(page = 1) {
       const requestId = ++this.moviesRequestId;
@@ -354,6 +372,11 @@ export default {
       }
       if (this.selectedGenreId) {
         params.genre_id = this.selectedGenreId;
+      }
+      if (this.selectedLanguages.length === 1) {
+        params.language = this.selectedLanguages[0];
+      } else if (this.selectedLanguages.length > 1) {
+        params.languages = this.selectedLanguages;
       }
 
       try {

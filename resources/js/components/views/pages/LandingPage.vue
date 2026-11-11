@@ -4,7 +4,7 @@
   <main class="mv-w-full mv-pt-10 mv-bg-surface-container-lowest min-vh-100">
     <div class="d-flex flex-column mv-w-full">
       <!-- Immersive Cinematic Hero Showcase (Bleeds under shell header) -->
-       <section class="mv-relative mv-w-full mv-nmt-16 mv-pt-16">
+       <section class="desktop-landing-hero mv-relative mv-w-full mv-nmt-16 mv-pt-16">
         <div class="hero-slider">
 
           <!-- ==================== SLIDE 1 ==================== -->
@@ -34,7 +34,7 @@
                 <span v-if="yearOf(banner)">{{ yearOf(banner) }}</span>
                 <span v-if="banner.duration">{{ banner.duration }}</span>
               </div>
-              <p class="mv-font-body-lg mv-text-body-lg mv-text-on-surface-variant mv-max-w-2xl mv-mb-space-xl mv-line-clamp-3">{{ banner.description }}</p>
+
               <div class="d-flex flex-wrap align-items-center mv-gap-space-md">
               
               </div>
@@ -73,10 +73,74 @@
           </div>
         </div>
       </section>
+      <section class="mobile-discovery" aria-label="Discover movies">
+        <div v-if="bannerMovies.length" ref="mobileBannerSlider" class="mobile-poster-slider"
+          aria-label="Featured movies" @touchstart.passive="stopBannerAutoplay"
+          @touchend.passive="startBannerAutoplay" @touchcancel.passive="startBannerAutoplay" @scroll.passive="syncMobileBanner">
+          <router-link v-for="banner in bannerMovies" :key="banner.id"
+            class="mobile-poster" :to="`/movie/${banner.id}`">
+            <img :src="banner.poster_image || imageOf(banner)" :alt="banner.name" />
+          </router-link>
+        </div>
+        <p v-else class="mobile-discovery-message">
+          {{ isLoadingBanners ? 'Loading featured movies...' : bannerError || 'No featured movies available.' }}
+        </p>
+
+        <form class="mobile-search" role="search" @submit.prevent="searchCatalog">
+          <label class="visually-hidden" for="mobile-global-search">Search movies and shows</label>
+          <input id="mobile-global-search" v-model="searchQuery" type="search" maxlength="100" @input="clearSearch"
+            placeholder="Search movies and shows..." />
+          <button type="submit" :disabled="searchLoading">Search</button>
+        </form>
+        <div v-if="searchMessage" class="mobile-discovery-message" role="status">{{ searchMessage }}</div>
+        <div v-if="searchResults" class="mobile-search-results" aria-live="polite">
+          <template v-for="group in searchGroups" :key="group.key">
+            <div v-if="searchResults[group.key] && searchResults[group.key].length" class="mobile-search-group">
+              <h2>{{ group.label }}</h2>
+              <template v-for="item in searchResults[group.key]" :key="item.id">
+                <router-link v-if="group.key === 'movies'" :to="`/movie/${item.id}`">{{ item.name }}</router-link>
+                <span v-else>{{ item.name }}</span>
+              </template>
+            </div>
+          </template>
+          <p v-if="!hasSearchResults" class="mobile-discovery-message">No results found.</p>
+        </div>
+
+        <nav class="mobile-shortcuts" aria-label="Browse movie collections">
+          <router-link v-for="shortcut in mobileShortcuts" :key="shortcut.label"
+            :class="shortcut.className" :to="{ path: '/movies', query: { language: shortcut.languages } }">
+            {{ shortcut.label }}
+          </router-link>
+        </nav>
+
+        <button ref="categoryButton" class="mobile-category-button" type="button"
+          aria-haspopup="dialog" aria-controls="mobile-genres-dialog" @click="openGenres">
+          <span class="bi bi-list" aria-hidden="true"></span> Category
+        </button>
+        <dialog id="mobile-genres-dialog" ref="genresDialog" class="mobile-genres-dialog"
+          aria-labelledby="mobile-genres-title" @close="restoreCategoryFocus" @click.self="$refs.genresDialog.close()">
+          <div class="mobile-genres-heading">
+            <h2 id="mobile-genres-title">Categories</h2>
+            <button type="button" aria-label="Close categories" @click="$refs.genresDialog.close()">
+              <span class="bi bi-x-lg" aria-hidden="true"></span>
+            </button>
+          </div>
+          <p v-if="genreError" class="mobile-discovery-message" role="alert">{{ genreError }}</p>
+          <p v-else-if="!genres.length" class="mobile-discovery-message">
+            {{ genresLoading ? 'Loading genres...' : 'No genres available.' }}
+          </p>
+          <nav v-else aria-label="Genres">
+            <router-link v-for="genre in genres" :key="genre.id"
+              :to="{ path: '/movies', query: { genre_id: genre.id } }" @click="$refs.genresDialog.close()">
+              {{ genre.name }}
+            </router-link>
+          </nav>
+        </dialog>
+      </section>
       <!-- Content Workspace -->
       <div class="mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin d-flex flex-column mv-gap-space-lg mv-sm-gap-space-xl mv-py-space-xl">
         <!-- SECTION 2: Categories / Genres Section (Screen 1 Category Pill Row) -->
-        <section class="d-flex flex-column mv-gap-space-lg" style="min-width: 0; max-width: 100%;">
+        <section class="desktop-genre-section d-flex flex-column mv-gap-space-lg" style="min-width: 0; max-width: 100%;">
           <div class="d-flex flex-column align-items-start mv-gap-space-sm flex-sm-row align-items-sm-end justify-content-sm-between">
             <div class="d-flex flex-column mv-gap-space-xs">
               <span class="mv-font-label-sm mv-text-label-sm mv-text-secondary text-uppercase mv-font-bold mv-tracking-widest">Explore
@@ -413,9 +477,32 @@ export default {
       isTopUpSubmitting: false,
       selectedTopUpAmount: null,
       walletError: '',
+      bannerError: '',
+      genresLoading: true,
+      genreError: '',
+      searchQuery: '',
+      searchResults: null,
+      searchMessage: '',
+      searchLoading: false,
+      searchRequestId: 0,
+      mobileShortcuts: [
+        { label: 'Punjabi', className: 'shortcut-punjabi', languages: 'punjabi' },
+        { label: 'Bollywood', className: 'shortcut-bollywood', languages: 'hindi' },
+        { label: 'South', className: 'shortcut-south', languages: ['tamil', 'telugu', 'malayalam', 'kannada'] },
+        { label: 'Hollywood', className: 'shortcut-hollywood', languages: 'english' },
+      ],
+      searchGroups: [
+        { key: 'movies', label: 'Movies' },
+        { key: 'tvShows', label: 'TV shows' },
+        { key: 'seasons', label: 'Seasons' },
+        { key: 'episodes', label: 'Episodes' },
+      ],
     };
   },
   computed: {
+    hasSearchResults() {
+      return this.searchGroups.some((group) => this.searchResults[group.key]?.length);
+    },
     featuredMovies() {
       return [
         ...this.actionMovies.map((movie) => ({ ...movie, category: 'Action' })),
@@ -433,6 +520,7 @@ export default {
     },
   },
   mounted() {
+    window.addEventListener('resize', this.closeGenresOnDesktop);
     this.fetchMovieBanners();
     this.fetchGenres();
     this.fetchCategoryMovies();
@@ -440,6 +528,8 @@ export default {
     this.fetchWallet();
   },
   beforeUnmount() {
+    this.searchRequestId++;
+    window.removeEventListener('resize', this.closeGenresOnDesktop);
     this.stopBannerAutoplay();
     this.stopGenreAutoplay();
   },
@@ -456,7 +546,62 @@ export default {
         })
         .catch((error) => {
           console.error('Error fetching genres:', error);
+          this.genreError = 'Unable to load genres. Please try again later.';
+        })
+        .finally(() => {
+          this.genresLoading = false;
         });
+    },
+    async searchCatalog() {
+      const search = this.searchQuery.trim();
+      const requestId = ++this.searchRequestId;
+      this.searchResults = null;
+      this.searchMessage = '';
+      this.searchLoading = false;
+      if (search.length < 2) {
+        this.searchMessage = 'Enter at least 2 characters to search.';
+        return;
+      }
+      this.searchLoading = true;
+      try {
+        const response = await axios.get('/api/global-search', { params: { search } });
+        if (requestId === this.searchRequestId) this.searchResults = response.data;
+      } catch (error) {
+        if (requestId === this.searchRequestId) {
+          console.error('Error searching catalog:', error);
+          this.searchMessage = 'Unable to search right now. Please try again.';
+        }
+      } finally {
+        if (requestId === this.searchRequestId) this.searchLoading = false;
+      }
+    },
+    clearSearch() {
+      this.searchRequestId++;
+      this.searchResults = null;
+      this.searchMessage = '';
+      this.searchLoading = false;
+    },
+    openGenres() {
+      this.$refs.genresDialog.showModal();
+    },
+    restoreCategoryFocus() {
+      this.$refs.categoryButton?.focus();
+    },
+    closeGenresOnDesktop() {
+      if (window.innerWidth >= 768 && this.$refs.genresDialog?.open) {
+        this.$refs.genresDialog.close();
+      }
+    },
+    syncMobileBanner() {
+      const slider = this.$refs.mobileBannerSlider;
+      if (!slider || !slider.firstElementChild) return;
+      const step = slider.firstElementChild.offsetWidth + 4;
+      this.activeBannerIndex = Math.min(this.bannerMovies.length - 1, Math.round(slider.scrollLeft / step));
+    },
+    scrollMobileBanner() {
+      const slider = this.$refs.mobileBannerSlider;
+      if (!slider || !slider.firstElementChild || !slider.offsetWidth) return;
+      slider.scrollTo({ left: this.activeBannerIndex * (slider.firstElementChild.offsetWidth + 4), behavior: 'smooth' });
     },
     fetchLatestMovies() {
       axios.get('/api/latest-movies')
@@ -502,6 +647,7 @@ export default {
         })
         .catch((error) => {
           console.error('Error fetching movie banners:', error);
+          this.bannerError = 'Unable to load featured movies.';
         })
         .finally(() => {
           this.isLoadingBanners = false;
@@ -568,7 +714,15 @@ export default {
       this.bannerTimer = null;
     },
     advanceBanner() {
-      this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
+      const slider = this.$refs.mobileBannerSlider;
+      if (slider && slider.offsetWidth && slider.firstElementChild) {
+        const step = slider.firstElementChild.offsetWidth + 4;
+        const lastIndex = Math.ceil((slider.scrollWidth - slider.clientWidth) / step);
+        this.activeBannerIndex = this.activeBannerIndex >= lastIndex ? 0 : this.activeBannerIndex + 1;
+        this.scrollMobileBanner();
+      } else {
+        this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
+      }
     },
     startGenreAutoplay() {
       this.stopGenreAutoplay();
@@ -650,6 +804,14 @@ export default {
 </script>
 
 <style scoped>
+.mobile-discovery {
+    display: none;
+}
+
+.mobile-genres-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.65);
+}
+
 .landing-hero {
   min-height: 40rem;
 }
@@ -850,6 +1012,190 @@ export default {
 }
 
 @media (max-width: 767.98px) {
+    .desktop-landing-hero,
+    .desktop-genre-section {
+        display: none !important;
+    }
+
+    .mobile-discovery {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1.5rem 1rem 0;
+        margin-top: 1.5rem;
+    }
+
+    .mobile-poster-slider {
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .mobile-poster-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-poster {
+        flex: 0 0 calc((100% - 12px) / 4);
+        aspect-ratio: 2 / 3;
+        scroll-snap-align: start;
+        background: #1d222a;
+    }
+
+    .mobile-poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .mobile-search {
+        display: flex;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 0.4rem;
+    }
+
+    .mobile-search input {
+        min-width: 0;
+        flex: 1;
+        padding: 0.75rem;
+        border: 0;
+        background: #fff;
+        color: #171717;
+    }
+
+    .mobile-search button,
+    .mobile-category-button {
+        border: 0;
+        background: #a7f51b;
+        color: #101600;
+        font-weight: 700;
+    }
+
+    .mobile-search button {
+        padding: 0.75rem 1rem;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+    }
+
+    .mobile-search button:disabled {
+        opacity: 0.7;
+    }
+
+    .mobile-search-results {
+        max-height: 18rem;
+        overflow-y: auto;
+        border-radius: 0.4rem;
+        background: #191d23;
+    }
+
+    .mobile-search-group h2 {
+        margin: 0;
+        padding: 0.65rem 0.8rem;
+        color: #a7f51b;
+        font-size: 0.85rem;
+    }
+
+    .mobile-search-group a,
+    .mobile-search-group span {
+        display: block;
+        padding: 0.6rem 0.8rem;
+        border-top: 1px solid #30343b;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .mobile-discovery-message {
+        margin: 0;
+        padding: 0.5rem;
+        color: #d3d8df;
+    }
+
+    .mobile-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .mobile-shortcuts a {
+        padding: 0.7rem 0.9rem;
+        border-radius: 0.3rem;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .mobile-shortcuts .shortcut-punjabi { background: #ffe126; color: #171717; }
+    .mobile-shortcuts .shortcut-bollywood { background: #6b11b3; }
+    .mobile-shortcuts .shortcut-south { background: #704b45; }
+    .mobile-shortcuts .shortcut-hollywood { background: #e8002d; }
+
+    .mobile-category-button {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        width: 100%;
+        padding: 0.45rem 0.8rem;
+        text-align: left;
+    }
+
+    .mobile-category-button .bi {
+        font-size: 1.75rem;
+        line-height: 1;
+    }
+
+    .mobile-genres-dialog {
+        position: fixed;
+        inset: 0 0 0 auto;
+        width: min(80vw, 22rem);
+        max-width: none;
+        height: 100dvh;
+        max-height: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: #090b0d;
+        color: #fff;
+        overflow-y: auto;
+    }
+
+    .mobile-genres-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: 1px solid #30343b;
+    }
+
+    .mobile-genres-heading h2 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .mobile-genres-heading button {
+        border: 0;
+        background: transparent;
+        color: #fff;
+    }
+
+    .mobile-genres-dialog nav a {
+        display: block;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid #27292d;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .mobile-genres-dialog nav a:hover,
+    .mobile-genres-dialog nav a:focus-visible {
+        background: #a7f51b;
+        color: #111;
+    }
+
     .hero-slider,
     .hero-slide {
         min-height: 34rem;
