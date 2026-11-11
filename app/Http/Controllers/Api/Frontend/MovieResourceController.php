@@ -10,8 +10,10 @@ use App\Models\EntertainmentGenres;
 use App\Models\Genre;
 use App\Models\Banner;
 use App\Models\CastCrew;
+use App\Models\Episode;
 use App\Http\Resources\TVShowListResource;
 use App\Http\Resources\EpisodesResource;
+use App\Http\Resources\SeriesSummaryResource;
 
 class MovieResourceController extends Controller
 {
@@ -339,7 +341,9 @@ class MovieResourceController extends Controller
             ->get();
 
         $moviesResource = MovieResource::collection($movies);
-        $tvShowsResource = TVShowListResource::collection($tvShows);
+        $tvShowsResource = $request->boolean('summary')
+            ? SeriesSummaryResource::collection($tvShows->load('entertainmentGenerMappings'))
+            : TVShowListResource::collection($tvShows);
         $episodesResource = EpisodesResource::collection($episodes);
 
         return response()->json([
@@ -350,6 +354,57 @@ class MovieResourceController extends Controller
             'episodes' => $episodesResource,
             'message' => 'Global search results found.',
         ], 200);
+    }
+
+    public function seriesDetails($id)
+    {
+        $series = Entertainment::where('type', 'tvshow')
+            ->where('status', 1)
+            ->with('entertainmentGenerMappings')
+            ->findOrFail($id);
+
+        $episodes = Episode::where('entertainment_id', $series->id)
+            ->where('status', 1)
+            ->orderBy('season_id')
+            ->orderBy('episode_number')
+            ->get(['id', 'name', 'season_id', 'episode_number', 'poster_url', 'description', 'short_desc']);
+
+        $data = (new SeriesSummaryResource($series))->resolve();
+        $data['episodes'] = $episodes->map(fn ($episode) => [
+            'id' => $episode->id,
+            'name' => $episode->name,
+            'season_id' => $episode->season_id,
+            'episode_number' => $episode->episode_number,
+            'poster_image' => $episode->poster_url,
+            'description' => strip_tags($episode->description ?? ''),
+            'short_desc' => strip_tags($episode->short_desc ?? ''),
+        ]);
+
+        return response()->json(['status' => true, 'data' => $data]);
+    }
+
+    public function episodePlayback($seriesId, $episodeId)
+    {
+        Entertainment::where('type', 'tvshow')->where('status', 1)->findOrFail($seriesId);
+
+        $episode = Episode::where('entertainment_id', $seriesId)
+            ->where('status', 1)
+            ->with('EpisodeStreamContentMapping')
+            ->findOrFail($episodeId);
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                'id' => $episode->id,
+                'name' => $episode->name,
+                'duration' => $episode->duration,
+                'poster_image' => $episode->poster_url,
+                'video_links' => $episode->EpisodeStreamContentMapping
+                    ->filter(fn ($link) => !empty($link->url))
+                    ->map(fn ($link) => ['quality' => $link->quality, 'url' => $link->url])
+                    ->values(),
+            ],
+        ]);
     }
 
     public function getCast()

@@ -61,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/suggested-movies', [App\Http\Controllers\Api\Frontend\UserController::class, 'suggestedMovies']);
         Route::get('/top-movies-list', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'latestMovies']);
         Route::get('/global-search', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'globalSearch']);
+        Route::get('/series/{id}', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'seriesDetails']);
+        Route::get('/series/{seriesId}/episodes/{episodeId}/play', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'episodePlayback']);
         Route::get('/cast-list', [App\Http\Controllers\Api\Frontend\MovieResourceController::class, 'getCast']);
         // Continue Watch List
         Route::prefix('watch')->group(function () {

@@ -74,13 +74,22 @@
         </div>
       </section>
       <section class="mobile-discovery" aria-label="Discover movies">
-        <div v-if="bannerMovies.length" ref="mobileBannerSlider" class="mobile-poster-slider"
-          aria-label="Featured movies" @touchstart.passive="stopBannerAutoplay"
-          @touchend.passive="startBannerAutoplay" @touchcancel.passive="startBannerAutoplay" @scroll.passive="syncMobileBanner">
-          <router-link v-for="banner in bannerMovies" :key="banner.id"
-            class="mobile-poster" :to="`/movie/${banner.id}`">
-            <img :src="banner.poster_image || imageOf(banner)" :alt="banner.name" />
-          </router-link>
+        <div v-if="bannerMovies.length" class="mobile-poster-slider" aria-label="Featured movies">
+          <div class="mobile-poster-track" :class="{ 'is-moving': bannerMovies.length > 1 }"
+            :style="{ '--carousel-duration': `${mobileBannerItems.length * 4}s` }">
+            <div class="mobile-poster-group">
+              <router-link v-for="(banner, index) in mobileBannerItems" :key="`${banner.id}-${index}`"
+                class="mobile-poster" :to="`/movie/${banner.id}`">
+                <img :src="banner.poster_image || imageOf(banner)" :alt="banner.name" />
+              </router-link>
+            </div>
+            <div v-if="bannerMovies.length > 1" class="mobile-poster-group" aria-hidden="true">
+              <router-link v-for="(banner, index) in mobileBannerItems" :key="`${banner.id}-${index}`"
+                class="mobile-poster" :to="`/movie/${banner.id}`" tabindex="-1">
+                <img :src="banner.poster_image || imageOf(banner)" alt="" />
+              </router-link>
+            </div>
+          </div>
         </div>
         <p v-else class="mobile-discovery-message">
           {{ isLoadingBanners ? 'Loading featured movies...' : bannerError || 'No featured movies available.' }}
@@ -98,7 +107,7 @@
             <div v-if="searchResults[group.key] && searchResults[group.key].length" class="mobile-search-group">
               <h2>{{ group.label }}</h2>
               <template v-for="item in searchResults[group.key]" :key="item.id">
-                <router-link v-if="group.key === 'movies'" :to="`/movie/${item.id}`">{{ item.name }}</router-link>
+                <router-link v-if="searchResultPath(group.key, item)" :to="searchResultPath(group.key, item)">{{ item.name }}</router-link>
                 <span v-else>{{ item.name }}</span>
               </template>
             </div>
@@ -500,6 +509,10 @@ export default {
     };
   },
   computed: {
+    mobileBannerItems() {
+      if (this.bannerMovies.length < 2) return this.bannerMovies;
+      return Array.from({ length: Math.ceil(4 / this.bannerMovies.length) }, () => this.bannerMovies).flat();
+    },
     hasSearchResults() {
       return this.searchGroups.some((group) => this.searchResults[group.key]?.length);
     },
@@ -538,6 +551,14 @@ export default {
     this.stopGenreAutoplay();
   },
   methods: {
+    searchResultPath(group, item) {
+      if (group === 'movies' && item.id) return `/movie/${item.id}`;
+      if (group === 'tvShows' && item.id) return `/series/${item.id}`;
+      if ((group === 'seasons' || group === 'episodes') && item.entertainment_id) {
+        return `/series/${item.entertainment_id}`;
+      }
+      return null;
+    },
     fetchGenres() {
       axios.get('/api/movies-genres')
         .then((response) => {
@@ -564,7 +585,7 @@ export default {
       }
       this.searchLoading = true;
       try {
-        const response = await axios.get('/api/global-search', { params: { search } });
+        const response = await axios.get('/api/global-search', { params: { search, summary: 1 } });
         if (requestId === this.searchRequestId) this.searchResults = response.data;
       } catch (error) {
         if (requestId === this.searchRequestId) {
@@ -591,17 +612,6 @@ export default {
       if (window.innerWidth >= 768 && this.$refs.genresDialog?.open) {
         this.$refs.genresDialog.close();
       }
-    },
-    syncMobileBanner() {
-      const slider = this.$refs.mobileBannerSlider;
-      if (!slider || !slider.firstElementChild) return;
-      const step = slider.firstElementChild.offsetWidth + 4;
-      this.activeBannerIndex = Math.min(this.bannerMovies.length - 1, Math.round(slider.scrollLeft / step));
-    },
-    scrollMobileBanner() {
-      const slider = this.$refs.mobileBannerSlider;
-      if (!slider || !slider.firstElementChild || !slider.offsetWidth) return;
-      slider.scrollTo({ left: this.activeBannerIndex * (slider.firstElementChild.offsetWidth + 4), behavior: 'smooth' });
     },
     fetchLatestMovies() {
       axios.get('/api/latest-movies')
@@ -714,15 +724,7 @@ export default {
       this.bannerTimer = null;
     },
     advanceBanner() {
-      const slider = this.$refs.mobileBannerSlider;
-      if (slider && slider.offsetWidth && slider.firstElementChild) {
-        const step = slider.firstElementChild.offsetWidth + 4;
-        const lastIndex = Math.ceil((slider.scrollWidth - slider.clientWidth) / step);
-        this.activeBannerIndex = this.activeBannerIndex >= lastIndex ? 0 : this.activeBannerIndex + 1;
-        this.scrollMobileBanner();
-      } else {
-        this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
-      }
+      this.activeBannerIndex = (this.activeBannerIndex + 1) % this.bannerMovies.length;
     },
     startGenreAutoplay() {
       this.stopGenreAutoplay();
@@ -1026,10 +1028,43 @@ export default {
     }
 
     .mobile-poster-slider {
+        overflow: hidden;
+    }
+
+    .mobile-poster-track,
+    .mobile-poster-group {
         display: flex;
+        width: max-content;
+    }
+
+    .mobile-poster-track.is-moving {
+        animation: mobile-poster-loop var(--carousel-duration) linear infinite;
+    }
+
+    .mobile-poster-group {
         gap: 4px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        padding-right: 4px;
+    }
+
+    @keyframes mobile-poster-loop {
+        to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .mobile-poster-slider {
+            overflow-x: auto;
+        }
+
+        .mobile-poster-track.is-moving {
+            animation: none;
+        }
+
+        .mobile-poster-group[aria-hidden="true"] {
+            display: none;
+        }
+    }
+
+    .mobile-poster-slider {
         scrollbar-width: none;
     }
 
@@ -1038,9 +1073,8 @@ export default {
     }
 
     .mobile-poster {
-        flex: 0 0 calc((100% - 12px) / 4);
+        flex: 0 0 calc((100vw - 2rem - 12px) / 4);
         aspect-ratio: 2 / 3;
-        scroll-snap-align: start;
         background: #1d222a;
     }
 

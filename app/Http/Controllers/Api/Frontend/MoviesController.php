@@ -275,13 +275,15 @@ class MoviesController extends Controller
 
     public function tvshowDetails(Request $request, $tvshow_id)
     {
+        if ($request->boolean('summary')) {
+            return app(MovieResourceController::class)->seriesDetails($tvshow_id);
+        }
+
         $user = getApiUser();
-        $currentPlanId = $user->getCurrentPlan();
 
         $tvshow = Entertainment::where('id', $tvshow_id)
                                 ->with(
                                     'entertainmentGenerMappings',
-                                    'plan',
                                     'entertainmentReviews',
                                     'entertainmentTalentMappings',
                                     'season',
@@ -318,8 +320,6 @@ class MoviesController extends Controller
                 $tvshow['reviews'] = $tvshow['reviews']->where('user_id', '!=', $user_id);
             }
         }
-
-        $tvshow['is_play'] = $currentPlanId >= $tvshow->plan_id ? 1 : 0;
 
         $responseData = new TvshowDetailResource($tvshow);
 

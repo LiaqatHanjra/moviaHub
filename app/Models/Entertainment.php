@@ -22,9 +22,7 @@ class Entertainment extends BaseModel
         'trailer_url',
         'poster_url',
         'thumbnail_url',
-        'movie_access',
         'type',
-        'plan_id',
         'status',
         'language',
         'IMDb_rating',
@@ -189,8 +187,4 @@ class Entertainment extends BaseModel
         return $this->hasMany(Episode::class,'entertainment_id')->with('EpisodeStreamContentMapping');
     }
 
-    public function plan()
-    {
-        return $this->belongsTo(Plan::class, 'plan_id');
-    }
 }

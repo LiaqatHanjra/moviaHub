@@ -5,17 +5,17 @@
         <div class="d-flex flex-wrap align-items-center justify-content-between mv-gap-space-md mb-4">
           <div class="d-flex align-items-center mv-gap-space-md">
             <router-link
-              :to="`/movie/${$route.params.id}`"
+              :to="detailsPath"
               class="mv-text-on-surface-variant mv-hover-text-primary d-inline-flex align-items-center mv-gap-space-xs text-decoration-none"
             >
               <span class="bi bi-arrow-left"></span>
-              Movie details
+              {{ isEpisode ? 'Series details' : 'Movie details' }}
             </router-link>
             <span v-if="movie" class="mv-font-title-md mv-text-title-md mv-font-bold mv-text-on-surface">
               {{ movie.name }}
             </span>
           </div>
-          <div v-if="movie && hasTrailer && hasMovie" class="d-flex mv-gap-space-xs" role="group" aria-label="Choose video">
+          <div v-if="!isEpisode && movie && hasTrailer && hasMovie" class="d-flex mv-gap-space-xs" role="group" aria-label="Choose video">
             <button
               type="button"
               class="player-mode-button"
@@ -51,7 +51,7 @@
         <p v-if="isLoading" class="mv-py-space-xl mv-text-on-surface-variant">Loading video...</p>
         <div v-else-if="errorMessage" class="mv-py-space-xl" role="alert">
           <p class="mv-text-on-surface-variant">{{ errorMessage }}</p>
-          <router-link :to="`/movie/${$route.params.id}`" class="mv-text-primary">Back to movie details</router-link>
+          <router-link :to="detailsPath" class="mv-text-primary">Back to {{ isEpisode ? 'series' : 'movie' }} details</router-link>
         </div>
         <div v-else-if="movie" class="d-flex flex-column mv-gap-space-md">
           <div class="player-shell" ref="playerShell">
@@ -99,7 +99,7 @@
           <div class="d-flex flex-wrap align-items-center justify-content-between mv-gap-space-sm">
             <div>
               <h1 class="mv-font-headline-md mv-text-headline-md mv-font-bold mv-text-on-surface mb-1">
-                {{ movie.name }} <span class="mv-text-outline">· {{ playbackMode === 'trailer' ? 'Trailer' : 'Full movie' }}</span>
+                {{ movie.name }} <span class="mv-text-outline">· {{ isEpisode ? 'Episode' : playbackMode === 'trailer' ? 'Trailer' : 'Full movie' }}</span>
               </h1>
               <p class="mv-font-body-sm mv-text-body-sm mv-text-on-surface-variant mb-0">
                 <span v-if="movie.release_year">{{ movie.release_year }}</span>
@@ -183,8 +183,14 @@ export default {
     };
   },
   computed: {
+    isEpisode() {
+      return this.$route.name === 'episode-player';
+    },
+    detailsPath() {
+      return this.isEpisode ? `/series/${this.$route.params.seriesId}` : `/movie/${this.$route.params.id}`;
+    },
     playbackMode() {
-      return this.$route.query.type === 'movie' ? 'movie' : 'trailer';
+      return this.isEpisode || this.$route.query.type === 'movie' ? 'movie' : 'trailer';
     },
     hasTrailer() {
       return Boolean(this.movie && this.movie.trailer_url);
@@ -223,7 +229,7 @@ export default {
     },
     sourceError() {
       if (this.playbackMode === 'movie' && !this.hasMovie) {
-        return 'A full movie video is not available.';
+        return this.isEpisode ? 'A video for this episode is not available.' : 'A full movie video is not available.';
       }
       if (this.playbackMode === 'trailer' && !this.hasTrailer) {
         return 'A trailer is not available.';
@@ -232,7 +238,7 @@ export default {
     },
   },
   watch: {
-    '$route.params.id': {
+    '$route.path': {
       immediate: true,
       handler() {
         this.fetchMovie();
@@ -245,14 +251,18 @@ export default {
   methods: {
     async fetchMovie() {
       const movieId = this.$route.params.id;
-      const isCurrentRequest = () => String(this.$route.params.id) === String(movieId);
+      const requestPath = this.$route.path;
+      const isCurrentRequest = () => this.$route.path === requestPath;
       this.movie = null;
       this.selectedQuality = '';
       this.errorMessage = '';
       this.isLoading = true;
 
       try {
-        const response = await axios.get(`/api/movies/${encodeURIComponent(movieId)}`);
+        const url = this.isEpisode
+          ? `/api/series/${encodeURIComponent(this.$route.params.seriesId)}/episodes/${encodeURIComponent(movieId)}/play`
+          : `/api/movies/${encodeURIComponent(movieId)}`;
+        const response = await axios.get(url);
         if (!isCurrentRequest()) {
           return;
         }
@@ -266,9 +276,9 @@ export default {
           return;
         }
 
-        console.error('Error fetching movie for playback:', error);
+        console.error('Error fetching video for playback:', error);
         this.errorMessage = error.response && error.response.status === 404
-          ? 'This movie could not be found.'
+          ? `This ${this.isEpisode ? 'episode' : 'movie'} could not be found.`
           : 'Unable to load this video. Please try again.';
       } finally {
         if (isCurrentRequest()) {

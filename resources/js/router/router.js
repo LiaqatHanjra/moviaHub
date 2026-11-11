@@ -15,6 +15,7 @@ import LandingPage from '../components/views/pages/LandingPage.vue';
 import BrowsePage from '../components/views/pages/BrowsePage.vue';
 import MoviesPage from '../components/views/pages/MoviesPage.vue';
 import MovieDetailPage from '../components/views/pages/MovieDetailPage.vue';
+import SeriesDetailPage from '../components/views/pages/SeriesDetailPage.vue';
 import MoviePlayerPage from '../components/views/pages/MoviePlayerPage.vue';
 import WatchMoviePage from '../components/views/pages/WatchMoviePage.vue';
 import CategoriesPage from '../components/views/pages/CategoriesPage.vue';
@@ -112,11 +113,28 @@ const routes = [
         },
     },
     {
+        path: '/series/:id',
+        component: SeriesDetailPage,
+        meta: {
+            title: 'Series',
+            requiresAuth: true,
+        },
+    },
+    {
         path:'/player/:id',
         name: 'movie-player',
         component: MoviePlayerPage,
         meta: {
             title: 'Movie Player',
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/series/:seriesId/episode/:id',
+        name: 'episode-player',
+        component: MoviePlayerPage,
+        meta: {
+            title: 'Episode Player',
             requiresAuth: true,
         },
     },
