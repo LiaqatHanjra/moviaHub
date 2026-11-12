@@ -95,31 +95,18 @@
           {{ isLoadingBanners ? 'Loading featured movies...' : bannerError || 'No featured movies available.' }}
         </p>
 
-        <form class="mobile-search" role="search" @submit.prevent="searchCatalog">
+        <form class="mobile-search" role="search" @submit.prevent="searchMobileCatalog">
           <label class="visually-hidden" for="mobile-global-search">Search movies and shows</label>
-          <input id="mobile-global-search" v-model="searchQuery" type="search" maxlength="100" @input="clearSearch"
+          <input id="mobile-global-search" v-model="searchQuery" type="search" maxlength="100" @input="clearMobileSearch"
             placeholder="Search movies and shows..." />
           <button type="submit" :disabled="searchLoading">Search</button>
         </form>
-        <div v-if="searchMessage" class="mobile-discovery-message" role="status">{{ searchMessage }}</div>
-        <div v-if="searchResults" class="mobile-search-results" aria-live="polite">
-          <template v-for="group in searchGroups" :key="group.key">
-            <div v-if="searchResults[group.key] && searchResults[group.key].length" class="mobile-search-group">
-              <h2>{{ group.label }}</h2>
-              <template v-for="item in searchResults[group.key]" :key="item.id">
-                <router-link v-if="searchResultPath(group.key, item)" :to="searchResultPath(group.key, item)">{{ item.name }}</router-link>
-                <span v-else>{{ item.name }}</span>
-              </template>
-            </div>
-          </template>
-          <p v-if="!hasSearchResults" class="mobile-discovery-message">No results found.</p>
-        </div>
 
         <nav class="mobile-shortcuts" aria-label="Browse movie collections">
-          <router-link v-for="shortcut in mobileShortcuts" :key="shortcut.label"
-            :class="shortcut.className" :to="{ path: '/movies', query: { language: shortcut.languages } }">
+          <button v-for="shortcut in mobileShortcuts" :key="shortcut.label" type="button"
+            :class="shortcut.className" @click="selectMobileCollection(shortcut.label, { languages: shortcut.languages })">
             {{ shortcut.label }}
-          </router-link>
+          </button>
         </nav>
 
         <button ref="categoryButton" class="mobile-category-button" type="button"
@@ -139,12 +126,51 @@
             {{ genresLoading ? 'Loading genres...' : 'No genres available.' }}
           </p>
           <nav v-else aria-label="Genres">
-            <router-link v-for="genre in genres" :key="genre.id"
-              :to="{ path: '/movies', query: { genre_id: genre.id } }" @click="$refs.genresDialog.close()">
+            <button v-for="genre in genres" :key="genre.id" type="button"
+              @click="selectMobileGenre(genre)">
               {{ genre.name }}
-            </router-link>
+            </button>
           </nav>
         </dialog>
+
+        <section v-if="mobileResultMode" ref="mobileResults" class="mobile-results" aria-live="polite">
+          <h2>{{ mobileResultTitle }}</h2>
+          <template v-if="mobileResultMode === 'search'">
+            <p v-if="searchLoading" class="mobile-discovery-message">Searching...</p>
+            <p v-else-if="searchMessage" class="mobile-discovery-message" role="status">{{ searchMessage }}</p>
+            <div v-else-if="searchResults" class="mobile-search-results">
+              <template v-for="group in searchGroups" :key="group.key">
+                <div v-if="searchResults[group.key] && searchResults[group.key].length" class="mobile-search-group">
+                  <h3>{{ group.label }}</h3>
+                  <template v-for="item in searchResults[group.key]" :key="item.id">
+                    <router-link v-if="searchResultPath(group.key, item)" :to="searchResultPath(group.key, item)">{{ item.name }}</router-link>
+                    <span v-else>{{ item.name }}</span>
+                  </template>
+                </div>
+              </template>
+              <p v-if="!hasSearchResults" class="mobile-discovery-message">No results found.</p>
+            </div>
+          </template>
+          <template v-else>
+            <p v-if="mobileMoviesLoading" class="mobile-discovery-message">Loading movies...</p>
+            <p v-else-if="mobileMoviesError" class="mobile-discovery-message" role="alert">{{ mobileMoviesError }}</p>
+            <p v-else-if="!mobileMovies.length" class="mobile-discovery-message">No movies found.</p>
+            <div v-else class="mobile-movie-grid">
+              <router-link v-for="movie in mobileMovies" :key="movie.id" :to="`/movie/${movie.id}`" class="mobile-movie-card">
+                <img :src="movie.poster_image || imageOf(movie)" :alt="movie.name" />
+                <span>{{ movie.name }}</span>
+              </router-link>
+            </div>
+            <nav v-if="!mobileMoviesLoading && !mobileMoviesError && mobileMoviePagination.last_page > 1"
+              class="mobile-result-pagination" aria-label="Movie result pages">
+              <button type="button" :disabled="mobileMoviePagination.current_page <= 1"
+                @click="loadMobileMovies(mobileMoviePagination.current_page - 1)">Previous</button>
+              <span>Page {{ mobileMoviePagination.current_page }} of {{ mobileMoviePagination.last_page }}</span>
+              <button type="button" :disabled="mobileMoviePagination.current_page >= mobileMoviePagination.last_page"
+                @click="loadMobileMovies(mobileMoviePagination.current_page + 1)">Next</button>
+            </nav>
+          </template>
+        </section>
       </section>
       <!-- Content Workspace -->
       <div class="mv-w-full mv-px-margin-mobile mv-sm-px-margin-mobile mv-sm-px-margin d-flex flex-column mv-gap-space-lg mv-sm-gap-space-xl mv-py-space-xl">
@@ -493,6 +519,14 @@ export default {
       bannerError: '',
       genresLoading: true,
       genreError: '',
+      mobileResultMode: '',
+      mobileResultTitle: '',
+      mobileMovieFilters: {},
+      mobileMovies: [],
+      mobileMoviesLoading: false,
+      mobileMoviesError: '',
+      mobileMoviePagination: { current_page: 1, last_page: 1 },
+      mobileMoviesRequestId: 0,
       mobileShortcuts: [
         { label: 'Punjabi', className: 'shortcut-punjabi', languages: 'punjabi' },
         { label: 'Bollywood', className: 'shortcut-bollywood', languages: 'hindi' },
@@ -532,6 +566,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.closeGenresOnDesktop);
+    this.mobileMoviesRequestId++;
     this.stopBannerAutoplay();
     this.stopGenreAutoplay();
   },
@@ -563,6 +598,67 @@ export default {
     closeGenresOnDesktop() {
       if (window.innerWidth >= 768 && this.$refs.genresDialog?.open) {
         this.$refs.genresDialog.close();
+      }
+    },
+    showMobileResults() {
+      this.$nextTick(() => {
+        this.$refs.mobileResults?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    },
+    clearMobileSearch() {
+      this.clearSearch();
+      if (this.mobileResultMode === 'search') this.mobileResultMode = '';
+    },
+    searchMobileCatalog() {
+      this.mobileMoviesRequestId++;
+      this.mobileResultMode = 'search';
+      this.mobileResultTitle = 'Search results';
+      this.searchCatalog();
+      this.showMobileResults();
+    },
+    selectMobileGenre(genre) {
+      this.$refs.genresDialog.close();
+      this.selectMobileCollection(genre.name, { genre_id: genre.id });
+    },
+    selectMobileCollection(title, filters) {
+      this.clearSearch();
+      this.searchQuery = '';
+      this.mobileResultMode = 'movies';
+      this.mobileResultTitle = `${title} movies`;
+      this.mobileMovieFilters = filters;
+      this.loadMobileMovies(1);
+      this.showMobileResults();
+    },
+    async loadMobileMovies(page) {
+      const requestId = ++this.mobileMoviesRequestId;
+      this.mobileMoviesLoading = true;
+      this.mobileMoviesError = '';
+      const params = { page };
+      if (this.mobileMovieFilters.genre_id) params.genre_id = this.mobileMovieFilters.genre_id;
+      if (Array.isArray(this.mobileMovieFilters.languages)) {
+        params.languages = this.mobileMovieFilters.languages;
+      } else if (this.mobileMovieFilters.languages) {
+        params.language = this.mobileMovieFilters.languages;
+      }
+
+      try {
+        const response = await axios.get('/api/movies', { params });
+        if (requestId !== this.mobileMoviesRequestId) return;
+        this.mobileMovies = unwrapList(response.data.data);
+        const pagination = response.data.pagination;
+        this.mobileMoviePagination = {
+          current_page: Number(pagination?.current_page) || 1,
+          last_page: Number(pagination?.last_page) || 1,
+        };
+      } catch (error) {
+        if (requestId !== this.mobileMoviesRequestId) return;
+        console.error('Error fetching mobile movies:', error);
+        this.mobileMovies = [];
+        this.mobileMoviesError = error.response?.status === 401
+          ? 'Please sign in again to browse movies.'
+          : 'Unable to load movies. Please try again.';
+      } finally {
+        if (requestId === this.mobileMoviesRequestId) this.mobileMoviesLoading = false;
       }
     },
     fetchLatestMovies() {
@@ -1070,18 +1166,22 @@ export default {
         opacity: 0.7;
     }
 
-    .mobile-search-results {
-        max-height: 18rem;
-        overflow-y: auto;
+    .mobile-results {
         border-radius: 0.4rem;
         background: #191d23;
+        scroll-margin-top: 5rem;
     }
 
-    .mobile-search-group h2 {
+    .mobile-results > h2,
+    .mobile-search-group h3 {
         margin: 0;
         padding: 0.65rem 0.8rem;
         color: #a7f51b;
         font-size: 0.85rem;
+    }
+
+    .mobile-results > h2 {
+        font-size: 1.1rem;
     }
 
     .mobile-search-group a,
@@ -1106,8 +1206,9 @@ export default {
         gap: 0.5rem;
     }
 
-    .mobile-shortcuts a {
+    .mobile-shortcuts button {
         padding: 0.7rem 0.9rem;
+        border: 0;
         border-radius: 0.3rem;
         color: #fff;
         text-align: center;
@@ -1119,6 +1220,53 @@ export default {
     .mobile-shortcuts .shortcut-bollywood { background: #6b11b3; }
     .mobile-shortcuts .shortcut-south { background: #704b45; }
     .mobile-shortcuts .shortcut-hollywood { background: #e8002d; }
+
+    .mobile-movie-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+        padding: 0 0.8rem 0.8rem;
+    }
+
+    .mobile-movie-card {
+        color: #fff;
+        text-decoration: none;
+        overflow: hidden;
+    }
+
+    .mobile-movie-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
+        border-radius: 0.3rem;
+    }
+
+    .mobile-movie-card span {
+        display: block;
+        padding-top: 0.35rem;
+    }
+
+    .mobile-result-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        padding: 0 0.8rem 0.8rem;
+        color: #fff;
+    }
+
+    .mobile-result-pagination button {
+        border: 0;
+        border-radius: 0.3rem;
+        padding: 0.5rem 0.75rem;
+        background: #a7f51b;
+        color: #101600;
+    }
+
+    .mobile-result-pagination button:disabled {
+        opacity: 0.5;
+    }
 
     .mobile-category-button {
         display: flex;
@@ -1168,16 +1316,19 @@ export default {
         color: #fff;
     }
 
-    .mobile-genres-dialog nav a {
+    .mobile-genres-dialog nav button {
         display: block;
+        width: 100%;
         padding: 0.85rem 1rem;
+        border: 0;
         border-bottom: 1px solid #27292d;
+        background: transparent;
         color: #fff;
-        text-decoration: none;
+        text-align: left;
     }
 
-    .mobile-genres-dialog nav a:hover,
-    .mobile-genres-dialog nav a:focus-visible {
+    .mobile-genres-dialog nav button:hover,
+    .mobile-genres-dialog nav button:focus-visible {
         background: #a7f51b;
         color: #111;
     }
