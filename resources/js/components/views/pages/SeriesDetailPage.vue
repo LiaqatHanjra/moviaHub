@@ -14,36 +14,7 @@
             <span class="bi bi-chevron-right" aria-hidden="true"></span>
             <span class="mv-text-primary">{{ series.name }}</span>
           </nav>
-          <section class="d-grid mv-grid-cols-1 mv-lg-grid-cols-12 mv-gap-space-xl align-items-start">
-            <div class="mv-lg-col-span-5 mv-xl-col-span-4">
-              <div class="mv-rounded-xl overflow-hidden mv-bg-surface-container mv-shadow-2xl">
-                <img class="mv-w-full mv-aspect-bc11a5 mv-object-cover"
-                  :src="series.poster_image || series.thumbnail_image || '/frontend/favicon.png'"
-                  :alt="`${series.name} poster`" />
-              </div>
-            </div>
-            <div class="mv-lg-col-span-7 mv-xl-col-span-8 d-flex flex-column mv-gap-space-lg">
-              <div class="d-flex flex-wrap mv-gap-space-xs">
-                <span v-for="genre in series.genres || []" :key="genre.id || genre.name"
-                  class="mv-bg-surface-container-high mv-text-secondary mv-px-3 mv-py-1 mv-rounded-full">
-                  {{ genre.name || genre }}
-                </span>
-              </div>
-              <div>
-                <h1 class="mv-font-headline-xl-mobile mv-sm-font-headline-xl mv-text-headline-xl-mobile mv-sm-text-headline-xl mv-font-extrabold mv-text-on-surface">{{ series.name }}</h1>
-                <p class="mv-font-title-md mv-text-title-md mv-text-outline">
-                  <span v-if="series.release_year">{{ series.release_year }}</span>
-                  <span v-if="series.language"> {{ series.language }}</span>
-                  <span v-if="series.imdb_rating"> | {{ series.imdb_rating }} IMDb</span>
-                  <span v-if="series.content_rating"> | {{ series.content_rating }}</span>
-                </p>
-              </div>
-              <div v-if="series.description">
-                <h2 class="mv-font-headline-sm mv-text-headline-sm mv-font-bold mv-text-on-surface">Description</h2>
-                <p class="mv-font-body-lg mv-text-body-lg mv-text-on-surface-variant">{{ series.description }}</p>
-              </div>
-            </div>
-          </section>
+          <ContentDetailHero :item="series" />
           <section class="d-flex flex-column mv-gap-space-md">
             <h2 class="mv-font-headline-md mv-text-headline-md mv-font-bold mv-text-on-surface">Episodes</h2>
             <p v-if="!series.episodes || !series.episodes.length" class="mv-text-on-surface-variant">No episodes available.</p>
@@ -78,10 +49,11 @@ import axios from 'axios';
 import AppLayout from '../../layouts/AppLayout.vue';
 import Header from '../../layouts/SiteMenu.vue';
 import Footer from '../../layouts/SiteFooter.vue';
+import ContentDetailHero from '../../ContentDetailHero.vue';
 
 export default {
   name: 'SeriesDetailPage',
-  components: { AppLayout, Header, Footer },
+  components: { AppLayout, Header, Footer, ContentDetailHero },
   data() {
     return { series: null, isLoading: true, errorMessage: '' };
   },

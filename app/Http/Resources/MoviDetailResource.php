@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Genre;
 use App\Models\EntertainmentGenres;
 use App\Models\EntertainmentCast;
 use App\Models\Entertainment;
@@ -58,56 +57,20 @@ class MoviDetailResource extends JsonResource
             }
         }
 
-        $genres = EntertainmentCast::where('entertainment_id', $this->id)->get();
-        $genre_ids = $genres ? $genres->pluck('genre_id')->toArray() : [];
-
-        $totalMovies = 20;
-        $collected = collect();
-
-        // Check if 'animation' is one of the genres
-        $animationGenre = Genre::where('slug', 'animation')->first();
-        $isAnimation = $animationGenre && !empty($genre_ids) && in_array($animationGenre->id, $genre_ids);
-
-        if ($isAnimation) {
-            // Only show movies from the animation genre
-            $animationIds = EntertainmentGenres::where('genre_id', $animationGenre->id)
-                ->pluck('entertainment_id');
-
-            $more_items = Entertainment::whereIn('id', $animationIds)
-                ->where('type', 'movie')
+        $genreIds = $genres->pluck('genre_id')->filter()->unique()->values();
+        $more_items = $genreIds->isEmpty()
+            ? collect()
+            : Entertainment::where('type', 'movie')
                 ->where('status', 1)
                 ->where('id', '!=', $this->id)
-                ->limit($totalMovies)
-                ->get()
-                ->unique('id')  // Remove duplicate movies
-                ->values();     // Reset collection keys
-        } else {
-            // Check if there are any genres
-            if (empty($genre_ids)) {
-                // No genres found, return empty collection
-                $more_items = collect();
-            } else {
-                // Evenly distribute across all genres
-                $moviesPerGenre = ceil($totalMovies / count($genre_ids));
-
-                foreach ($genre_ids as $genreId) {
-                    $ids = EntertainmentGenres::where('genre_id', $genreId)
-                        ->pluck('entertainment_id');
-
-                    $movies = Entertainment::whereIn('id', $ids)
-                        ->where('type', 'movie')
-                        ->where('status', 1)
-                        ->where('id', '!=', $this->id)
-                        ->limit($moviesPerGenre)
-                        ->get();
-
-                    $collected = $collected->merge($movies);
-                }
-
-                // Remove duplicate movies and limit to totalMovies
-                $more_items = $collected->unique('id')->take($totalMovies)->shuffle()->values();
-            }
-        }
+                ->whereHas('entertainmentGenerMappings', function ($query) use ($genreIds) {
+                    $query->whereIn('genre_id', $genreIds);
+                })
+                ->with(['entertainmentGenerMappings', 'entertainmentStreamContentMappings'])
+                ->orderBy('release_date', 'desc')
+                ->orderBy('id', 'desc')
+                ->limit(20)
+                ->get();
 
 
         $downloadMappings = $this->entertainmentDownloadMappings ? $this->entertainmentDownloadMappings->toArray() : [];
