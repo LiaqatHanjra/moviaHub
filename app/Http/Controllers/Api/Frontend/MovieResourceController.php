@@ -301,19 +301,38 @@ class MovieResourceController extends Controller
     {
         $request->validate([
             'search' => 'required|string|min:2|max:100',
+            'movie_per_page' => 'sometimes|integer|min:1|max:100',
+            'movie_page' => 'sometimes|integer|min:1',
         ]);
 
         $query = $request->input('search');
         $user = getApiUser();
 
         // Search Movies
-        $movies = Entertainment::where('type', 'movie')
+        $movieQuery = Entertainment::where('type', 'movie')
             ->where('status', 1)
             ->where(function($q) use ($query) {
                 $q->where('name', 'LIKE', '%' . $query . '%');
-            })
-            ->limit(10)
-            ->get();
+            });
+
+        $moviePagination = null;
+        if ($request->has('movie_per_page')) {
+            $movies = $movieQuery->orderBy('id')->paginate(
+                (int) $request->input('movie_per_page'),
+                ['*'],
+                'movie_page',
+                (int) $request->input('movie_page', 1)
+            );
+            $moviePagination = [
+                'current_page' => $movies->currentPage(),
+                'last_page' => $movies->lastPage(),
+                'per_page' => $movies->perPage(),
+                'total' => $movies->total(),
+            ];
+            $moviesResource = MovieResource::collection($movies->items());
+        } else {
+            $moviesResource = MovieResource::collection($movieQuery->limit(10)->get());
+        }
 
         // Search TV Shows
         $tvShows = Entertainment::where('type', 'tvshow')
@@ -340,20 +359,24 @@ class MovieResourceController extends Controller
             ->limit(10)
             ->get();
 
-        $moviesResource = MovieResource::collection($movies);
         $tvShowsResource = $request->boolean('summary')
             ? SeriesSummaryResource::collection($tvShows->load('entertainmentGenerMappings'))
             : TVShowListResource::collection($tvShows);
         $episodesResource = EpisodesResource::collection($episodes);
 
-        return response()->json([
+        $response = [
             'status' => true,
             'movies' => $moviesResource,
             'tvShows' => $tvShowsResource,
             'seasons' => $seasons,
             'episodes' => $episodesResource,
             'message' => 'Global search results found.',
-        ], 200);
+        ];
+        if ($moviePagination !== null) {
+            $response['movie_pagination'] = $moviePagination;
+        }
+
+        return response()->json($response, 200);
     }
 
     public function seriesDetails($id)

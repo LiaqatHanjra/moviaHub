@@ -207,7 +207,7 @@
               aria-label="Movie pages"
             >
               <span class="mv-font-body-md mv-text-body-md mv-text-on-surface-variant">
-                Showing <strong class="mv-text-on-surface">{{ firstMovieNumber }}?{{ lastMovieNumber }}</strong>
+                Showing <strong class="mv-text-on-surface">{{ firstMovieNumber }}-{{ lastMovieNumber }}</strong>
                 of <strong class="mv-text-on-surface">{{ pagination.total }}</strong> movies
               </span>
               <div v-if="pagination.last_page > 1" class="d-flex flex-wrap align-items-center justify-content-center mv-gap-1p5">
@@ -288,6 +288,7 @@ export default {
       },
       searchTimeout: null,
       moviesRequestId: 0,
+      mobileMoviePageSize: false,
     };
   },
   computed: {
@@ -315,6 +316,8 @@ export default {
     },
   },
   mounted() {
+    this.mobileMoviePageSize = window.matchMedia('(max-width: 767.98px)').matches;
+    window.addEventListener('resize', this.handleMovieViewportChange);
     this.applyRouteFilters();
     this.fetchMovieBanners();
     this.fetchGenres();
@@ -322,8 +325,17 @@ export default {
   },
   beforeUnmount() {
     window.clearTimeout(this.searchTimeout);
+    window.removeEventListener('resize', this.handleMovieViewportChange);
+    this.moviesRequestId++;
   },
   methods: {
+    handleMovieViewportChange() {
+      const isMobile = window.matchMedia('(max-width: 767.98px)').matches;
+      if (isMobile !== this.mobileMoviePageSize) {
+        this.mobileMoviePageSize = isMobile;
+        this.loadMovies(1);
+      }
+    },
     applyRouteFilters() {
       const { genre_id: genreId, language } = this.$route.query;
       this.selectedGenreId = genreId ? String(genreId) : '';
@@ -365,7 +377,7 @@ export default {
       this.isLoadingMovies = true;
       this.moviesError = '';
 
-      const params = { page };
+      const params = { page, per_page: this.mobileMoviePageSize ? 6 : 10 };
       const search = this.searchInput.trim();
       if (search) {
         params.search = search;

@@ -1,5 +1,5 @@
 <template>
-  <header class="mv-fixed top-0 start-0 end-0 mv-z-50 mv-bg-surface_90 mv-backdrop-blur-xl mv-border-b mv-border-surface-container-high">
+  <header ref="siteHeader" class="mv-fixed top-0 start-0 end-0 mv-z-50 mv-bg-surface_90 mv-backdrop-blur-xl mv-border-b mv-border-surface-container-high">
     <div class="mv-h-16 mv-w-full mv-px-margin-mobile mv-sm-px-margin d-flex align-items-center justify-content-between mv-gap-space-xs mv-sm-gap-space-md">
       <div class="d-flex align-items-center mv-gap-space-md mv-xl-gap-space-xl">
         <router-link class="d-flex align-items-center mv-gap-space-sm mv-group" to="/home">
@@ -42,11 +42,23 @@
             <template v-for="group in searchGroups" :key="group.key">
               <div v-if="searchResults[group.key] && searchResults[group.key].length" class="header-search-group">
                 <h2>{{ group.label }}</h2>
-                <template v-for="item in searchResults[group.key]" :key="item.id">
-                  <router-link v-if="searchResultPath(group.key, item)" :to="searchResultPath(group.key, item)"
-                    @click="clearSearch">{{ item.name }}</router-link>
-                  <span v-else>{{ item.name }}</span>
+                <div v-if="group.key === 'movies' && route.path === '/home'" class="header-movie-grid">
+                  <router-link v-for="item in searchResults.movies" :key="item.id" :to="`/movie/${item.id}`"
+                    class="header-movie-card" @click="clearSearch">
+                    <img :src="item.poster_image || item.thumbnail_image || '/frontend/favicon.png'" :alt="item.name" />
+                    <span>{{ item.name }}</span>
+                  </router-link>
+                </div>
+                <template v-else>
+                  <template v-for="item in searchResults[group.key]" :key="item.id">
+                    <router-link v-if="searchResultPath(group.key, item)" :to="searchResultPath(group.key, item)"
+                      @click="clearSearch">{{ item.name }}</router-link>
+                    <span v-else>{{ item.name }}</span>
+                  </template>
                 </template>
+                <MoviePagination v-if="group.key === 'movies' && searchResults.movie_pagination"
+                  label="Search movie pages" :current-page="searchResults.movie_pagination.current_page"
+                  :last-page="searchResults.movie_pagination.last_page" @change="searchCatalog" />
               </div>
             </template>
             <p v-if="!hasSearchResults" class="header-search-message">No results found.</p>
@@ -109,30 +121,32 @@
         </div>
 
         <button
-          class="btn p-0 border-0 bg-transparent d-xl-none mv-text-on-surface"
+          ref="menuToggle"
+          class="mobile-menu-toggle btn p-0 border-0 bg-transparent d-xl-none mv-text-on-surface"
           type="button"
           :aria-expanded="mobileMenuOpen"
           aria-controls="mobile-site-menu"
-          aria-label="Toggle navigation menu"
+          :aria-label="mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'"
           @click="mobileMenuOpen = !mobileMenuOpen"
         >
-          <span :class="mobileMenuOpen ? 'bi bi-x-lg' : 'bi bi-list'"></span>
+          <span :class="mobileMenuOpen ? 'bi bi-x-lg' : 'bi bi-list'" aria-hidden="true"></span>
         </button>
       </div>
     </div>
 
     <div
-      v-if="mobileMenuOpen"
+      v-show="mobileMenuOpen"
       id="mobile-site-menu"
-      class="d-xl-none mv-absolute top-100 start-0 end-0 mv-bg-surface-container-lowest mv-border-b mv-border-surface-container-high mv-shadow-lg"
+      class="mobile-site-menu d-xl-none mv-absolute top-100 start-0 end-0 mv-bg-surface-container-lowest mv-border-b mv-border-surface-container-high mv-shadow-lg"
     >
-      <nav class="d-flex flex-column mv-p-space-md mv-gap-space-xs">
+      <nav class="d-flex flex-column mv-p-space-md mv-gap-space-xs" aria-label="Mobile navigation">
         <router-link
           v-for="link in links"
           :key="`mobile-${link.to}`"
           :to="link.to"
           class="mv-px-space-md mv-py-space-sm mv-font-label-lg mv-text-label-lg text-decoration-none mv-rounded-lg"
           :class="isActive(link.to) ? 'mv-bg-surface-container-high mv-text-on-surface' : 'mv-text-on-surface-variant mv-hover-text-on-surface'"
+          :aria-current="isActive(link.to) ? 'page' : null"
           @click="closeMobileMenu"
         >{{ link.label }}</router-link>
 
@@ -143,7 +157,7 @@
               to="/profile"
               @click="closeMobileMenu"
             >
-              <i class="bi bi-person"></i>
+              <i class="bi bi-person" aria-hidden="true"></i>
               Profile
             </router-link>
             <router-link
@@ -151,7 +165,7 @@
               to="/change-password"
               @click="closeMobileMenu"
             >
-              <i class="bi bi-key"></i>
+              <i class="bi bi-key" aria-hidden="true"></i>
               Reset Password
             </router-link>
             <button
@@ -159,7 +173,7 @@
               type="button"
               @click="handleMobileLogout"
             >
-              <i class="bi bi-box-arrow-right"></i>
+              <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
               Logout
             </button>
           </div>
@@ -174,6 +188,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { currentUserName, isLoggedIn, logout } from '../auth';
 import { useGlobalSearch } from '../useGlobalSearch';
+import MoviePagination from '../MoviePagination.vue';
 
 const props = defineProps({
     variant: {
@@ -183,9 +198,13 @@ const props = defineProps({
 });
 
 const route = useRoute();
-const { searchQuery, searchResults, searchMessage, searchLoading, searchGroups, hasSearchResults, searchCatalog, clearSearch, searchResultPath } = useGlobalSearch();
+const { searchQuery, searchResults, searchMessage, searchLoading, searchGroups, hasSearchResults, searchCatalog, clearSearch, searchResultPath } = useGlobalSearch({
+    moviePerPage: () => route.path === '/home' ? 10 : null,
+});
 const accountVersion = ref(0);
 const mobileMenuOpen = ref(false);
+const siteHeader = ref(null);
+const menuToggle = ref(null);
 const showAccount = computed(() => isLoggedIn());
 const userName = computed(() => {
     accountVersion.value;
@@ -228,8 +247,33 @@ function refreshAccount() {
     accountVersion.value += 1;
 }
 
-onMounted(() => window.addEventListener('profile-updated', refreshAccount));
-onBeforeUnmount(() => window.removeEventListener('profile-updated', refreshAccount));
+function handleOutsideClick(event) {
+    if (mobileMenuOpen.value && !siteHeader.value?.contains(event.target)) closeMobileMenu();
+}
+
+function handleMenuKeydown(event) {
+    if (event.key === 'Escape' && mobileMenuOpen.value) {
+        closeMobileMenu();
+        menuToggle.value?.focus();
+    }
+}
+
+function handleMenuResize() {
+    if (window.innerWidth >= 1200) closeMobileMenu();
+}
+
+onMounted(() => {
+    window.addEventListener('profile-updated', refreshAccount);
+    window.addEventListener('resize', handleMenuResize);
+    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener('keydown', handleMenuKeydown);
+});
+onBeforeUnmount(() => {
+    window.removeEventListener('profile-updated', refreshAccount);
+    window.removeEventListener('resize', handleMenuResize);
+    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('keydown', handleMenuKeydown);
+});
 
 function isActive(to) {
     if (to === '/') {
@@ -254,6 +298,47 @@ function handleMobileLogout() {
 </script>
 
 <style scoped>
+@media (max-width: 767.98px) {
+    .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        font-size: 1.65rem;
+        line-height: 1;
+    }
+
+    .mobile-menu-toggle:focus-visible {
+        outline: 2px solid #a7f51b;
+        outline-offset: 2px;
+        border-radius: 0.3rem;
+    }
+
+    .mobile-site-menu {
+        max-height: calc(100dvh - 4rem);
+        overflow-y: auto;
+        background: #101216;
+    }
+
+    .mobile-site-menu nav {
+        padding: 0.75rem 1rem 1rem;
+        gap: 0.25rem;
+    }
+
+    .mobile-site-menu nav a,
+    .mobile-site-menu nav button {
+        min-height: 2.75rem;
+        padding: 0.65rem 0.8rem;
+        color: #e4e6eb;
+    }
+
+    .mobile-site-menu nav a[aria-current="page"] {
+        background: #272d34;
+        color: #a7f51b;
+    }
+}
+
 .header-search {
     position: relative;
     min-width: 0;
@@ -316,4 +401,31 @@ function handleMobileLogout() {
 .header-search-group a:focus-visible {
     background: #30343b;
 }
+
+.header-movie-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.4rem;
+    padding: 0 0.5rem;
+}
+
+.header-search-group .header-movie-card {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+}
+
+.header-movie-card img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+
+.header-search-group .header-movie-card span {
+    padding: 0.25rem 0;
+    border: 0;
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
+}
+
 </style>

@@ -17,7 +17,7 @@ export function searchResultPath(group, item) {
   return null;
 }
 
-export function useGlobalSearch() {
+export function useGlobalSearch(options = {}) {
   const searchQuery = ref('');
   const searchResults = ref(null);
   const searchMessage = ref('');
@@ -32,7 +32,7 @@ export function useGlobalSearch() {
     searchLoading.value = false;
   }
 
-  async function searchCatalog() {
+  async function searchCatalog(page = 1) {
     const search = searchQuery.value.trim();
     clearSearch();
     if (search.length < 2) {
@@ -43,7 +43,13 @@ export function useGlobalSearch() {
     const currentRequest = requestId;
     searchLoading.value = true;
     try {
-      const response = await axios.get('/api/global-search', { params: { search, summary: 1 } });
+      const params = { search, summary: 1 };
+      const moviePerPage = typeof options.moviePerPage === 'function' ? options.moviePerPage() : options.moviePerPage;
+      if (moviePerPage) {
+        params.movie_per_page = moviePerPage;
+        params.movie_page = Number.isInteger(page) ? page : 1;
+      }
+      const response = await axios.get('/api/global-search', { params });
       if (currentRequest === requestId) searchResults.value = response.data;
     } catch (error) {
       if (currentRequest === requestId) {

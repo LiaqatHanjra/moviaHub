@@ -56,6 +56,16 @@
           <p class="mv-font-body-md mv-text-body-md mv-text-on-surface-variant">Purchase a movie and it will appear here.</p>
           <router-link to="/movies" class="mv-text-primary mv-font-label-md mv-text-label-md">Browse movies</router-link>
         </div>
+        <nav v-if="!isLoading && !errorMessage && pagination.last_page > 1"
+          class="library-pagination" aria-label="My movie pages">
+          <button type="button" :disabled="pagination.current_page <= 1"
+            @click="loadMovies(pagination.current_page - 1)">Previous</button>
+          <button v-for="page in visiblePages" :key="page" type="button"
+            :aria-label="`Page ${page}`" :aria-current="page === pagination.current_page ? 'page' : null"
+            @click="loadMovies(page)">{{ page }}</button>
+          <button type="button" :disabled="pagination.current_page >= pagination.last_page"
+            @click="loadMovies(pagination.current_page + 1)">Next</button>
+        </nav>
       </section>
     </main>
     <Footer />
@@ -76,19 +86,54 @@ export default {
       movies: [],
       isLoading: true,
       errorMessage: '',
+      mobilePageSize: false,
+      requestId: 0,
+      pagination: { current_page: 1, last_page: 1, total: 0 },
     };
   },
-  async created() {
-    try {
-      const response = await axios.get('/api/my-movies');
-      this.movies = response.data?.userMovies?.data || response.data?.userMovies || [];
-    } catch (error) {
-      this.errorMessage = error.response?.data?.message || 'Unable to load your movie library.';
-    } finally {
-      this.isLoading = false;
-    }
+  computed: {
+    visiblePages() {
+      const first = Math.max(1, this.pagination.current_page - 2);
+      const last = Math.min(this.pagination.last_page, this.pagination.current_page + 2);
+      return Array.from({ length: last - first + 1 }, (_, index) => first + index);
+    },
+  },
+  mounted() {
+    this.mobilePageSize = window.matchMedia('(max-width: 767.98px)').matches;
+    window.addEventListener('resize', this.handleViewportChange);
+    this.loadMovies(1);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleViewportChange);
+    this.requestId++;
   },
   methods: {
+    handleViewportChange() {
+      const isMobile = window.matchMedia('(max-width: 767.98px)').matches;
+      if (isMobile !== this.mobilePageSize) {
+        this.mobilePageSize = isMobile;
+        this.loadMovies(1);
+      }
+    },
+    async loadMovies(page) {
+      const requestId = ++this.requestId;
+      this.isLoading = true;
+      this.errorMessage = '';
+      try {
+        const response = await axios.get('/api/my-movies', {
+          params: { page, per_page: this.mobilePageSize ? 6 : 10 },
+        });
+        if (requestId !== this.requestId) return;
+        this.movies = response.data.userMovies?.data || response.data.userMovies || [];
+        this.pagination = response.data.pagination;
+      } catch (error) {
+        if (requestId !== this.requestId) return;
+        console.error('Error fetching movie library:', error);
+        this.errorMessage = error.response?.data?.message || 'Unable to load your movie library.';
+      } finally {
+        if (requestId === this.requestId) this.isLoading = false;
+      }
+    },
     genreLine(movie) {
       if (!Array.isArray(movie.genres)) return '';
       return movie.genres
@@ -115,6 +160,32 @@ export default {
   min-height: 6rem;
   gap: 0.5rem;
   padding: 1rem;
+}
+
+.library-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+}
+
+.library-pagination button {
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  background: #30343b;
+  color: #fff;
+}
+
+.library-pagination button[aria-current="page"] {
+  background: #a7f51b;
+  color: #101600;
+  font-weight: 700;
+}
+
+.library-pagination button:disabled {
+  opacity: 0.5;
 }
 
 @media (max-width: 1199.98px) {

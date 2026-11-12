@@ -93,14 +93,15 @@ class UserController extends Controller
 
     public function myMovies(Request $request)
     {
+        $request->validate([
+            'per_page' => 'sometimes|integer|min:1|max:100',
+        ]);
         $user = getApiUser();
 
         $userMovies = UserMovies::active()
             ->where('user_id', $user->id)
-            ->pluck('movie_id')
-            ->toArray();
+            ->select('movie_id');
 
-        // 3. Find other movies in those genres, not already watched
         $getMovies = Entertainment::whereIn('id', $userMovies)
             ->where('type', 'movie')
             ->where('status', 1)
@@ -110,15 +111,25 @@ class UserController extends Controller
                 'entertainmentTalentMappings',
                 'entertainmentStreamContentMappings',
                 'entertainmentDownloadMappings',
-            ])
-            ->limit(20)
-            ->get();
+            ]);
 
-            $userMovies = MovieResource::collection($getMovies);
+        if ($request->has('per_page')) {
+            $movies = $getMovies->orderBy('id', 'desc')->paginate((int) $request->input('per_page'));
+            return response()->json([
+                'message' => 'User movies retrieved successfully',
+                'userMovies' => MovieResource::collection($movies->items()),
+                'pagination' => [
+                    'current_page' => $movies->currentPage(),
+                    'last_page' => $movies->lastPage(),
+                    'per_page' => $movies->perPage(),
+                    'total' => $movies->total(),
+                ],
+            ], 200);
+        }
 
         return response()->json([
             'message' => 'User movies retrieved successfully',
-            'userMovies' => $userMovies
+            'userMovies' => MovieResource::collection($getMovies->limit(20)->get()),
         ], 200);
     }
 

@@ -139,8 +139,21 @@
             <p v-if="searchLoading" class="mobile-discovery-message">Searching...</p>
             <p v-else-if="searchMessage" class="mobile-discovery-message" role="status">{{ searchMessage }}</p>
             <div v-else-if="searchResults" class="mobile-search-results">
+              <div v-if="searchResults.movies && searchResults.movies.length" class="mobile-search-group">
+                <h3>Movies</h3>
+                <div class="mobile-movie-grid">
+                  <router-link v-for="movie in searchResults.movies" :key="movie.id"
+                    :to="`/movie/${movie.id}`" class="mobile-movie-card">
+                    <img :src="movie.poster_image || imageOf(movie)" :alt="movie.name" />
+                    <span>{{ movie.name }}</span>
+                  </router-link>
+                </div>
+                <MoviePagination v-if="searchMoviePagination" label="Search movie pages"
+                  :current-page="searchMoviePagination.current_page" :last-page="searchMoviePagination.last_page"
+                  @change="changeSearchPage" />
+              </div>
               <template v-for="group in searchGroups" :key="group.key">
-                <div v-if="searchResults[group.key] && searchResults[group.key].length" class="mobile-search-group">
+                <div v-if="group.key !== 'movies' && searchResults[group.key] && searchResults[group.key].length" class="mobile-search-group">
                   <h3>{{ group.label }}</h3>
                   <template v-for="item in searchResults[group.key]" :key="item.id">
                     <router-link v-if="searchResultPath(group.key, item)" :to="searchResultPath(group.key, item)">{{ item.name }}</router-link>
@@ -161,14 +174,9 @@
                 <span>{{ movie.name }}</span>
               </router-link>
             </div>
-            <nav v-if="!mobileMoviesLoading && !mobileMoviesError && mobileMoviePagination.last_page > 1"
-              class="mobile-result-pagination" aria-label="Movie result pages">
-              <button type="button" :disabled="mobileMoviePagination.current_page <= 1"
-                @click="loadMobileMovies(mobileMoviePagination.current_page - 1)">Previous</button>
-              <span>Page {{ mobileMoviePagination.current_page }} of {{ mobileMoviePagination.last_page }}</span>
-              <button type="button" :disabled="mobileMoviePagination.current_page >= mobileMoviePagination.last_page"
-                @click="loadMobileMovies(mobileMoviePagination.current_page + 1)">Next</button>
-            </nav>
+            <MoviePagination v-if="!mobileMoviesLoading && !mobileMoviesError"
+              label="Movie result pages" :current-page="mobileMoviePagination.current_page"
+              :last-page="mobileMoviePagination.last_page" @change="changeMobileMoviePage" />
           </template>
         </section>
       </section>
@@ -471,6 +479,7 @@ import AppLayout from '../../layouts/AppLayout.vue';
 import Header from '../../layouts/SiteMenu.vue';
 import Footer from '../../layouts/SiteFooter.vue';
 import { useGlobalSearch } from '../../useGlobalSearch';
+import MoviePagination from '../../MoviePagination.vue';
 
 function unwrapList(payload) {
   if (Array.isArray(payload)) {
@@ -489,10 +498,11 @@ export default {
   components: {
     AppLayout,
     Header,
-    Footer
+    Footer,
+    MoviePagination
   },
   setup() {
-    return useGlobalSearch();
+    return useGlobalSearch({ moviePerPage: 6 });
   },
   data() {
     return {
@@ -536,6 +546,9 @@ export default {
     };
   },
   computed: {
+    searchMoviePagination() {
+      return this.searchResults?.movie_pagination || null;
+    },
     mobileBannerItems() {
       if (this.bannerMovies.length < 2) return this.bannerMovies;
       return Array.from({ length: Math.ceil(4 / this.bannerMovies.length) }, () => this.bannerMovies).flat();
@@ -616,6 +629,14 @@ export default {
       this.searchCatalog();
       this.showMobileResults();
     },
+    changeSearchPage(page) {
+      this.searchCatalog(page);
+      this.showMobileResults();
+    },
+    changeMobileMoviePage(page) {
+      this.loadMobileMovies(page);
+      this.showMobileResults();
+    },
     selectMobileGenre(genre) {
       this.$refs.genresDialog.close();
       this.selectMobileCollection(genre.name, { genre_id: genre.id });
@@ -633,7 +654,7 @@ export default {
       const requestId = ++this.mobileMoviesRequestId;
       this.mobileMoviesLoading = true;
       this.mobileMoviesError = '';
-      const params = { page };
+      const params = { page, per_page: 6 };
       if (this.mobileMovieFilters.genre_id) params.genre_id = this.mobileMovieFilters.genre_id;
       if (Array.isArray(this.mobileMovieFilters.languages)) {
         params.languages = this.mobileMovieFilters.languages;
@@ -1184,8 +1205,8 @@ export default {
         font-size: 1.1rem;
     }
 
-    .mobile-search-group a,
-    .mobile-search-group span {
+    .mobile-search-group > a,
+    .mobile-search-group > span {
         display: block;
         padding: 0.6rem 0.8rem;
         border-top: 1px solid #30343b;
@@ -1245,27 +1266,6 @@ export default {
     .mobile-movie-card span {
         display: block;
         padding-top: 0.35rem;
-    }
-
-    .mobile-result-pagination {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
-        padding: 0 0.8rem 0.8rem;
-        color: #fff;
-    }
-
-    .mobile-result-pagination button {
-        border: 0;
-        border-radius: 0.3rem;
-        padding: 0.5rem 0.75rem;
-        background: #a7f51b;
-        color: #101600;
-    }
-
-    .mobile-result-pagination button:disabled {
-        opacity: 0.5;
     }
 
     .mobile-category-button {

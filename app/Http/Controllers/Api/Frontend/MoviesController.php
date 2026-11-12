@@ -25,6 +25,9 @@ class MoviesController extends Controller
 
     public function getMovies(Request $request)
     {
+        $request->validate([
+            'per_page' => 'sometimes|integer|min:1|max:100',
+        ]);
         $user = getApiUser();
         $movieList = Entertainment::where('status', 1);
 
@@ -74,7 +77,8 @@ class MoviesController extends Controller
 
         $movies = $movieList->distinct('id')
             ->orderBy('release_date', 'desc')
-            ->paginate(20);
+            ->orderBy('id', 'desc')
+            ->paginate((int) $request->input('per_page', 20));
 
         $responseData = MovieResource::collection($movies);
 
