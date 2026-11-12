@@ -66,7 +66,7 @@
         </div>
       </div>
 
-      <div class="d-flex align-items-center mv-gap-space-sm">
+      <div class="header-account-actions d-flex align-items-center mv-gap-space-sm">
         <div class="dropdown d-none d-xl-block">
         <button
           class="btn p-0 border-0 bg-transparent"
@@ -118,6 +118,15 @@
             </button>
           </li>
         </ul>
+        </div>
+
+        <div v-if="showAccount" class="mobile-account-summary d-xl-none">
+          <router-link class="mobile-profile-link" to="/profile" :aria-label="`Profile: ${userName}`">
+            <img v-if="userImage && !profileImageFailed" :src="userImage" alt=""
+              class="mobile-profile-image" @error="profileImageFailed = true" />
+            <span v-else class="mobile-profile-initials" aria-hidden="true">{{ userInitials }}</span>
+            <span class="mobile-profile-name">{{ userName }}</span>
+          </router-link>
         </div>
 
         <button
@@ -184,7 +193,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { currentUserName, isLoggedIn, logout } from '../auth';
 import { useGlobalSearch } from '../useGlobalSearch';
@@ -205,6 +214,7 @@ const accountVersion = ref(0);
 const mobileMenuOpen = ref(false);
 const siteHeader = ref(null);
 const menuToggle = ref(null);
+const profileImageFailed = ref(false);
 const showAccount = computed(() => isLoggedIn());
 const userName = computed(() => {
     accountVersion.value;
@@ -245,6 +255,7 @@ const userInitials = computed(() => {
 
 function refreshAccount() {
     accountVersion.value += 1;
+    profileImageFailed.value = false;
 }
 
 function handleOutsideClick(event) {
@@ -275,6 +286,10 @@ onBeforeUnmount(() => {
     document.removeEventListener('keydown', handleMenuKeydown);
 });
 
+watch(() => route.fullPath, () => {
+    closeMobileMenu();
+});
+
 function isActive(to) {
     if (to === '/') {
         return route.path === '/' || route.path === '/browse' || route.path === '/home';
@@ -298,7 +313,63 @@ function handleMobileLogout() {
 </script>
 
 <style scoped>
+.header-account-actions {
+    min-width: 0;
+}
+
+@media (max-width: 1199.98px) {
+    .mobile-account-summary.d-xl-none {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        gap: 0.3rem;
+    }
+}
+
+.mobile-profile-link {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    gap: 0.3rem;
+    border-radius: 0.3rem;
+    padding: 0.25rem 0.35rem;
+    background: #101c2d;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.mobile-profile-image,
+.mobile-profile-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 1.75rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: #168de1;
+    object-fit: cover;
+}
+
+.mobile-profile-name {
+    max-width: 5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mobile-profile-link:focus-visible {
+    outline: 2px solid #a7f51b;
+    outline-offset: 2px;
+}
+
 @media (max-width: 767.98px) {
+    .header-account-actions {
+        gap: 0.15rem !important;
+    }
+
     .mobile-menu-toggle {
         display: inline-flex;
         align-items: center;
@@ -307,6 +378,20 @@ function handleMobileLogout() {
         height: 2.75rem;
         font-size: 1.65rem;
         line-height: 1;
+    }
+
+    @media (max-width: 420px) {
+        .mobile-profile-name {
+            display: none;
+        }
+
+        .mobile-account-summary.d-xl-none {
+            gap: 0.15rem;
+        }
+
+        .mobile-profile-link {
+            padding: 0.2rem;
+        }
     }
 
     .mobile-menu-toggle:focus-visible {
