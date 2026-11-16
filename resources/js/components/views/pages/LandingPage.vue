@@ -134,7 +134,7 @@
         </dialog>
 
         <section v-if="mobileResultMode" ref="mobileResults" class="mobile-results" aria-live="polite">
-          <h2>{{ mobileResultTitle }}</h2>
+          <h2><span class="bi bi-fire" aria-hidden="true"></span>{{ mobileResultTitle }}</h2>
           <template v-if="mobileResultMode === 'search'">
             <p v-if="searchLoading" class="mobile-discovery-message">Searching...</p>
             <p v-else-if="searchMessage" class="mobile-discovery-message" role="status">{{ searchMessage }}</p>
@@ -167,7 +167,7 @@
           <template v-else>
             <p v-if="mobileMoviesLoading" class="mobile-discovery-message">Loading movies...</p>
             <p v-else-if="mobileMoviesError" class="mobile-discovery-message" role="alert">{{ mobileMoviesError }}</p>
-            <p v-else-if="!mobileMovies.length" class="mobile-discovery-message">No movies found.</p>
+            <p v-else-if="!mobileMovies.length" class="mobile-discovery-message mobile-empty-state">No movies found.</p>
             <div v-else class="mobile-movie-grid">
               <router-link v-for="movie in mobileMovies" :key="movie.id" :to="`/movie/${movie.id}`" class="mobile-movie-card">
                 <img :src="movie.poster_image || imageOf(movie)" :alt="movie.name" />
@@ -1202,6 +1202,9 @@ export default {
     }
 
     .mobile-results > h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         font-size: 1.1rem;
     }
 
@@ -1218,6 +1221,16 @@ export default {
         margin: 0;
         padding: 0.5rem;
         color: #d3d8df;
+    }
+
+    .mobile-empty-state {
+        display: flex;
+        min-height: 10rem;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 700;
     }
 
     .mobile-shortcuts {

@@ -105,7 +105,6 @@ class MoviesController extends Controller
             ->whereDate('release_date', '<=', Carbon::now())
             ->with([
                 'entertainmentGenerMappings',
-                'plan',
                 'entertainmentReviews',
                 'entertainmentTalentMappings',
                 'entertainmentStreamContentMappings',

@@ -312,7 +312,7 @@ class MovieResourceController extends Controller
         $movieQuery = Entertainment::where('type', 'movie')
             ->where('status', 1)
             ->where(function($q) use ($query) {
-                $q->where('name', 'LIKE', '%' . $query . '%');
+                $q->where('name', 'LIKE', '%'.$query.'%');
             });
 
         $moviePagination = null;
