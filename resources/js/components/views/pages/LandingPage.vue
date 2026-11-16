@@ -161,7 +161,7 @@
                   </template>
                 </div>
               </template>
-              <p v-if="!hasSearchResults" class="mobile-discovery-message">No results found.</p>
+              <p v-if="!hasSearchResults" class="mobile-discovery-message mobile-empty-state">No results found.</p>
             </div>
           </template>
           <template v-else>
@@ -226,11 +226,9 @@
           <!-- Section Header -->
           <div class="d-flex flex-column align-items-start mv-gap-space-sm flex-sm-row align-items-sm-end justify-content-sm-between">
             <div class="d-flex flex-column mv-gap-space-xs">
-              <div class="d-flex align-items-center mv-gap-2">
-                <span class="mv-w-2p5 mv-h-2p5 mv-rounded-full mv-bg-primary mv-shadow-d4d852"></span>
-                <span class="mv-font-label-sm mv-text-label-sm mv-text-primary text-uppercase mv-font-bold mv-tracking-widest">Action &amp; Horror</span>
-              </div>
-              <h2 class="mv-font-headline-lg-mobile mv-text-headline-lg-mobile mv-sm-font-headline-lg-mobile mv-sm-font-headline-lg mv-sm-text-headline-lg-mobile mv-sm-text-headline-lg mv-font-bold mv-text-on-surface mv-tracking-tight">Action &amp; Horror Movies
+              <h2 class="latest-movies-heading mv-font-headline-lg-mobile mv-text-headline-lg-mobile mv-sm-font-headline-lg-mobile mv-sm-font-headline-lg mv-sm-text-headline-lg-mobile mv-sm-text-headline-lg mv-font-bold mv-text-on-surface mv-tracking-tight">
+                <span class="bi bi-fire latest-movies-heading-icon" aria-hidden="true"></span>
+                Latest Movies & Web Series
               </h2>
             </div>
             <router-link
@@ -247,7 +245,7 @@
           </p>
           <div v-else class="d-grid mv-grid-cols-2 mv-sm-grid-cols-3 mv-md-grid-cols-4 mv-lg-grid-cols-6 mv-gap-gutter-mobile mv-sm-gap-gutter">
             <router-link
-              v-for="movie in featuredMovies"
+              v-for="movie in visibleFeaturedMovies"
               :key="`${movie.category}-${movie.id}`"
               :to="`/movie/${movie.id}`"
               class="mv-group d-flex flex-column mv-bg-surface-container-low mv-rounded-xl overflow-hidden mv-hover-bg-surface-container mv-hover-ntranslate-y-1p5 mv-transition-all mv-duration-300 mv-shadow-md mv-hover-shadow-474bee text-decoration-none"
@@ -281,6 +279,13 @@
               </div>
             </router-link>
           </div>
+          <MoviePagination
+            v-if="isMobileViewport && !isLoadingCategoryMovies"
+            label="Latest movies and web series pages"
+            :current-page="mobileFeaturedPage"
+            :last-page="featuredMoviePageCount"
+            @change="changeFeaturedMoviesPage"
+          />
         </section>
 
         <!-- SECTION 3: Trending Rentals & Live Fast-Check Banner -->
@@ -513,6 +518,8 @@ export default {
       latestMovies: [],
       latestMoviePage: 0,
       activeBannerIndex: 0,
+      isMobileViewport: typeof window !== 'undefined' && window.innerWidth < 768,
+      mobileFeaturedPage: 1,
       isLoadingBanners: true,
       isLoadingCategoryMovies: true,
       isLoadingLatestMovies: true,
@@ -559,6 +566,14 @@ export default {
         ...this.horrorMovies.map((movie) => ({ ...movie, category: 'Horror' })),
       ];
     },
+    featuredMoviePageCount() {
+      return Math.ceil(this.featuredMovies.length / 4);
+    },
+    visibleFeaturedMovies() {
+      if (!this.isMobileViewport) return this.featuredMovies;
+      const start = (this.mobileFeaturedPage - 1) * 4;
+      return this.featuredMovies.slice(start, start + 4);
+    },
     latestMoviePageCount() {
       return Math.ceil(this.latestMovies.length / 2);
     },
@@ -571,6 +586,7 @@ export default {
   },
   mounted() {
     window.addEventListener('resize', this.closeGenresOnDesktop);
+    window.addEventListener('resize', this.updateMobileViewport);
     this.fetchMovieBanners();
     this.fetchGenres();
     this.fetchCategoryMovies();
@@ -579,6 +595,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.closeGenresOnDesktop);
+    window.removeEventListener('resize', this.updateMobileViewport);
     this.mobileMoviesRequestId++;
     this.stopBannerAutoplay();
     this.stopGenreAutoplay();
@@ -613,6 +630,12 @@ export default {
         this.$refs.genresDialog.close();
       }
     },
+    updateMobileViewport() {
+      this.isMobileViewport = window.innerWidth < 768;
+    },
+    changeFeaturedMoviesPage(page) {
+      this.mobileFeaturedPage = page;
+    },
     showMobileResults() {
       this.$nextTick(() => {
         this.$refs.mobileResults?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -625,7 +648,7 @@ export default {
     searchMobileCatalog() {
       this.mobileMoviesRequestId++;
       this.mobileResultMode = 'search';
-      this.mobileResultTitle = 'Search results';
+      this.mobileResultTitle = `Search results for: ${this.searchQuery.trim()}`;
       this.searchCatalog();
       this.showMobileResults();
     },
@@ -1088,6 +1111,27 @@ export default {
         display: none !important;
     }
 
+    .latest-movies-heading {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: fit-content;
+        max-width: 100%;
+        margin: 0;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.4rem;
+        background: #191d23;
+        color: #fff;
+        font-size: 0.875rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .latest-movies-heading-icon {
+        color: #a7f51b;
+        flex-shrink: 0;
+    }
+
     .mobile-discovery {
         display: flex;
         flex-direction: column;
@@ -1205,7 +1249,13 @@ export default {
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        color: #fff;
         font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .mobile-results > h2 .bi-fire {
+        color: #a7f51b;
     }
 
     .mobile-search-group > a,
